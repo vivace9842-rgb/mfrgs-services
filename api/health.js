@@ -1,7 +1,3 @@
-module.exports = function handler(req, res) {
-  res.json({ 
-    status: "online", 
-    project: "MFRGS Services", 
-    version: "1.0.0" 
-  });
-}
+module.exports = (req, res) => {
+  res.status(200).send("MFRGS online");
+};
