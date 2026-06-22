@@ -1,6 +1,9 @@
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'Build skipped'"
+  },
   "dependencies": {
     "stripe": "latest"
   }
