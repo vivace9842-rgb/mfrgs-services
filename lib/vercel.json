@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/webhook-stripe" }
+  ],
+  "functions": {
+    "api/webhook-stripe.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
+}
