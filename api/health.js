@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   res.json({ 
     status: "online", 
     project: "MFRGS Services", 
