@@ -1,16 +1,7 @@
-engines
-name
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
-  "engines": {
-    "node": "18.x"
-  },
   "dependencies": {
-    "stripe": "^14.0.0",
-    "axios": "^1.6.0",
-    "pdfkit": "^0.14.0",
-    "@sendgrid/mail": "^8.0.0",
-    "dotenv": "^16.3.0"
+    "stripe": "latest"
   }
 }
