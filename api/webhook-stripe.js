@@ -1,19 +1,22 @@
+module.exports.config = { api: { bodyParser: false } };
+
 module.exports = async function handler(req, res) {
   try {
-    // Retorna apenas dados básicos para testar se o arquivo compila na Vercel
-    return res.status(200).json({
-      status: "webhook_file_loaded",
-      method: req.method,
-      env_check: {
-        has_stripe_key: !!process.env.STRIPE_SECRET_KEY,
-        has_webhook_secret: !!process.env.STRIPE_WEBHOOK_SECRET,
-      },
-      timestamp: new Date().toISOString()
-    });
+    console.log("DEBUG: Webhook iniciado com sucesso.");
+    
+    // Teste de variáveis de ambiente
+    const hasStripeKey = !!process.env.STRIPE_SECRET_KEY;
+    console.log(`DEBUG: STRIPE_SECRET_KEY presente: ${hasStripeKey}`);
+
+    if (req.method === "GET") {
+      return res.status(200).json({ status: "OK", stripe_key: hasStripeKey });
+    }
+
+    // Se chegar aqui, é um POST
+    return res.status(200).json({ status: "POST_RECEIVED" });
+
   } catch (err) {
-    return res.status(500).json({ 
-      error: "Crash interno", 
-      details: err.message 
-    });
+    console.error("ERRO CRÍTICO:", err);
+    return res.status(500).json({ error: err.message });
   }
 };
