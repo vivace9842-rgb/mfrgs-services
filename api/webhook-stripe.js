@@ -41,24 +41,20 @@ export default async function handler(req, res) {
     }
 
     try {
-      // 1. Busca na API Companies House
       const companyData = await getCompanyDetails(companyName);
 
       if (!companyData) {
-        // Envia email de notificação caso a empresa não seja encontrada
         await sendEmailWithPdf({
           to: clientEmail,
           subject: 'MFRGS Trust Check - Empresa não localizada',
-          text: `Olá,\n\nNão localizamos registros ativos para "${companyName}" na Companies House (UK). Por favor, verifique o nome enviado.\n\nSuporte MFRGS.`,
+          text: `Olá,\n\nNão localizamos registros ativos para "${companyName}" na Companies House (UK).\n\nSuporte MFRGS.`,
           html: `<p>Olá,</p><p>Não localizamos registros ativos para "<strong>${companyName}</strong>" na Companies House (UK).</p><p>Suporte MFRGS.</p>`
         });
         return res.status(200).json({ status: 'not_found' });
       }
 
-      // 2. Gera o PDF em memória (Buffer)
       const pdfBuffer = await generatePdfReport(companyData);
 
-      // 3. Envia por email via SendGrid
       await sendEmailWithPdf({
         to: clientEmail,
         subject: `MFRGS Trust Check Report - ${companyData.name}`,
