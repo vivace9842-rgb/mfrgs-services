@@ -1,14 +1,9 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const { searchCompany } = require("../lib/companiesHouse");
-const { generateReportBuffer } = require("../lib/pdfGenerator");
-const { sendReportEmail } = require("../lib/emailSender");
-
-// Desativa o bodyParser nativo da Vercel para podermos validar a assinatura do Stripe com o buffer bruto
+// Configuração para a Vercel não fazer o parse do body automaticamente
 module.exports.config = {
   api: { bodyParser: false },
 };
 
-// Helper para capturar o corpo bruto da requisição
+// Helper para capturar o corpo bruto
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -19,75 +14,78 @@ async function getRawBody(req) {
 }
 
 module.exports = async function handler(req, res) {
-  // 1. Permite requisições GET para testes e validação de endpoints
+  // 1. Se for GET, responde imediatamente sem exigir chaves do Stripe (evita erro 500)
   if (req.method === "GET") {
     return res.status(200).json({ 
       status: "active", 
       endpoint: "MFRGS Stripe Webhook",
+      diagnostics: {
+        has_stripe_key: !!process.env.STRIPE_SECRET_KEY,
+        has_webhook_secret: !!process.env.STRIPE_WEBHOOK_SECRET,
+        has_companies_house_key: !!process.env.COMPANIES_HOUSE_API_KEY,
+        has_sendgrid_key: !!process.env.SENDGRID_API_KEY
+      },
       timestamp: new Date().toISOString()
     });
   }
 
-  // 2. Bloqueia qualquer outro método que não seja POST
+  // 2. Bloqueia métodos que não sejam POST para processamento
   if (req.method !== "POST") {
     res.setHeader("Allow", ["GET", "POST"]);
     return res.status(405).json({ error: `Método ${req.method} não permitido` });
   }
 
-  let event;
+  // 3. Validação das variáveis de ambiente antes de inicializar as dependências
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({ error: "Erro de Configuração: STRIPE_SECRET_KEY não está definida na Vercel." });
+  }
 
   try {
+    // Inicialização segura dentro do handler para evitar crash no boot do serverless
+    const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+    const { searchCompany } = require("../lib/companiesHouse");
+    const { generateReportBuffer } = require("../lib/pdfGenerator");
+    const { sendReportEmail } = require("../lib/emailSender");
+
     const rawBody = await getRawBody(req);
     const sig = req.headers["stripe-signature"];
 
     if (!sig) {
-      return res.status(400).json({ error: "Assinatura do Stripe ausente" });
+      return res.status(400).json({ error: "Assinatura do Stripe ausente no cabeçalho" });
     }
 
-    // Validação de segurança Zero-Trust
-    event = stripe.webhooks.constructEvent(
+    if (!process.env.STRIPE_WEBHOOK_SECRET) {
+      return res.status(500).json({ error: "Erro de Configuração: STRIPE_WEBHOOK_SECRET não está definida." });
+    }
+
+    // Validação da assinatura do Stripe
+    const event = stripe.webhooks.constructEvent(
       rawBody, 
       sig, 
       process.env.STRIPE_WEBHOOK_SECRET
     );
-  } catch (err) {
-    console.error(`❌ Erro na validação do Webhook: ${err.message}`);
-    return res.status(400).json({ error: `Webhook Error: ${err.message}` });
-  }
 
-  // 3. Processamento do evento de pagamento aprovado
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    
-    const clientData = {
-      client_name: session.customer_details?.name || "Cliente MFRGS",
-      client_email: session.customer_details?.email,
-      searched_company: session.metadata?.company_name || "",
-    };
+    // Processamento do evento
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+      const clientData = {
+        client_name: session.customer_details?.name || "Cliente MFRGS",
+        client_email: session.customer_details?.email,
+        searched_company: session.metadata?.company_name || "",
+      };
 
-    console.log(`🚀 Iniciando pipeline MFRGS para: ${clientData.searched_company}`);
-
-    try {
-      // Executa a busca na API da Companies House
       const companyData = await searchCompany(clientData.searched_company);
-      
-      // Gera o PDF em memória (Buffer)
       const pdfBuffer = await generateReportBuffer(companyData, clientData);
-      
-      // Envia o e-mail via SendGrid
-      await sendReportEmail(
-        clientData.client_email, 
-        clientData.client_name, 
-        clientData.searched_company, 
-        pdfBuffer
-      );
-      
-      console.log(`✅ Relatório enviado com sucesso para ${clientData.client_email}`);
-    } catch (err) {
-      console.error("❌ Erro na pipeline de processamento:", err.message);
+      await sendReportEmail(clientData.client_email, clientData.client_name, clientData.searched_company, pdfBuffer);
     }
-  }
 
-  // Retorna sucesso para o Stripe
-  return res.status(200).json({ received: true });
+    return res.status(200).json({ received: true });
+
+  } catch (err) {
+    console.error(`❌ Erro interno no Webhook:`, err.message);
+    return res.status(500).json({ 
+      error: "Internal Server Error", 
+      details: err.message 
+    });
+  }
 };
