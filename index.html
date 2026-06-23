@@ -1,12 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS Services</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelancer & Client Trust Check — MFRGS Digital Verification</title>
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f4f3ef;
+    color: #1a2a4a;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ── Layout ── */
+  .page {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ── Brand header ── */
+  .brand {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-top: 1rem;
+  }
+  .brand-symbol {
+    font-size: 36px;
+    color: #1a2a4a;
+    line-height: 1;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .brand-name {
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: 0.06em;
+    color: #1a2a4a;
+    margin-bottom: 6px;
+  }
+  .brand-method {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #7a8a9a;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── Service card ── */
+  .service-card {
+    background: #1a2a4a;
+    border-radius: 4px;
+    padding: 2rem;
+    color: #fff;
+    margin-bottom: 2rem;
+  }
+  .service-eyebrow {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8fa8c8;
+    margin-bottom: 10px;
+  }
+  .service-title {
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .service-desc {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #b8c8d8;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 1rem;
+  }
+  .price {
+    font-size: 32px;
+    font-weight: normal;
+  }
+  .price-note {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #8fa8c8;
+  }
+
+  /* ── Method steps ── */
+  .method {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+  .method-step {
+    background: #fff;
+    border: 1px solid #ddd8cf;
+    border-radius: 4px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+  .method-num {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: #9aaba8;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .method-label {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #1a2a4a;
+  }
+
+  /* ── What's included ── */
+  .section-label {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7a8a9a;
+    margin-bottom: 12px;
+  }
+  .includes {
+    margin-bottom: 2rem;
+  }
+  .include-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e4dd;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #2a3a4a;
+    line-height: 1.5;
+  }
+  .include-item:last-child { border-bottom: none; }
+  .include-check {
+    color: #1a2a4a;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── Form fields ── */
+  .form-section {
+    background: #fff;
+    border: 1px solid #ddd8cf;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .field {
+    margin-bottom: 1.25rem;
+  }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #4a5a6a;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .field input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #1a2a4a;
+    background: #f8f7f4;
+    border: 1px solid #ccc8c0;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus { border-color: #1a2a4a; background: #fff; }
+  .field-hint {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #9aaba8;
+    margin-top: 4px;
+  }
+
+  /* ── Payment buttons ── */
+  .pay-section { margin-bottom: 1.5rem; }
+  .pay-label {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7a8a9a;
+    margin-bottom: 12px;
+  }
+
+  /* Variáveis — cole os links reais aqui */
+  /* STRIPE_LINK = "" */
+  /* PAYPAL_LINK = "" */
+
+  .btn-stripe {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: #1a2a4a;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+  }
+  .btn-stripe:hover { background: #243a5e; }
+
+  .btn-paypal {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #FFC439;
+    color: #003087;
+    border: none;
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: opacity 0.15s;
+  }
+  .btn-paypal:hover { opacity: 0.88; }
+
+  .pay-divider {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #9aaba8;
+    margin: 8px 0;
+  }
+
+  /* ── Integrity note ── */
+  .integrity {
+    border-left: 3px solid #1a2a4a;
+    padding: 14px 16px;
+    background: #fff;
+    border-radius: 0 4px 4px 0;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #5a6a7a;
+    line-height: 1.7;
+  }
+  .integrity strong { color: #1a2a4a; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #9aaba8;
+    line-height: 1.8;
+  }
+  .footer a { color: #5a6a7a; text-decoration: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .method { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .method-label { font-size: 10px; }
+    .service-title { font-size: 18px; }
+  }
+</style>
 </head>
 <body>
-    <h1>Freelancer & Client Trust Check</h1>
-    <p>MFRGS Services is online.</p>
+<main class="page">
+
+  <!-- Brand -->
+  <header class="brand">
+    <span class="brand-symbol">?</span>
+    <h1 class="brand-name">MFRGS Digital Verification</h1>
+    <p class="brand-method">Ask · Verify · Analyse · Classify · Conclude</p>
+  </header>
+
+  <!-- Service card -->
+  <div class="service-card">
+    <p class="service-eyebrow">Cycle 1 — UK Business Verification</p>
+    <h2 class="service-title">Freelancer &amp; Client<br>Trust Check</h2>
+    <p class="service-desc">Know who you're working with before you sign anything. We verify the legal existence, ownership, and status of any UK-registered company using official Companies House records — and deliver a full dossier to your inbox in minutes.</p>
+    <div class="price-row">
+      <span class="price">$39</span>
+      <span class="price-note">one-time · single report · delivered by email</span>
+    </div>
+  </div>
+
+  <!-- MFRGS Method -->
+  <div class="method">
+    <div class="method-step"><span class="method-num">01</span><span class="method-label">Ask</span></div>
+    <div class="method-step"><span class="method-num">02</span><span class="method-label">Verify</span></div>
+    <div class="method-step"><span class="method-num">03</span><span class="method-label">Analyse</span></div>
+    <div class="method-step"><span class="method-num">04</span><span class="method-label">Classify</span></div>
+    <div class="method-step"><span class="method-num">05</span><span class="method-label">Conclude</span></div>
+  </div>
+
+  <!-- What's included -->
+  <div class="includes">
+    <p class="section-label">What your report includes</p>
+    <div class="include-item"><span class="include-check">✓</span>Legal existence confirmed via Companies House (official UK register)</div>
+    <div class="include-item"><span class="include-check">✓</span>Directors, owners and beneficial interest (UBO)</div>
+    <div class="include-item"><span class="include-check">✓</span>Company age, active / inactive status and registered address</div>
+    <div class="include-item"><span class="include-check">✓</span>Risk classification — Low · Medium · High · Critical</div>
+    <div class="include-item"><span class="include-check">✓</span>Full dossier with source citations and verification timestamp</div>
+  </div>
+
+  <!-- Form fields -->
+  <div class="form-section">
+    <p class="section-label" style="margin-bottom:1.25rem;">Your order details</p>
+    <div class="field">
+      <label for="email">Your email address</label>
+      <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email">
+      <p class="field-hint">Your report will be sent here within minutes of payment.</p>
+    </div>
+    <div class="field">
+      <label for="company">UK company name or Companies House number</label>
+      <input type="text" id="company" name="company" placeholder="e.g. Acme Ltd  or  12345678">
+      <p class="field-hint">The exact registered name or the 8-digit Companies House number works best.</p>
+    </div>
+  </div>
+
+  <!-- Payment -->
+  <div class="pay-section">
+    <p class="pay-label">Choose how to pay</p>
+    <a href="https://buy.stripe.com/4gM3cxeAT4xE8ja1bpfMA01" class="btn-stripe" id="stripe-btn">Pay $39 with card — Stripe</a>
+    <p class="pay-divider">or</p>
+    <a href="#" class="btn-paypal" id="paypal-btn" style="opacity:0.45; cursor:not-allowed; pointer-events:none;">Pay with PayPal — coming soon</a>
+    <p style="font-family:Arial,sans-serif;font-size:11px;color:#9aaba8;text-align:center;margin-top:6px;">PayPal will be available shortly. Card payment via Stripe is fully active.</p>
+  </div>
+
+  <!-- Integrity -->
+  <div class="integrity">
+    <strong>Content integrity commitment.</strong> Every data point in your report comes from an official, publicly verifiable source — never from assumption or inference. If a data point cannot be confirmed, your report will say so explicitly. Source and verification timestamp are included in every dossier.
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 MFRGS Digital Verification &nbsp;·&nbsp; <a href="mailto:mfrgsinovacoes@gmail.com">mfrgsinovacoes@gmail.com</a></p>
+    <p style="margin-top:4px;">Data sourced from Companies House — Crown copyright &nbsp;·&nbsp; UK official register</p>
+  </footer>
+
+</main>
+
+<script>
+  // Quando os links reais estiverem prontos, substitua abaixo:
+  var STRIPE_LINK  = "https://buy.stripe.com/4gM3cxeAT4xE8ja1bpfMA01";
+  var PAYPAL_LINK  = "PAYPAL_LINK_AQUI";
+
+  document.getElementById("stripe-btn").href  = STRIPE_LINK;
+  document.getElementById("paypal-btn").href  = PAYPAL_LINK;
+</script>
 </body>
 </html>
