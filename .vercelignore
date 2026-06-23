@@ -1,0 +1,9 @@
+# Ignore local dependencies and environment files
+node_modules
+api/node_modules
+package-lock.json
+api/package-lock.json
+.env
+.env.local
+.env.production
+.vercel

@@ -1,6 +1,9 @@
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "stripe": "latest",
     "axios": "latest",
