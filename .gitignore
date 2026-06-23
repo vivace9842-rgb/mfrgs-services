@@ -5,3 +5,4 @@ api/node_modules
 .env.production
 .vercel
 *.log
+.env*

@@ -1,15 +1,11 @@
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
-  "type": "module",
-  "engines": {
-    "node": "18.x"
-  },
   "dependencies": {
-    "stripe": "^14.0.0",
-    "axios": "^1.6.0",
-    "pdfkit": "^0.14.0",
-    "@sendgrid/mail": "^8.0.0",
-    "dotenv": "^16.3.0"
+    "stripe": "latest",
+    "axios": "latest",
+    "pdfkit": "latest",
+    "@sendgrid/mail": "latest",
+    "dotenv": "latest"
   }
 }
