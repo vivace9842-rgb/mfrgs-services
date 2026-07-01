@@ -1,12 +1,13 @@
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
-  "description": "",
+  "description": "MFRGS Digital Verification — UK Business Verification",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
   "license": "ISC"
 }
