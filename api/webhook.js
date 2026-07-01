@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { log, error } from "./utils/index.js";
 
 export const config = {
   api: {
@@ -23,7 +24,7 @@ export default async function handler(req, res) {
       req.on("error", reject);
     });
   } catch (err) {
-    console.error("❌ Erro ao ler o corpo da requisição:", err);
+    error(`Erro ao ler o corpo da requisição: ${err}`);
     return res.status(400).send("Erro ao processar o webhook");
   }
 
@@ -37,11 +38,11 @@ export default async function handler(req, res) {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("❌ Webhook error:", err.message);
+    error(`Webhook error: ${err.message}`);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  console.log(`✔ Evento recebido: ${event.type}`);
+  log(`Evento recebido: ${event.type}`);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
@@ -52,7 +53,7 @@ export default async function handler(req, res) {
       session.metadata?.empresa ||
       null;
 
-    console.log(`✔ Pagamento confirmado — Email: ${email} | Empresa: ${empresa}`);
+    log(`Pagamento confirmado — Email: ${email} | Empresa: ${empresa}`);
   }
 
   return res.status(200).json({ received: true });
