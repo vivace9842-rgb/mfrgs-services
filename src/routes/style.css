@@ -1,0 +1,111 @@
+/* ======== ESTILO GERAL ======== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+}
+
+/* ======== HEADER ======== */
+.header {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.header h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+.header p {
+  color: #555;
+  font-size: 16px;
+}
+
+/* ======== SEÇÃO DE PREÇOS ======== */
+.pricing-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pricing-section h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #1a1a1a;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 0 20px 60px;
+}
+
+.price-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+  transition: 0.25s ease;
+  text-align: center;
+}
+
+.price-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.price-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #222;
+}
+.price-card {
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(4px);
+}
+
+.desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+
+.price {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0066ff;
+  margin-bottom: 20px;
+}
+
+.buy-btn {
+  width: 100%;
+  padding: 12px;
+  background: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.buy-btn:hover {
+  background: #004fcc;
+}
+/* ======== ANIMAÇÃO DE FADE-IN ======== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.price-card {
+  animation: fadeIn 0.8s ease forwards;
+}

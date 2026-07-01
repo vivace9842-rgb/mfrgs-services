@@ -1,14 +1,12 @@
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
-  "engines": {
-    "node": "24.x"
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
   },
-  "dependencies": {
-    "stripe": "latest",
-    "axios": "latest",
-    "pdfkit": "latest",
-    "@sendgrid/mail": "latest",
-    "dotenv": "latest"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
