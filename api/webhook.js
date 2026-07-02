@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   }
 
   const sig = req.headers["stripe-signature"];
-
   let event;
 
   try {
@@ -42,7 +41,7 @@ export default async function handler(req, res) {
     console.log("📌 Dados da sessão:");
     console.log("ID da sessão:", session.id);
     console.log("ID do pagamento:", session.payment_intent);
-    console.log("Valor total:", session.amount_total / 100, session.currency);
+    console.log("Valor pago (Stripe):", session.amount_total / 100);
 
     console.log("📌 Dados do cliente:");
     console.log("Nome:", session.customer_details?.name);
@@ -51,6 +50,22 @@ export default async function handler(req, res) {
 
     console.log("📌 Termos buscados (metadata):");
     console.log(session.metadata);
+
+    console.log("📌 Serviço contratado:", session.metadata.service);
+
+    // Valores sugeridos
+    if (session.metadata.service === "Standard Verification") {
+      console.log("📌 Valor sugerido: US$ 49");
+    }
+    if (session.metadata.service === "Advanced Verification") {
+      console.log("📌 Valor sugerido: US$ 89");
+    }
+    if (session.metadata.service === "Corporate Verification") {
+      console.log("📌 Valor sugerido: US$ 149");
+    }
+    if (session.metadata.service === "Full Digital & Legal Scan") {
+      console.log("📌 Valor sugerido: US$ 249");
+    }
 
     console.log("📌 Status do pagamento:", session.payment_status);
   }
