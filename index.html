@@ -1,132 +1,382 @@
-<section class="mfrgs-services">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>MFRGS Digital Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6fb;
+      color: #1c2d5a;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: #fff;
+      padding: 30px 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    .hero {
+      padding: 50px 20px 30px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      max-width: 700px;
+      margin: 0 auto 10px;
+      color: #3b4a7a;
+    }
+
+    .plans {
+      padding: 40px 20px 20px;
+    }
+
+    .plans h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+    }
+
+    .plan-card {
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      text-align: center;
+    }
+
+    .plan-card.recommended {
+      border: 2px solid #0b5ed7;
+      position: relative;
+    }
+
+    .plan-card.recommended::before {
+      content: "Recommended";
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      background: #0b5ed7;
+      color: #fff;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .plan-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 5px 0 8px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #4b5a86;
+      margin-bottom: 18px;
+      min-height: 40px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #0b5ed7;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #0949a8;
+    }
+
+    .btn-recommended {
+      background: #0b5ed7;
+      color: #fff;
+    }
+
+    .trust-seals {
+      margin-top: 35px;
+      text-align: center;
+      font-size: 14px;
+      color: #1c2d5a;
+    }
+
+    .trust-seals p {
+      margin: 4px 0;
+    }
+
+    .legal-notice {
+      background: #f8f9fb;
+      padding: 50px 20px;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+
+    .legal-notice h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1c2d5a;
+      font-size: 22px;
+    }
+
+    .legal-notice p {
+      line-height: 1.6;
+      color: #444;
+      font-size: 14px;
+    }
+
+    .legal-box {
+      background: #ffffff;
+      border-left: 5px solid #0b5ed7;
+      padding: 22px;
+      margin-top: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+
+    .legal-box h3 {
+      margin-top: 0;
+      color: #0b5ed7;
+      font-size: 16px;
+    }
+
+    .identity-phrase {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 15px;
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0 30px;
+      font-size: 12px;
+      color: #7a849f;
+    }
+
+    /* Responsivo básico */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 22px;
+      }
+      .hero h2 {
+        font-size: 22px;
+      }
+      .hero p {
+        font-size: 15px;
+      }
+      .price {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
   <header>
-    <h1>MFRGS — Official Services</h1>
-    <p>Professional verification and risk screening services for individuals, companies, and strategic decisions.</p>
+    <div class="container">
+      <h1>MFRGS Digital Verification</h1>
+      <p>Digital verification reports to support safer commercial decisions.</p>
+    </div>
   </header>
 
-  <!-- Standard Verification -->
-  <article class="service-card service-standard">
-    <h2>Standard Verification</h2>
-    <p class="price">Price: US$ 49</p>
-    <p class="overview">
-      Standard Verification provides a fast and essential background check for individuals and small service providers.
-      It includes basic legal screening, court searches, debt and protest checks, identity validation, and a digital
-      reputation scan. Ideal for simple hiring decisions, freelancers, and low‑risk commercial interactions.
-    </p>
-    <h3>Includes</h3>
-    <ul>
-      <li>Basic legal background check</li>
-      <li>State and federal court search</li>
-      <li>Debt and protest verification</li>
-      <li>Essential digital reputation scan</li>
-      <li>Identity validation</li>
-      <li>Standard MFRGS report</li>
-    </ul>
-    <h3>Recommended for</h3>
-    <ul>
-      <li>Freelancers</li>
-      <li>Independent contractors</li>
-      <li>Simple hiring processes</li>
-      <li>Low‑risk transactions</li>
-    </ul>
-    <a class="btn btn-primary" href="https://buy.stripe.com/7sY5kF2SbggmdDuf2ffMA02" target="_blank">
-      Purchase Standard Verification
-    </a>
-  </article>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h2>Choose the level of verification that matches your business decision.</h2>
+      <p>
+        MFRGS organizes and analyzes reliable public information to help you reduce uncertainty
+        before closing a deal, hiring a supplier or engaging in a new commercial relationship.
+      </p>
+    </div>
+  </section>
 
-  <!-- Advanced Verification -->
-  <article class="service-card service-advanced">
-    <h2>Advanced Verification</h2>
-    <p class="price">Price: US$ 89</p>
-    <p class="overview">
-      Advanced Verification delivers a deeper legal and digital assessment for medium‑risk operations. It expands court
-      searches, reviews potential legal issues involving partners, checks for fraud indicators, and evaluates digital
-      reputation in greater detail. Recommended for suppliers, licensed professionals, and higher‑value contracts
-      requiring stronger due diligence.
-    </p>
-    <h3>Includes</h3>
-    <ul>
-      <li>Everything from Standard</li>
-      <li>Expanded legal analysis</li>
-      <li>Multi‑court search</li>
-      <li>Partner/associate legal checks</li>
-      <li>Advanced digital reputation scan</li>
-      <li>Fraud and inconsistency indicators</li>
-      <li>Detailed MFRGS report</li>
-    </ul>
-    <h3>Recommended for</h3>
-    <ul>
-      <li>Licensed professionals</li>
-      <li>Service providers</li>
-      <li>Medium‑value contracts</li>
-      <li>Moderate‑risk operations</li>
-    </ul>
-    <a class="btn btn-primary" href="https://buy.stripe.com/3cI9AV2Sb3tA9nef2ffMA03" target="_blank">
-      Purchase Advanced Verification
-    </a>
-  </article>
+  <!-- PLANS -->
+  <section class="plans">
+    <div class="container">
 
-  <!-- Corporate Verification -->
-  <article class="service-card service-corporate">
-    <h2>Corporate Verification</h2>
-    <p class="price">Price: US$ 149</p>
-    <p class="overview">
-      Corporate Verification provides a complete assessment of a company and its legal representatives. It includes
-      corporate lawsuits, partner background checks, debt and protest analysis, reputation evaluation, and business
-      structure review. Ideal for validating suppliers, assessing business partners, and performing corporate due
-      diligence before strategic decisions.
-    </p>
-    <h3>Includes</h3>
-    <ul>
-      <li>Corporate legal background check</li>
-      <li>Lawsuits involving the company</li>
-      <li>Lawsuits involving partners/executives</li>
-      <li>Debt and protest verification</li>
-      <li>Corporate reputation analysis</li>
-      <li>Ownership and structure review</li>
-      <li>Corporate MFRGS report</li>
-    </ul>
-    <h3>Recommended for</h3>
-    <ul>
-      <li>Business contracts</li>
-      <li>Strategic suppliers</li>
-      <li>Commercial partnerships</li>
-      <li>Corporate due diligence</li>
-    </ul>
-    <a class="btn btn-primary" href="https://buy.stripe.com/14A6oJ64n7JQgPG8DRfMA04" target="_blank">
-      Purchase Corporate Verification
-    </a>
-  </article>
+      <h2>Our Verification Services</h2>
 
-  <!-- Full Digital & Legal Scan -->
-  <article class="service-card service-fullscan">
-    <h2>Full Digital & Legal Scan</h2>
-    <p class="price">Price: US$ 249</p>
-    <p class="overview">
-      Full Digital & Legal Scan is the most comprehensive MFRGS service. It combines full legal background analysis,
-      deep digital history review, advanced fraud detection, identity and technical validation, and a premium report.
-      Designed for high‑value contracts, strategic partnerships, and complete due diligence where maximum risk
-      visibility is required.
-    </p>
-    <h3>Includes</h3>
-    <ul>
-      <li>Everything from the other 3 services</li>
-      <li>Full legal background analysis</li>
-      <li>Deep digital history scan</li>
-      <li>Advanced fraud signals</li>
-      <li>Public and private reputation assessment</li>
-      <li>Technical digital verification</li>
-      <li>Premium MFRGS report</li>
-    </ul>
-    <h3>Recommended for</h3>
-    <ul>
-      <li>High‑value contracts</li>
-      <li>Strategic partnerships</li>
-      <li>Full due diligence</li>
-      <li>Complete risk assessment</li>
-    </ul>
-    <a class="btn btn-primary" href="https://buy.stripe.com/4gMfZj0K31lsfLCbQ3fMA06" target="_blank">
-      Purchase Full Digital & Legal Scan
-    </a>
-  </article>
-</section>
+      <div class="plans-grid">
+
+        <!-- EXPRESS -->
+        <div class="plan-card">
+          <h3>Express Verification</h3>
+          <p class="price">$49</p>
+          <p class="desc">Essential verification for quick decisions with core checks.</p>
+
+          <a 
+            href="https://buy.stripe.com/test_aFa28kcXZ8oibNY3TA1RC01"
+            class="btn btn-primary"
+            target="_blank"
+          >
+            Comprar Express
+          </a>
+        </div>
+
+        <!-- STANDARD -->
+        <div class="plan-card">
+          <h3>Standard Verification</h3>
+          <p class="price">$89</p>
+          <p class="desc">Includes additional digital signals and reputation checks.</p>
+
+          <a 
+            href="https://buy.stripe.com/test_8x26oA3np1ZU5pA4XE1RC02"
+            class="btn btn-primary"
+            target="_blank"
+          >
+            Comprar Standard
+          </a>
+        </div>
+
+        <!-- ADVANCED (RECOMMENDED) -->
+        <div class="plan-card recommended">
+          <h3>Advanced Verification ⭐</h3>
+          <p class="price">$149</p>
+          <p class="desc">Our most balanced service: depth, clarity and structured risk assessment.</p>
+
+          <a 
+            href="https://buy.stripe.com/test_8x23cocXZawq19k75M1RC05"
+            class="btn btn-primary btn-recommended"
+            target="_blank"
+          >
+            Comprar Advanced
+          </a>
+        </div>
+
+        <!-- PROFESSIONAL -->
+        <div class="plan-card">
+          <h3>Professional Verification</h3>
+          <p class="price">$249</p>
+          <p class="desc">Full-scope verification with professional risk analysis and detailed insights.</p>
+
+          <a 
+            href="https://buy.stripe.com/test_14AcMYaPRfQK4lw2Pw1RC04"
+            class="btn btn-primary"
+            target="_blank"
+          >
+            Comprar Professional
+          </a>
+        </div>
+
+      </div>
+
+      <!-- TRUST SEALS -->
+      <div class="trust-seals">
+        <p>✅ Official Public Sources</p>
+        <p>✅ Professional Risk Analysis</p>
+        <p>✅ Transparent & Independent</p>
+        <p>✅ Privacy & Data Protection</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LEGAL NOTICE -->
+  <section class="legal-notice">
+    <div class="container">
+
+      <h2>Transparency & Legal Notice</h2>
+
+      <p>
+        At <strong>MFRGS Digital Verification</strong>, we believe informed decisions
+        start with reliable information.
+      </p>
+
+      <p>
+        Our reports are prepared using publicly available records, official
+        government sources, business registries, domain information and publicly
+        accessible digital signals available at the time of the verification.
+      </p>
+
+      <div class="legal-box">
+
+        <h3>Important Information</h3>
+
+        <p>
+          MFRGS Digital Verification provides information to support commercial
+          decision-making. Our reports are informational in nature and should not
+          be interpreted as legal, financial or accounting advice.
+        </p>
+
+        <p>
+          We do not certify companies, guarantee the absence of fraud, nor
+          guarantee future conduct or financial reliability of any individual or
+          business.
+        </p>
+
+        <p>
+          Every business decision involves some level of risk. Our role is to help
+          reduce uncertainty by organizing and analyzing reliable public
+          information using the MFRGS Verification Method.
+        </p>
+
+        <p>
+          The final decision to proceed with any transaction remains solely the
+          responsibility of the client.
+        </p>
+
+      </div>
+
+      <p class="identity-phrase">
+        <strong>We don't sell certainty. We provide reliable information to help you make better business decisions.</strong><br>
+        <em>Nós não vendemos certezas. Entregamos informações confiáveis para ajudar você a tomar decisões comerciais com mais segurança.</em>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      MFRGS Digital Verification · All rights reserved · Test environment (Stripe)
+    </div>
+  </footer>
+
+</body>
+</html>
