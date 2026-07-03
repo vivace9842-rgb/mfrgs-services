@@ -1,1 +1,322 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>MFRGS Digital Verification</title></head><body><h1>MFRGS System Online</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>?MFRGS Digital Verification</title>
+    <style>
+        :root {
+            --navy-dark: #0a192f;
+            --navy-light: #172a45;
+            --accent-blue: #3066be;
+            --text-light: #f8f9fa;
+            --text-muted: #a8b2d1;
+            --border-color: #233554;
+            --green-badge: #4caf50;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--navy-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--navy-light);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sandbox-badge {
+            background-color: #f39c12;
+            color: #000;
+            font-weight: bold;
+            padding: 5px 10px;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+        }
+
+        .method-steps {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .method-step {
+            background: var(--navy-light);
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background-color: var(--navy-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .card.popular {
+            border-color: var(--accent-blue);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: var(--accent-blue);
+            font-family: sans-serif;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            min-height: 50px;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .features li {
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .features li::before {
+            content: "✓ ";
+            color: var(--green-badge);
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            font-family: sans-serif;
+        }
+
+        .price span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            background-color: var(--accent-blue);
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-family: sans-serif;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1a4fa0;
+        }
+
+        .integrity-box {
+            background-color: var(--navy-light);
+            border-left: 4px solid var(--accent-blue);
+            padding: 25px;
+            margin-top: 40px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .integrity-box h4 {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+
+        .integrity-box p {
+            color: var(--text-muted);
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sandbox-badge">TEST MODE — Stripe sandbox links, no real charges</div>
+
+    <header>
+        <h2>?MFRGS Digital Verification</h2>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Official UK Business Verification Reports</h1>
+            <p>Know who you're dealing with before you sign anything. We verify UK-registered companies using official Companies House records and deliver a full dossier to your inbox in minutes.</p>
+            
+            <div class="method-steps">
+                <span class="method-step">❓ 01 Ask</span>
+                <span class="method-step">02 Verify</span>
+                <span class="method-step">03 Analyse</span>
+                <span class="method-step">04 Classify</span>
+                <span class="method-step">05 Conclude</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- SERVIÇO 1 -->
+            <div class="card popular">
+                <div class="popular-badge">Most popular</div>
+                <h3>Freelancer & Client Trust Check</h3>
+                <p>Official UK business verification for freelancers. Know your client is real before you start work.</p>
+                <ul class="features">
+                    <li>Legal existence via Companies House</li>
+                    <li>Directors & beneficial ownership (UBO)</li>
+                    <li>Company age & registered address</li>
+                    <li>Risk classification</li>
+                </ul>
+                <div>
+                    <div class="price">$39 <span>one-time</span></div>
+                    <a href="#" class="btn" id="link-39">Get this report →</a>
+                </div>
+            </div>
+
+            <!-- SERVIÇO 2 -->
+            <div class="card">
+                <h3>Business Legitimacy Check</h3>
+                <p>Verify if a UK business is real and active before closing any deal.</p>
+                <ul class="features">
+                    <li>Registration status & address</li>
+                    <li>Directors & ownership</li>
+                    <li>Digital presence signals</li>
+                    <li>Risk classification</li>
+                </ul>
+                <div>
+                    <div class="price">$49 <span>one-time</span></div>
+                    <a href="#" class="btn" id="link-49">Get this report →</a>
+                </div>
+            </div>
+
+            <!-- SERVIÇO 3 -->
+            <div class="card">
+                <h3>Supplier & Partner Verification</h3>
+                <p>Full verification of a UK supplier or business partner before payment or contract.</p>
+                <ul class="features">
+                    <li>Full ownership structure</li>
+                    <li>Risk score & red flag analysis</li>
+                    <li>Directors & UBO</li>
+                    <li>Full dossier with source citations</li>
+                </ul>
+                <div>
+                    <div class="price">$69 <span>one-time</span></div>
+                    <a href="#" class="btn" id="link-69">Get this report →</a>
+                </div>
+            </div>
+
+            <!-- SERVIÇO 4 -->
+            <div class="card">
+                <h3>Basic KYB</h3>
+                <p>Compliance-grade UK business verification for onboarding and account opening.</p>
+                <ul class="features">
+                    <li>UBO & directors verified</li>
+                    <li>Company status & registration</li>
+                    <li>Risk classification</li>
+                    <li>Verification timestamp & chain of custody</li>
+                </ul>
+                <div>
+                    <div class="price">$79 <span>one-time</span></div>
+                    <a href="#" class="btn" id="link-79">Get this report →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="integrity-box">
+            <h4>Content Integrity Commitment</h4>
+            <p>Every data point in your report comes from an official, publicly verifiable source — never from assumption or inference. If a data point cannot be confirmed, your report will say so explicitly. Source and verification timestamp are included in every dossier.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 MFRGS Digital Verification · mfrgsinovacoes@gmail.com</p>
+        <p>Data sourced from Companies House — Crown copyright · UK official register</p>
+    </footer>
+
+    <script>
+        // CONFIGURAÇÃO DOS LINKS DO STRIPE SANDBOX
+        // Cole os links reais gerados no seu painel entre as aspas:
+        const STRIPE_LINK_39 = "#";
+        const STRIPE_LINK_49 = "#";
+        const STRIPE_LINK_69 = "#";
+        const STRIPE_LINK_79 = "#";
+
+        document.getElementById('link-39').href = STRIPE_LINK_39;
+        document.getElementById('link-49').href = STRIPE_LINK_49;
+        document.getElementById('link-69').href = STRIPE_LINK_69;
+        document.getElementById('link-79').href = STRIPE_LINK_79;
+    </script>
+</body>
+</html>
