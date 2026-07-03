@@ -4,6 +4,8 @@
   "description": "MFRGS Digital Verification — UK Business Verification",
   "type": "module",
   "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "resend": "^6.16.0",
     "stripe": "^14.0.0"
   },
   "license": "ISC"
