@@ -72,6 +72,7 @@
             font-weight: bold;
             color: var(--text-muted);
             margin-bottom: 40px;
+            flex-wrap: wrap;
         }
 
         .method-step {
@@ -194,14 +195,45 @@
             font-size: 0.95rem;
         }
 
+        /* ESTILOS DA SEÇÃO LEGAL */
+        .legal-section {
+            background-color: var(--navy-light);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            font-family: sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 60px;
+        }
+
+        .legal-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .legal-column h5 {
+            color: var(--text-light);
+            margin-top: 0;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .legal-column p {
+            text-align: justify;
+            line-height: 1.5;
+        }
+
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
+            background-color: var(--navy-dark);
             color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 60px;
+            font-size: 0.8rem;
             font-family: sans-serif;
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
@@ -228,7 +260,6 @@
         </div>
 
         <div class="grid">
-            <!-- SERVIÇO 1 -->
             <div class="card popular">
                 <div class="popular-badge">Most popular</div>
                 <h3>Freelancer & Client Trust Check</h3>
@@ -245,7 +276,6 @@
                 </div>
             </div>
 
-            <!-- SERVIÇO 2 -->
             <div class="card">
                 <h3>Business Legitimacy Check</h3>
                 <p>Verify if a UK business is real and active before closing any deal.</p>
@@ -261,7 +291,6 @@
                 </div>
             </div>
 
-            <!-- SERVIÇO 3 -->
             <div class="card">
                 <h3>Supplier & Partner Verification</h3>
                 <p>Full verification of a UK supplier or business partner before payment or contract.</p>
@@ -277,7 +306,6 @@
                 </div>
             </div>
 
-            <!-- SERVIÇO 4 -->
             <div class="card">
                 <h3>Basic KYB</h3>
                 <p>Compliance-grade UK business verification for onboarding and account opening.</p>
@@ -300,14 +328,39 @@
         </div>
     </div>
 
+    <section class="legal-section">
+        <div class="legal-grid">
+            
+            <div class="legal-column">
+                <h5>Legal Disclaimer & Source Accuracy</h5>
+                <p>
+                    ?MFRGS Digital Verification operates strictly as an independent data compilation and business intelligence infrastructure. The analysis and insights delivered within our reports are extracted in real-time directly from official governmental public records, including the UK Companies House registry. 
+                </p>
+                <p>
+                    Because we adhere strictly to our <strong>Content Integrity Commitment</strong>, we deliver the data exactly as it is maintained by the sovereign state registers. Consequently, MFRGS gives no commercial warranties, financial audit opinions, or legal advice, and explicitly disclaims any liability for business decisions, monetary losses, or speculative damages resulting from the interpretation or use of the public data provided.
+                </p>
+            </div>
+
+            <div class="legal-column">
+                <h5>Liability Limitation & Data Protection</h5>
+                <p>
+                    Our services are designed to satisfy compliance and due diligence requirements for freelancers and small businesses under strict risk-mitigation frameworks. MFRGS does not store financial data or credit card information; all transactions are processed securely under Sandbox/Production environments encrypted by Stripe and PayPal. 
+                </p>
+                <p>
+                    By requesting any dossier from this platform, the user accepts that corporate structures, beneficial ownerships (UBO), and active registry status may shift dynamically over time, and the report acts strictly as an immutable snapshot verified at the exact timestamp recorded in the Chain of Custody section.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
     <footer>
-        <p>© 2026 MFRGS Digital Verification · mfrgsinovacoes@gmail.com</p>
-        <p>Data sourced from Companies House — Crown copyright · UK official register</p>
+        <p style="margin: 0 0 10px 0;"><strong>?MFRGS Digital Verification</strong> · Trusted Corporate Intelligence · mfrgsinovacoes@gmail.com</p>
+        <p style="margin: 0;">Data sourced directly from Companies House — Crown copyright · Official UK Corporate Register · Active Year 2026</p>
     </footer>
 
     <script>
-        // CONFIGURAÇÃO DOS LINKS DO STRIPE SANDBOX
-        // Cole os links reais gerados no seu painel entre as aspas:
+        // CONFIGURAÇÃO DOS LINKS DO STRIPE SANDBOX (Substitua as '#' pelos seus links se desejar)
         const STRIPE_LINK_39 = "#";
         const STRIPE_LINK_49 = "#";
         const STRIPE_LINK_69 = "#";
