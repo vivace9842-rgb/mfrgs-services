@@ -1,19 +1,30 @@
-const Stripe = require("stripe");
+import Stripe from "stripe";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-module.exports = async (req, res) => {
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+function buffer(readable) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readable.on("data", (chunk) => chunks.push(chunk));
+    readable.on("end", () => resolve(Buffer.concat(chunks)));
+    readable.on("error", reject);
+  });
+}
+
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const sig = req.headers["stripe-signature"];
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  // Teste básico de recebimento
-  console.log("Webhook do Stripe acionado na Vercel!");
-  
+  // Resposta temporária ultra-simples para testar a rota na Vercel
   return res.status(200).json({ 
     received: true, 
-    status: "Servidor recebeu o sinal do Stripe com sucesso!" 
+    status: "Rota ativada e funcionando na Vercel!" 
   });
-};
+}
