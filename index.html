@@ -1,595 +1,182 @@
-
+cat << 'EOF' > index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MFRGS Digital Verification — UK Business Verification (TEST)</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --navy: #1a2a4a;
-    --navy-mid: #243a5e;
-    --cream: #f4f3ef;
-    --cream-dark: #e8e4dd;
-    --text: #1a2a4a;
-    --text-mid: #4a5a6a;
-    --text-light: #7a8a9a;
-    --border: #ddd8cf;
-    --white: #ffffff;
-    --gold: #c8a96e;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: Georgia, 'Times New Roman', serif;
-    background: var(--cream);
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  /* ── Test-mode banner ── */
-  .test-banner {
-    background: #b45309;
-    color: #fff;
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    padding: 8px 12px;
-  }
-
-  /* ── Lang toggle ── */
-  .lang-bar {
-    background: var(--navy);
-    padding: 10px 24px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  .lang-toggle {
-    display: flex;
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .lang-btn {
-    background: transparent;
-    border: none;
-    color: rgba(255,255,255,0.5);
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    padding: 5px 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .lang-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
-
-  /* ── Hero ── */
-  .hero {
-    background: var(--navy);
-    color: #fff;
-    padding: 64px 24px 72px;
-    text-align: center;
-  }
-  .hero-symbol {
-    font-size: 56px;
-    line-height: 1;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .hero-brand {
-    font-size: 13px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 24px;
-    font-family: 'Courier New', monospace;
-  }
-  .hero h1 {
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: normal;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    max-width: 640px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-desc {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: rgba(255,255,255,0.7);
-    max-width: 540px;
-    margin: 0 auto 32px;
-    line-height: 1.7;
-  }
-  .hero-method {
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.1em;
-  }
-
-  /* ── Services ── */
-  .services {
-    padding: 72px 24px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .services-header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-  .section-label {
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-light);
-    margin-bottom: 12px;
-    display: block;
-  }
-  .services-header h2 {
-    font-size: clamp(22px, 4vw, 32px);
-    font-weight: normal;
-    margin-bottom: 12px;
-  }
-  .services-header p {
-    font-family: Arial, sans-serif;
-    font-size: 15px;
-    color: var(--text-mid);
-    max-width: 480px;
-    margin: 0 auto;
-    line-height: 1.65;
-  }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
-
-  .service-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 32px 28px;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.2s;
-  }
-  .service-card:hover {
-    box-shadow: 0 4px 24px rgba(26,42,74,0.1);
-  }
-  .service-card.featured {
-    border-color: var(--navy);
-    border-width: 2px;
-  }
-  .service-badge {
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-    display: block;
-  }
-  .service-name {
-    font-size: 18px;
-    font-weight: normal;
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-  .service-desc {
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    color: var(--text-mid);
-    line-height: 1.6;
-    margin-bottom: 20px;
-    flex: 1;
-  }
-  .service-includes {
-    margin-bottom: 20px;
-  }
-  .include-item {
-    display: flex;
-    gap: 8px;
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: var(--text-mid);
-    padding: 5px 0;
-    border-bottom: 1px solid var(--cream-dark);
-    line-height: 1.4;
-  }
-  .include-item:last-child { border-bottom: none; }
-  .include-check { color: var(--navy); flex-shrink: 0; }
-  .service-price {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-  }
-  .price-value {
-    font-size: 30px;
-    font-weight: normal;
-    color: var(--navy);
-  }
-  .price-note {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: var(--text-light);
-  }
-  .btn-buy {
-    display: block;
-    width: 100%;
-    padding: 13px;
-    background: var(--navy);
-    color: #fff;
-    text-decoration: none;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 3px;
-    letter-spacing: 0.02em;
-    transition: background 0.2s;
-  }
-  .btn-buy:hover { background: var(--navy-mid); }
-
-  /* ── Method ── */
-  .method-section {
-    background: var(--navy);
-    color: #fff;
-    padding: 64px 24px;
-    text-align: center;
-  }
-  .method-section h2 {
-    font-size: clamp(20px, 3vw, 28px);
-    font-weight: normal;
-    margin-bottom: 12px;
-  }
-  .method-section p {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 36px;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
-  }
-  .method-steps {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    flex-wrap: wrap;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-  .method-step {
-    padding: 16px 24px;
-    text-align: center;
-    position: relative;
-  }
-  .method-step::after {
-    content: '→';
-    position: absolute;
-    right: -8px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.3);
-    font-size: 16px;
-  }
-  .method-step:last-child::after { display: none; }
-  .step-num {
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-    display: block;
-    margin-bottom: 4px;
-    letter-spacing: 0.1em;
-  }
-  .step-name {
-    font-size: 15px;
-    font-weight: normal;
-  }
-
-  /* ── Trust ── */
-  .trust-section {
-    padding: 64px 24px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .trust-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-top: 40px;
-  }
-  .trust-item {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 24px;
-    text-align: center;
-  }
-  .trust-icon { font-size: 28px; margin-bottom: 10px; display: block; }
-  .trust-item h3 {
-    font-size: 14px;
-    font-weight: normal;
-    margin-bottom: 6px;
-  }
-  .trust-item p {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: var(--text-mid);
-    line-height: 1.5;
-  }
-
-  /* ── Integrity ── */
-  .integrity-section {
-    background: var(--cream-dark);
-    padding: 48px 24px;
-  }
-  .integrity-inner {
-    max-width: 700px;
-    margin: 0 auto;
-    border-left: 3px solid var(--navy);
-    padding-left: 24px;
-  }
-  .integrity-inner h3 {
-    font-size: 16px;
-    font-weight: normal;
-    margin-bottom: 10px;
-  }
-  .integrity-inner p {
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    color: var(--text-mid);
-    line-height: 1.7;
-  }
-
-  /* ── Footer ── */
-  footer {
-    background: var(--navy);
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    padding: 28px 24px;
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    line-height: 1.8;
-  }
-  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
-
-  /* ── Lang ── */
-  [data-lang="en"] { display: none; }
-  body.en [data-lang="pt"] { display: none; }
-  body.en [data-lang="en"] { display: revert; }
-
-  @media (max-width: 540px) {
-    .method-steps { flex-direction: column; align-items: center; }
-    .method-step::after { display: none; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFRGS Digital Verification | Global Compliance & Trust Reports</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased">
 
-<!-- Test mode banner -->
-<div class="test-banner">TEST MODE — Stripe sandbox links, no real charges</div>
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">M</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">MFRGS <span class="text-blue-600 font-medium text-base">Digital Verification</span></span>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <a href="#features" class="hover:text-blue-600 transition">Features</a>
+                <a href="#pricing" class="hover:text-blue-600 transition">Pricing Plans</a>
+                <a href="#security" class="hover:text-blue-600 transition">Security</a>
+            </nav>
+            <div>
+                <a href="#pricing" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm">Verify Now</a>
+            </div>
+        </div>
+    </header>
 
-<!-- Lang bar -->
-<div class="lang-bar">
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
-    <button class="lang-btn" onclick="setLang('pt')" id="btn-pt">PT</button>
-  </div>
-</div>
+    <section class="py-20 lg:py-28 bg-gradient-to-b from-white to-slate-50">
+        <div class="max-w-5xl mx-auto text-center px-4">
+            <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-6">
+                Official Government & Public Source Integration
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-none mb-6">
+                Digital verification reports to support <span class="text-blue-600">safer commercial decisions</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                MFRGS organizes and analyzes reliable public information to help you reduce uncertainty before closing a deal, hiring a supplier, or engaging in a new commercial relationship.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#pricing" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all text-center">View Verification Plans</a>
+                <a href="#features" class="bg-white hover:bg-slate-50 text-slate-700 font-semibold px-8 py-4 rounded-xl border border-slate-200 transition text-center">How It Works</a>
+            </div>
+        </div>
+    </section>
 
-<!-- Hero -->
-<section class="hero">
-  <span class="hero-symbol">?</span>
-  <p class="hero-brand">MFRGS Digital Verification</p>
+    <section id="features" class="py-20 bg-white border-t border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Why businesses choose MFRGS Reports</h2>
+                <p class="mt-4 text-slate-600 max-w-2xl mx-auto">Get comprehensive background checks and compliance risk analysis delivered instantly to your inbox.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-lg mb-4">✓</div>
+                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Official Data Sources</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Direct synchronization with UK Companies House, official registries, and active international corporate databases.</p>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-lg mb-4">🛡️</div>
+                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Scam & Risk Mitigation</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Advanced reputational signals, active law suit tracking, and financial distress monitoring to protect your capital.</p>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-lg mb-4">📊</div>
+                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Automated PDF Audits</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Beautifully structured, ready-to-share audit reports sent immediately via e-mail post-verification.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <h1 data-lang="en">Official UK Business Verification Reports</h1>
-  <h1 data-lang="pt">Relatórios Oficiais de Verificação Empresarial UK</h1>
+    <section id="pricing" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Our Verification Services</h2>
+                <p class="mt-4 text-slate-600">Choose the level of verification that matches your business decision.</p>
+            </div>
 
-  <p class="hero-desc" data-lang="en">
-    Know who you're dealing with before you sign anything. We verify UK-registered companies using official Companies House records and deliver a full dossier to your inbox in minutes.
-  </p>
-  <p class="hero-desc" data-lang="pt">
-    Saiba com quem você está lidando antes de assinar qualquer coisa. Verificamos empresas registradas no Reino Unido usando registros oficiais do Companies House e entregamos um dossiê completo no seu email em minutos.
-  </p>
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-stretch">
+                
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm relative">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Express Verification</h3>
+                        <p class="text-slate-500 text-xs mt-1">Essential quick checks</p>
+                        <div class="mt-4 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-slate-900">$39</span>
+                            <span class="text-slate-500 text-sm ml-1">/ report</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                            <li class="flex items-center gap-2">✓ Active Status Check</li>
+                            <li class="flex items-center gap-2">✓ Basic Registry Info</li>
+                            <li class="flex items-center gap-2">✓ Quick PDF generation</li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <a href="https://buy.stripe.com/test_aFa00c3npgUO9FQ89Q1RC06" class="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm">Comprar Express</a>
+                    </div>
+                </div>
 
-  <p class="hero-method">Ask · Verify · Analyse · Classify · Conclude</p>
-</section>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm relative">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Standard Verification</h3>
+                        <p class="text-slate-500 text-xs mt-1">Digital signals & reputation</p>
+                        <div class="mt-4 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-slate-900">$49</span>
+                            <span class="text-slate-500 text-sm ml-1">/ report</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                            <li class="flex items-center gap-2">✓ Everything in Express</li>
+                            <li class="flex items-center gap-2">✓ Reputation Check</li>
+                            <li class="flex items-center gap-2">✓ Officer & Director History</li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <a href="https://buy.stripe.com/test_eVqfZa0bddICcS289Q1RC07" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm shadow-sm">Comprar Standard</a>
+                    </div>
+                </div>
 
-<!-- Services -->
-<section class="services">
-  <div class="services-header">
-    <span class="section-label" data-lang="en">Our verification services</span>
-    <span class="section-label" data-lang="pt">Nossos serviços de verificação</span>
-    <h2 data-lang="en">Choose the report that fits your need</h2>
-    <h2 data-lang="pt">Escolha o relatório que atende sua necessidade</h2>
-    <p data-lang="en">All reports use official UK public records. Delivered by email in minutes.</p>
-    <p data-lang="pt">Todos os relatórios usam registros públicos oficiais do Reino Unido. Entregues por email em minutos.</p>
-  </div>
+                <div class="bg-white rounded-2xl border-2 border-blue-600 p-6 flex flex-col justify-between shadow-md relative transform lg:-translate-y-2">
+                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] tracking-wider uppercase font-bold py-1 px-3 rounded-full">Recommended</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Advanced Verification</h3>
+                        <p class="text-slate-500 text-xs mt-1">Balanced risk analysis</p>
+                        <div class="mt-4 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-slate-900">$69</span>
+                            <span class="text-slate-500 text-sm ml-1">/ report</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                            <li class="flex items-center gap-2 font-medium text-slate-900">✓ Everything in Standard</li>
+                            <li class="flex items-center gap-2">✓ Financial Health Check</li>
+                            <li class="flex items-center gap-2">✓ Structure & Filing Audits</li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <a href="https://buy.stripe.com/test_7sY28k5vxeMG7xI89Q1RC08" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm shadow-md">Comprar Advanced</a>
+                    </div>
+                </div>
 
-  <div class="services-grid">
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm relative">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Professional Verification</h3>
+                        <p class="text-slate-500 text-xs mt-1">Full-scope risk analysis</p>
+                        <div class="mt-4 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-slate-900">$79</span>
+                            <span class="text-slate-500 text-sm ml-1">/ report</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                            <li class="flex items-center gap-2">✓ Everything in Advanced</li>
+                            <li class="flex items-center gap-2">✓ Insolvency & Debt Checks</li>
+                            <li class="flex items-center gap-2">✓ Priority Premium SLA</li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <a href="https://buy.stripe.com/test_28E7sEgabdICg4e89Q1RC09" class="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm">Comprar Professional</a>
+                    </div>
+                </div>
 
-    <!-- $39 -->
-    <div class="service-card featured">
-      <span class="service-badge" data-lang="en">Most popular</span>
-      <span class="service-badge" data-lang="pt">Mais popular</span>
-      <h3 class="service-name">Freelancer &amp; Client Trust Check</h3>
-      <p class="service-desc" data-lang="en">Official UK business verification for freelancers. Know your client is real before you start work.</p>
-      <p class="service-desc" data-lang="pt">Verificação oficial de empresa UK para freelancers. Saiba se seu cliente é real antes de começar.</p>
-      <div class="service-includes">
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Legal existence via Companies House</span><span data-lang="pt">Existência legal via Companies House</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Directors &amp; beneficial ownership (UBO)</span><span data-lang="pt">Diretores e beneficiários reais (UBO)</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Company age &amp; registered address</span><span data-lang="pt">Idade da empresa e endereço registrado</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Risk classification</span><span data-lang="pt">Classificação de risco</span></div>
-      </div>
-      <div class="service-price">
-        <span class="price-value">$39</span>
-        <span class="price-note" data-lang="en">one-time · single report</span>
-        <span class="price-note" data-lang="pt">único · relatório individual</span>
-      </div>
-      <a href="https://buy.stripe.com/test_aFa00c3npgUO9FQ89Q1RC06" class="btn-buy" data-lang="en">Get this report →</a>
-      <a href="https://buy.stripe.com/test_aFa00c3npgUO9FQ89Q1RC06" class="btn-buy" data-lang="pt">Obter este relatório →</a>
-    </div>
+            </div>
+            
+            <p class="text-center text-xs text-slate-400 mt-12">Professional Risk Analysis Powered by MFRGS Automated Compliance Systems.</p>
+        </div>
+    </section>
 
-    <!-- $49 -->
-    <div class="service-card">
-      <h3 class="service-name">Business Legitimacy Check</h3>
-      <p class="service-desc" data-lang="en">Verify if a UK business is real and active before closing any deal.</p>
-      <p class="service-desc" data-lang="pt">Verifique se uma empresa UK é real e ativa antes de fechar qualquer negócio.</p>
-      <div class="service-includes">
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Registration status &amp; address</span><span data-lang="pt">Status de registro e endereço</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Directors &amp; ownership</span><span data-lang="pt">Diretores e propriedade</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Digital presence signals</span><span data-lang="pt">Sinais de presença digital</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Risk classification</span><span data-lang="pt">Classificação de risco</span></div>
-      </div>
-      <div class="service-price">
-        <span class="price-value">$49</span>
-        <span class="price-note" data-lang="en">one-time · single report</span>
-        <span class="price-note" data-lang="pt">único · relatório individual</span>
-      </div>
-      <a href="https://buy.stripe.com/test_eVqfZa0bddICcS289Q1RC07" class="btn-buy" data-lang="en">Get this report →</a>
-      <a href="https://buy.stripe.com/test_eVqfZa0bddICcS289Q1RC07" class="btn-buy" data-lang="pt">Obter este relatório →</a>
-    </div>
-
-    <!-- $69 -->
-    <div class="service-card">
-      <h3 class="service-name">Supplier &amp; Partner Verification</h3>
-      <p class="service-desc" data-lang="en">Full verification of a UK supplier or business partner before payment or contract.</p>
-      <p class="service-desc" data-lang="pt">Verificação completa de fornecedor ou parceiro UK antes de pagamento ou contrato.</p>
-      <div class="service-includes">
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Full ownership structure</span><span data-lang="pt">Estrutura completa de propriedade</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Risk score &amp; red flag analysis</span><span data-lang="pt">Score de risco e análise de alertas</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Directors &amp; UBO</span><span data-lang="pt">Diretores e UBO</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Full dossier with source citations</span><span data-lang="pt">Dossiê completo com citações de fontes</span></div>
-      </div>
-      <div class="service-price">
-        <span class="price-value">$69</span>
-        <span class="price-note" data-lang="en">one-time · single report</span>
-        <span class="price-note" data-lang="pt">único · relatório individual</span>
-      </div>
-      <a href="https://buy.stripe.com/test_7sY28k5vxeMG7xI89Q1RC08" class="btn-buy" data-lang="en">Get this report →</a>
-      <a href="https://buy.stripe.com/test_7sY28k5vxeMG7xI89Q1RC08" class="btn-buy" data-lang="pt">Obter este relatório →</a>
-    </div>
-
-    <!-- $79 -->
-    <div class="service-card">
-      <h3 class="service-name">Basic KYB <span style="font-size:12px;color:var(--text-light);">Know Your Business</span></h3>
-      <p class="service-desc" data-lang="en">Compliance-grade UK business verification for onboarding and account opening.</p>
-      <p class="service-desc" data-lang="pt">Verificação empresarial UK em nível de compliance para onboarding e abertura de conta.</p>
-      <div class="service-includes">
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">UBO &amp; directors verified</span><span data-lang="pt">UBO e diretores verificados</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Company status &amp; registration</span><span data-lang="pt">Status e registro da empresa</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Risk classification</span><span data-lang="pt">Classificação de risco</span></div>
-        <div class="include-item"><span class="include-check">✓</span><span data-lang="en">Verification timestamp &amp; chain of custody</span><span data-lang="pt">Timestamp e cadeia de custódia</span></div>
-      </div>
-      <div class="service-price">
-        <span class="price-value">$79</span>
-        <span class="price-note" data-lang="en">one-time · single report</span>
-        <span class="price-note" data-lang="pt">único · relatório individual</span>
-      </div>
-      <a href="https://buy.stripe.com/test_28E7sEgabdICg4e89Q1RC09" class="btn-buy" data-lang="en">Get this report →</a>
-      <a href="https://buy.stripe.com/test_28E7sEgabdICg4e89Q1RC09" class="btn-buy" data-lang="pt">Obter este relatório →</a>
-    </div>
-
-  </div>
-</section>
-
-<!-- Method -->
-<section class="method-section">
-  <span class="section-label" style="color:rgba(255,255,255,0.4);">The MFRGS Method</span>
-  <h2 data-lang="en">How every report is built</h2>
-  <h2 data-lang="pt">Como cada relatório é construído</h2>
-  <p data-lang="en">Every report follows the same rigorous 5-step process — no shortcuts, no assumptions.</p>
-  <p data-lang="pt">Todo relatório segue o mesmo processo rigoroso de 5 etapas — sem atalhos, sem suposições.</p>
-  <div class="method-steps">
-    <div class="method-step"><span class="step-num">01</span><span class="step-name">Ask</span></div>
-    <div class="method-step"><span class="step-num">02</span><span class="step-name">Verify</span></div>
-    <div class="method-step"><span class="step-num">03</span><span class="step-name">Analyse</span></div>
-    <div class="method-step"><span class="step-num">04</span><span class="step-name">Classify</span></div>
-    <div class="method-step"><span class="step-num">05</span><span class="step-name">Conclude</span></div>
-  </div>
-</section>
-
-<!-- Trust -->
-<section class="trust-section">
-  <div style="text-align:center;">
-    <span class="section-label" data-lang="en">Why MFRGS</span>
-    <span class="section-label" data-lang="pt">Por que a MFRGS</span>
-    <h2 style="font-size:clamp(20px,3vw,28px);font-weight:normal;" data-lang="en">Built on official data. Delivered with integrity.</h2>
-    <h2 style="font-size:clamp(20px,3vw,28px);font-weight:normal;" data-lang="pt">Baseado em dados oficiais. Entregue com integridade.</h2>
-  </div>
-  <div class="trust-grid">
-    <div class="trust-item">
-      <span class="trust-icon">🏛️</span>
-      <h3 data-lang="en">Official Sources Only</h3>
-      <h3 data-lang="pt">Apenas Fontes Oficiais</h3>
-      <p data-lang="en">All data from Companies House — the UK government's official business register.</p>
-      <p data-lang="pt">Todos os dados do Companies House — o registro oficial de empresas do governo UK.</p>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon">⚡</span>
-      <h3 data-lang="en">Delivered in Minutes</h3>
-      <h3 data-lang="pt">Entregue em Minutos</h3>
-      <p data-lang="en">Automated verification — your report arrives by email shortly after payment.</p>
-      <p data-lang="pt">Verificação automatizada — seu relatório chega por email logo após o pagamento.</p>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon">🔍</span>
-      <h3 data-lang="en">Full Transparency</h3>
-      <h3 data-lang="pt">Transparência Total</h3>
-      <p data-lang="en">Every data point is cited. If something can't be confirmed, we say so explicitly.</p>
-      <p data-lang="pt">Todo dado é citado. Se algo não pode ser confirmado, dizemos explicitamente.</p>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon">🛡️</span>
-      <h3 data-lang="en">Risk Classification</h3>
-      <h3 data-lang="pt">Classificação de Risco</h3>
-      <p data-lang="en">Every report includes a clear risk score — Low, Medium, High or Critical.</p>
-      <p data-lang="pt">Todo relatório inclui um score de risco claro — Baixo, Médio, Alto ou Crítico.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Integrity -->
-<section class="integrity-section">
-  <div class="integrity-inner">
-    <h3 data-lang="en">Content Integrity Commitment</h3>
-    <h3 data-lang="pt">Compromisso de Integridade de Conteúdo</h3>
-    <p data-lang="en">Every data point in your report comes from an official, publicly verifiable source — never from assumption or inference. If a data point cannot be confirmed, your report will say so explicitly. Source and verification timestamp are included in every dossier.</p>
-    <p data-lang="pt">Todo dado no seu relatório vem de uma fonte oficial e publicamente verificável — nunca de suposição ou inferência. Se um dado não pode ser confirmado, o relatório declara isso explicitamente. Fonte e timestamp de verificação estão incluídos em todo dossiê.</p>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer>
-  <p>© 2026 MFRGS Digital Verification · <a href="mailto:mfrgsinovacoes@gmail.com">mfrgsinovacoes@gmail.com</a></p>
-  <p style="margin-top:4px;">Data sourced from Companies House — Crown copyright · UK official register</p>
-</footer>
-
-<script>
-  function setLang(lang) {
-    document.body.classList.toggle('en', lang === 'en');
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
-    document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
-    localStorage.setItem('mfrgs-lang', lang);
-  }
-  // Default EN para público internacional
-  setLang('en');
-  const saved = localStorage.getItem('mfrgs-lang');
-  if (saved) setLang(saved);
-</script>
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <span class="text-sm">&copy; 2026 MFRGS Digital Verification. All rights reserved.</span>
+            <div class="flex space-x-6 text-xs">
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition">Terms of Service</a>
+                <a href="#" class="hover:text-white transition">Contact Support</a>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
+EOF
