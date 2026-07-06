@@ -8,10 +8,7 @@
   ],
   "routes": [
     { "src": "/api/health", "dest": "api/health.js" },
-    { "src": "/api/stripe", "dest": "api/stripe.js" },
-    { "src": "/api/pdf", "dest": "api/pdf.js" },
-    { "src": "/api/report", "dest": "api/report.js" },
-    { "src": "/api/verify", "dest": "api/verify.js" }
+    { "src": "/api/verify", "dest": "api/verify.js" },
     { "src": "/api/success", "dest": "api/success.js" }
   ]
 }
