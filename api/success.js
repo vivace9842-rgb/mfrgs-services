@@ -7,34 +7,34 @@ import { sendReportEmail } from "./utils/email.js";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  // O Stripe redireciona o cliente via método GET
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { session_id } = req.query;
+  const { session_id, service } = req.query;
 
   if (!session_id) {
     return res.status(400).json({ error: 'Session ID is required' });
   }
 
   try {
-    // 1. Busca os dados reais que o cliente preencheu no checkout do Stripe
+    // 1. Recupera a sessão do Stripe para obter os dados do comprador
     const session = await stripe.checkout.sessions.retrieve(session_id);
     
     const email = session.customer_details?.email;
-    const name = session.customer_details?.name || "Cliente";
+    const name = session.customer_details?.name || "Client";
+    const serviceName = service ? service.toUpperCase() : "EXPRESS";
 
     if (!email) {
       return res.status(400).json({ error: 'Email not found in checkout session' });
     }
 
-    // Como estamos simplificando, definimos a empresa temporariamente ou buscamos de um parâmetro extra
-    const companyName = "Empresa Verificada"; 
+    // Identificação padrão para processamento inicial
+    const companyName = "Verified Business"; 
 
-    console.log(`Processando relatório pós-pagamento para: ${email}`);
+    console.log(`[MFRGS GUARDIAN] Processando plano ${serviceName} para: ${email}`);
 
-    // 2. Executa a busca real na API da Companies House do Reino Unido
+    // 2. Consulta de dados na Companies House via sub-módulo interno
     const verificacao = await callVerifyInternally(email, companyName);
     
     const report = {
@@ -53,32 +53,37 @@ export default async function handler(req, res) {
       gerado_em: new Date().toISOString(),
     };
 
-    // 3. Desenha o relatório PDF bonitão
+    // 3. Geração física do PDF
     const pdfBytes = await generateReportPdf(report);
 
-    // 4. Dispara o PDF direto para a caixa de entrada do comprador
+    // 4. Envio do e-mail com o PDF anexado
     await sendReportEmail({
       to: email,
-      companyName: report.empresa,
+      companyName: `${report.empresa} (${serviceName} Plan)`,
       pdfBytes,
       riskLevel: report.analise.risco,
       score: report.analise.score,
     });
 
-    // 5. Exibe uma mensagem bonita de sucesso na tela para o usuário final
+    // 5. Interface limpa de sucesso para o cliente final
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.status(200).send(`
-      <div style="font-family: sans-serif; text-align: center; padding: 50px;">
-        <h1 style="color: #2e7d32;">Payment Confirmed!</h1>
-        <p style="font-size: 18px;">Thank you, ${name}. Your Digital Verification report has been processed successfully.</p>
-        <p style="color: #666;">We have sent the PDF document straight to <strong>${email}</strong>.</p>
-        <br>
-        <a href="/" style="background: #1976d2; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Back to Home</a>
+      <div style="font-family: sans-serif; text-align: center; padding: 60px 20px; max-width: 600px; margin: 0 auto; color: #333;">
+        <div style="font-size: 50px; color: #2e7d32; margin-bottom: 20px;">✓</div>
+        <h1 style="color: #111; margin-bottom: 10px;">Payment Confirmed!</h1>
+        <p style="font-size: 18px; color: #555; line-height: 1.6;">
+          Thank you, <strong>${name}</strong>. Your <strong>MFRGS ${serviceName} Verification</strong> is complete.
+        </p>
+        <p style="font-size: 16px; color: #666; margin-bottom: 30px;">
+          The official verification report has been generated and sent to <strong>${email}</strong>.
+        </p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 30px;">
+        <p style="font-size: 14px; color: #999;">MFRGS Digital Verification • Secure Global Checkout</p>
       </div>
     `);
 
   } catch (error) {
-    console.error("Erro ao processar sucesso de pagamento:", error.message);
+    console.error("[GUARDIAN ERROR] Erro no fluxo de sucesso:", error.message);
     return res.status(500).json({ error: "Internal Server Error", details: error.message });
   }
 }
