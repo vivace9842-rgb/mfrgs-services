@@ -4,7 +4,7 @@
   "description": "MFRGS INOVACOES Services Pipeline",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "webpack serve --mode development"
   },
   "dependencies": {},
   "devDependencies": {}

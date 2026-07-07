@@ -3,143 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS Digital Verification — Global Business Intelligence</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>MFRGS INOVAÇÕES | Enterprise Intelligence & Tech Pipelines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between">
 
-    <!-- Header / Branding -->
-    <header class="border-b border-slate-800 py-6 px-4">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wider text-teal-400">MFRGS INOVAÇÕES</h1>
-            <span class="text-xs bg-slate-800 text-slate-400 px-3 py-1 rounded-full border border-slate-700">Global Coverage Area</span>
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">M</div>
+                <span class="text-lg font-bold tracking-wider text-white">MFRGS INOVAÇÕES</span>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-400">
+                <a href="#services" class="hover:text-white transition">Our Services</a>
+                <a href="#pipeline" class="hover:text-white transition">Verification Pipeline</a>
+                <a href="#legal-disclaimer" class="hover:text-white transition">Legal Disclaimer</a>
+            </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-md mx-auto w-full px-4 py-12 flex-grow flex flex-col justify-center">
-        <div class="bg-slate-850 p-8 rounded-2xl border border-slate-800 shadow-xl bg-slate-800/50 backdrop-blur-sm">
-            <h2 class="text-2xl font-bold text-white mb-2 text-center">Instant Business Verification</h2>
-            <p class="text-slate-400 text-sm mb-6 text-center">Get official corporate intelligence data and risk assessment compliance reports within seconds.</p>
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 space-y-16">
+        
+        <!-- Hero Section & Headline -->
+        <div class="text-center space-y-4 max-w-3xl mx-auto">
+            <span class="px-3 py-1 text-xs font-semibold tracking-wider text-blue-400 bg-blue-500/10 rounded-full border border-blue-500/20 uppercase">Professional Infrastructure</span>
+            <h1 class="text-4xl font-extrabold text-white tracking-tight sm:text-5xl mt-3">High-Tier Digital & Corporate Solutions</h1>
+            <p class="text-base text-slate-400 max-w-xl mx-auto">Deploying automated pipelines, advanced corporate intelligence, and synthetic asset restorations with absolute accuracy.</p>
+        </div>
 
-            <!-- Verification Form -->
-            <form id="verificationForm" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Your Professional Email</label>
-                    <input type="email" id="email" required placeholder="name@company.com" 
-                           class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors">
+        <!-- Services Catalog Section -->
+        <section id="services" class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Service 1 -->
+            <div class="bg-slate-800/30 p-6 rounded-xl border border-slate-700/40 backdrop-blur space-y-4 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <div class="text-xs font-bold uppercase tracking-wider text-blue-400">01 . Compliance</div>
+                    <h3 class="text-lg font-bold text-white">Corporate Intelligence</h3>
+                    <p class="text-xs text-slate-400">Instant background checks, risk assessments, and official legal entity verification across international jurisdictions.</p>
                 </div>
+                <div class="text-sm font-bold text-slate-200 mt-2">$49.00 USD / report</div>
+            </div>
 
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Target Company Legal Name</label>
-                    <input type="text" id="company" required placeholder="e.g., Target Corp LLC" 
-                           class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors">
+            <!-- Service 2 -->
+            <div class="bg-slate-800/30 p-6 rounded-xl border border-slate-700/40 backdrop-blur space-y-4 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <div class="text-xs font-bold uppercase tracking-wider text-purple-400">02 . Automation</div>
+                    <h3 class="text-lg font-bold text-white">Data Stream Pipelines</h3>
+                    <p class="text-xs text-slate-400">Custom backend architecture deployments, serverless functions execution, and relational database stream synchronization.</p>
                 </div>
+                <div class="text-sm font-bold text-slate-200 mt-2">Custom B2B Quotes</div>
+            </div>
 
-                <div class="grid grid-cols-2 gap-4">
+            <!-- Service 3 -->
+            <div class="bg-slate-800/30 p-6 rounded-xl border border-slate-700/40 backdrop-blur space-y-4 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">03 . Media Engine</div>
+                    <h3 class="text-lg font-bold text-white">Asset Restoration</h3>
+                    <p class="text-xs text-slate-400">High-ticket historical photo restoration, ultra-HD colorization, and synthetic digital media rendering for enterprise scale.</p>
+                </div>
+                <div class="text-sm font-bold text-slate-200 mt-2">Premium Scale Pricing</div>
+            </div>
+
+        </section>
+
+        <!-- Operational Hub Form -->
+        <section id="pipeline" class="max-w-xl mx-auto bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 backdrop-blur shadow-2xl space-y-6">
+            
+            <div class="text-center space-y-1">
+                <h2 class="text-xl font-bold text-white">Execution Hub & Verification</h2>
+                <p class="text-xs text-slate-400">Select your required service track to initiate execution and checkout.</p>
+            </div>
+
+            <form id="verificationForm" class="space-y-6">
+                <div class="space-y-4">
+                    
+                    <!-- Service Track Selection -->
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Company Number</label>
-                        <input type="text" id="number" required placeholder="e.g., EXT-9982" 
-                               class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors">
+                        <label for="serviceTrack" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Required Service Track</label>
+                        <div class="relative">
+                            <select id="serviceTrack" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium appearance-none cursor-pointer">
+                                <option value="corporate">Corporate Intelligence Verification Pipeline</option>
+                                <option value="pipeline">Automated Infrastructure / Data Pipeline Consultation</option>
+                                <option value="restoration">Premium Asset Colorization & AI Restoration</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Email Field -->
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Jurisdiction / Country</label>
-                        <select id="country" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-teal-500 transition-colors">
-                            <option value="United States">United States</option>
-                            <option value="Europe">Europe (EU Region)</option>
-                            <option value="North Africa">North Africa</option>
-                        </select>
+                        <label for="email" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Your Professional Email</label>
+                        <input type="email" id="email" required placeholder="name@company.com" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium">
                     </div>
+
+                    <!-- Target / Identifier Field -->
+                    <div>
+                        <label for="companyNumber" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Target Identifier (CPF / CNPJ / Project ID)</label>
+                        <input type="text" id="companyNumber" required placeholder="Enter numbers for verification or project tag" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium">
+                    </div>
+
+                    <!-- Service Priority Level -->
+                    <div>
+                        <label for="priority" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Service Priority Level</label>
+                        <div class="relative">
+                            <select id="priority" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium appearance-none cursor-pointer">
+                                <option value="standard">Standard Processing ($49.00 USD)</option>
+                                <option value="priority">Priority Fast-Track ($99.00 USD)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-<<<<<<< HEAD
-                <button type="submit" 
-                        class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-lg mt-6 shadow-lg shadow-teal-500/20 transition-all cursor-pointer text-center block">
-                    Verify & Generate Report
+                <!-- Action Button -->
+                <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/20 transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transform hover:-translate-y-0.5 text-sm uppercase tracking-wider flex items-center justify-center space-x-2">
+                    <span id="btnText">Verify & Process Checkout</span>
                 </button>
             </form>
-        </div>
-    </main>
 
-=======
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Priority Level</label>
-                    <select id="priority" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-teal-500 transition-colors">
-                        <option value="false">Standard Processing ($49.00 USD)</option>
-                        <option value="true">Priority Fast-Track ($99.00 USD)</option>
-                    </select>
+            <!-- Box Dinâmico para Resultados -->
+            <div id="resultBox" class="hidden p-5 bg-slate-900/80 border border-emerald-500/30 rounded-xl space-y-2">
+                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">🎯 Execution Target Map</h3>
+                <div class="text-sm space-y-1">
+                    <p><span class="text-slate-400">Identified Entity:</span> <span id="resName" class="text-white font-semibold"></span></p>
+                    <p><span class="text-slate-400">Verification Status:</span> <span id="resStatus" class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"></span></p>
+                    <p><span class="text-slate-400">Registry Log:</span> <span id="resDate" class="text-slate-300"></span></p>
                 </div>
+            </div>
+        </section>
 
-                <button type="submit" 
-                        class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-lg mt-6 shadow-lg shadow-teal-500/20 transition-all cursor-pointer text-center block">
-                    Verify & Generate Report
-                </button>
-            </form>
-        </div>
+        <!-- Legal Disclaimer Section (Blindagem Jurídica Completa) -->
+        <section id="legal-disclaimer" class="max-w-3xl mx-auto p-6 bg-slate-950/40 rounded-xl border border-slate-800 space-y-4 text-justify">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-2">
+                <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                <span>Legal Terms of Liability & Data Provenance Disclaimer</span>
+            </h3>
+            <p class="text-[11px] leading-relaxed text-slate-500">
+                <strong>1. Natureza do Serviço e Ausência de Garantia Exclusiva:</strong> A MFRGS INOVAÇÕES, na qualidade de plataforma independente de tecnologia e automação de dados, expressamente declara que os relatórios e consultas gerados por seus algoritmos não constituem pareceres jurídicos formais, certidões oficiais dotadas de fé pública ou atestados infalíveis de regularidade civil ou comercial. A plataforma atua estritamente como ferramenta de consolidação tecnológica de dados.
+            </p>
+            <p class="text-[11px] leading-relaxed text-slate-500">
+                <strong>2. Proveniência dos Dados e Fontes Oficiais:</strong> Toda a inteligência corporativa e relatórios emitidos são baseados no espelhamento, processamento de requisições e compilação de dados públicos obtidos diretamente de fontes governamentais externas e bureaus regulamentados terceiros, incluindo, mas não se limitando a: <em>Receita Federal do Brasil (RFB), Juntas Comerciais Estaduais, Companies House (Reino Unido) e OpenCorporates API</em>. Portanto, a MFRGS INOVAÇÕES não assume qualquer responsabilidade pela exatidão, integridade, mutabilidade ou eventuais inconsistências temporárias contidas nos registros originais destas instituições terceiras.
+            </p>
+            <p class="text-[11px] leading-relaxed text-slate-500">
+                <strong>3. Isenção Integral de Responsabilidade Civil e Comercial:</strong> O usuário assume total e exclusivo risco pelas decisões comerciais, transações financeiras, parcerias B2B ou análises de risco de crédito realizadas com base nas informações visualizadas. Sob nenhuma circunstância a MFRGS INOVAÇÕES, seus fundadores, desenvolvedores ou prepostos serão responsabilizados civil, administrativa ou judicialmente por lucros cessantes, danos diretos, indiretos ou prejuízos decorrentes de falhas nas bases originais dos órgãos emissores.
+            </p>
+        </section>
+
     </main>
 
->>>>>>> 0138add (feat: integrated stripe gateway with dynamic pricing values)
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        <p>&copy; 2026 MFRGS INOVAÇÕES. All professional rights reserved. Legal Registry Infrastructure.</p>
+    <!-- Footer Area -->
+    <footer class="border-t border-slate-800/60 py-6 bg-slate-950/20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+            <p>&copy; 2026 MFRGS INOVAÇÕES. All professional rights reserved. Legal Registry & Security Infrastructure.</p>
+            <p class="text-[10px] text-slate-600">Disclaimer: This platform operates under strict technical data integration guidelines. No direct certification or legal counseling is offered.</p>
+        </div>
     </footer>
-<<<<<<< HEAD
 
-    <!-- Form Router Script -->
+    <!-- Logic Script Integration -->
     <script>
-        document.getElementById('verificationForm').addEventListener('submit', function(e) {
+        document.getElementById('verificationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = encodeURIComponent(document.getElementById('email').value);
-            const company = encodeURIComponent(document.getElementById('company').value);
-            const number = encodeURIComponent(document.getElementById('number').value);
-            const country = encodeURIComponent(document.getElementById('country').value);
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const resultBox = document.getElementById('resultBox');
             
-            // Redireciona para a tela de sucesso passando os parâmetros via Query String
-            window.location.href = `/success.html?email=${email}&company=${company}&number=${number}&country=${country}`;
-=======
+            const track = document.getElementById('serviceTrack').value;
+            const targetInput = document.getElementById('companyNumber').value;
 
-    <!-- Form Router Script linked to Stripe Checkout -->
-    <script>
-        document.getElementById('verificationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerText;
-            
-            submitBtn.innerText = "Securing Gateway Connection...";
             submitBtn.disabled = true;
-
-            const payload = {
-                email: document.getElementById('email').value,
-                company: document.getElementById('company').value,
-                number: document.getElementById('number').value,
-                country: document.getElementById('country').value,
-                priority: document.getElementById('priority').value === 'true'
-            };
+            btnText.innerText = "Processing Target Pipeline...";
+            submitBtn.classList.replace('bg-blue-600', 'bg-slate-700');
+            resultBox.classList.add('hidden');
 
             try {
-                const response = await fetch('/api/checkout', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                if(track === 'corporate') {
+                    const response = await fetch(`/api/search-company?document=${encodeURIComponent(targetInput)}`);
+                    const data = await response.json();
 
-                const data = await response.json();
+                    if (!response.ok) throw new Error(data.error || 'Failed to analyze target.');
 
-                if (data.url) {
-                    window.location.href = data.url;
+                    document.getElementById('resName').innerText = data.name;
+                    document.getElementById('resStatus').innerText = data.status;
+                    document.getElementById('resDate').innerText = data.registrationDate;
+                    resultBox.classList.remove('hidden');
                 } else {
-                    throw new Error(data.error || 'Gateway returned empty checkout session.');
+                    document.getElementById('resName').innerText = "CUSTOM TECH PIPELINE INITIATED";
+                    document.getElementById('resStatus').innerText = "Pending Project Scope";
+                    document.getElementById('resDate').innerText = "Awaiting Stripe Authorization";
+                    resultBox.classList.remove('hidden');
                 }
-            } catch (err) {
-                console.error("Payment routing error:", err);
-                alert("Could not connect to payment server. Please check your credentials or try again.");
-                submitBtn.innerText = originalText;
+
+            } catch (error) {
+                console.error("Pipeline Execution Error:", error);
+                alert(`Error: ${error.message}`);
+            } finally {
                 submitBtn.disabled = false;
+                btnText.innerText = "Verify & Process Checkout";
+                submitBtn.classList.replace('bg-slate-700', 'bg-blue-600');
             }
->>>>>>> 0138add (feat: integrated stripe gateway with dynamic pricing values)
         });
     </script>
+
 </body>
 </html>
