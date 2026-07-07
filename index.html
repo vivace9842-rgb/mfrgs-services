@@ -3,179 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS Digital Verification | Global Compliance & Trust Reports</title>
+    <title>MFRGS Digital Verification — Global Business Intelligence</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
 
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">M</div>
-                <span class="text-xl font-bold tracking-tight text-slate-900">MFRGS <span class="text-blue-600 font-medium text-base">Digital Verification</span></span>
-            </div>
-            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
-                <a href="#features" class="hover:text-blue-600 transition">Features</a>
-                <a href="#pricing" class="hover:text-blue-600 transition">Pricing Plans</a>
-                <a href="#security" class="hover:text-blue-600 transition">Security</a>
-            </nav>
-            <div>
-                <a href="#pricing" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm">Verify Now</a>
-            </div>
+    <!-- Header / Branding -->
+    <header class="border-b border-slate-800 py-6 px-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wider text-teal-400">MFRGS INOVAÇÕES</h1>
+            <span class="text-xs bg-slate-800 text-slate-400 px-3 py-1 rounded-full border border-slate-700">Global Coverage Area</span>
         </div>
     </header>
 
-    <section class="py-20 lg:py-28 bg-gradient-to-b from-white to-slate-50">
-        <div class="max-w-5xl mx-auto text-center px-4">
-            <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-6">
-                Official Government & Public Source Integration
-            </span>
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-none mb-6">
-                Digital verification reports to support <span class="text-blue-600">safer commercial decisions</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed">
-                MFRGS organizes and analyzes reliable public information to help you reduce uncertainty before closing a deal, hiring a supplier, or engaging in a new commercial relationship.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#pricing" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all text-center">View Verification Plans</a>
-                <a href="#features" class="bg-white hover:bg-slate-50 text-slate-700 font-semibold px-8 py-4 rounded-xl border border-slate-200 transition text-center">How It Works</a>
-            </div>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main class="max-w-md mx-auto w-full px-4 py-12 flex-grow flex flex-col justify-center">
+        <div class="bg-slate-850 p-8 rounded-2xl border border-slate-800 shadow-xl bg-slate-800/50 backdrop-blur-sm">
+            <h2 class="text-2xl font-bold text-white mb-2 text-center">Instant Business Verification</h2>
+            <p class="text-slate-400 text-sm mb-6 text-center">Get official corporate intelligence data and risk assessment compliance reports within seconds.</p>
 
-    <section id="features" class="py-20 bg-white border-t border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-slate-900">Why businesses choose MFRGS Reports</h2>
-                <p class="mt-4 text-slate-600 max-w-2xl mx-auto">Get comprehensive background checks and compliance risk analysis delivered instantly to your inbox.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-lg mb-4">✓</div>
-                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Official Data Sources</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Direct synchronization with UK Companies House, official registries, and active international corporate databases.</p>
+            <!-- Verification Form -->
+            <form id="verificationForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Your Professional Email</label>
+                    <input type="email" id="email" required placeholder="name@company.com" 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors">
                 </div>
-                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-lg mb-4">🛡️</div>
-                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Scam & Risk Mitigation</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Advanced reputational signals, active law suit tracking, and financial distress monitoring to protect your capital.</p>
-                </div>
-                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-lg mb-4">📊</div>
-                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Automated PDF Audits</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Beautifully structured, ready-to-share audit reports sent immediately via e-mail post-verification.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="pricing" class="py-20 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Our Verification Services</h2>
-                <p class="mt-4 text-slate-600">Choose the level of verification that matches your business decision.</p>
-            </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Target Company Legal Name</label>
+                    <input type="text" id="company" required placeholder="e.g., Target Corp LLC" 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors">
+                </div>
 
-            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-stretch">
-                
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm relative">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900">Express Verification</h3>
-                        <p class="text-slate-500 text-xs mt-1">Essential quick checks</p>
-                        <div class="mt-4 flex items-baseline">
-                            <span class="text-3xl font-extrabold text-slate-900">$39</span>
-                            <span class="text-slate-500 text-sm ml-1">/ report</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
-                            <li class="flex items-center gap-2">✓ Active Status Check</li>
-                            <li class="flex items-center gap-2">✓ Basic Registry Info</li>
-                            <li class="flex items-center gap-2">✓ Quick PDF generation</li>
-                        </ul>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Company Number</label>
+                        <input type="text" id="number" required placeholder="e.g., EXT-9982" 
+                               class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors">
                     </div>
-                    <div class="mt-8">
-                        <a href="https://buy.stripe.com/test_aFa00c3npgUO9FQ89Q1RC06" class="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm">Comprar Express</a>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm relative">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900">Standard Verification</h3>
-                        <p class="text-slate-500 text-xs mt-1">Digital signals & reputation</p>
-                        <div class="mt-4 flex items-baseline">
-                            <span class="text-3xl font-extrabold text-slate-900">$49</span>
-                            <span class="text-slate-500 text-sm ml-1">/ report</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
-                            <li class="flex items-center gap-2">✓ Everything in Express</li>
-                            <li class="flex items-center gap-2">✓ Reputation Check</li>
-                            <li class="flex items-center gap-2">✓ Officer & Director History</li>
-                        </ul>
-                    </div>
-                    <div class="mt-8">
-                        <a href="https://buy.stripe.com/test_eVqfZa0bddICcS289Q1RC07" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm shadow-sm">Comprar Standard</a>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Jurisdiction / Country</label>
+                        <select id="country" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-teal-500 transition-colors">
+                            <option value="United States">United States</option>
+                            <option value="Europe">Europe (EU Region)</option>
+                            <option value="North Africa">North Africa</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-blue-600 p-6 flex flex-col justify-between shadow-md relative transform lg:-translate-y-2">
-                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] tracking-wider uppercase font-bold py-1 px-3 rounded-full">Recommended</span>
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-900">Advanced Verification</h3>
-                        <p class="text-slate-500 text-xs mt-1">Balanced risk analysis</p>
-                        <div class="mt-4 flex items-baseline">
-                            <span class="text-3xl font-extrabold text-slate-900">$69</span>
-                            <span class="text-slate-500 text-sm ml-1">/ report</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
-                            <li class="flex items-center gap-2 font-medium text-slate-900">✓ Everything in Standard</li>
-                            <li class="flex items-center gap-2">✓ Financial Health Check</li>
-                            <li class="flex items-center gap-2">✓ Structure & Filing Audits</li>
-                        </ul>
-                    </div>
-                    <div class="mt-8">
-                        <a href="https://buy.stripe.com/test_7sY28k5vxeMG7xI89Q1RC08" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm shadow-md">Comprar Advanced</a>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm relative">
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-900">Professional Verification</h3>
-                        <p class="text-slate-500 text-xs mt-1">Full-scope risk analysis</p>
-                        <div class="mt-4 flex items-baseline">
-                            <span class="text-3xl font-extrabold text-slate-900">$79</span>
-                            <span class="text-slate-500 text-sm ml-1">/ report</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-slate-600 border-t border-slate-100 pt-4">
-                            <li class="flex items-center gap-2">✓ Everything in Advanced</li>
-                            <li class="flex items-center gap-2">✓ Insolvency & Debt Checks</li>
-                            <li class="flex items-center gap-2">✓ Priority Premium SLA</li>
-                        </ul>
-                    </div>
-                    <div class="mt-8">
-                        <a href="https://buy.stripe.com/test_28E7sEgabdICg4e89Q1RC09" class="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-semibold py-2.5 px-4 rounded-xl transition text-sm">Comprar Professional</a>
-                    </div>
-                </div>
-
-            </div>
-            
-            <p class="text-center text-xs text-slate-400 mt-12">Professional Risk Analysis Powered by MFRGS Automated Compliance Systems.</p>
+                <button type="submit" 
+                        class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-lg mt-6 shadow-lg shadow-teal-500/20 transition-all cursor-pointer text-center block">
+                    Verify & Generate Report
+                </button>
+            </form>
         </div>
-    </section>
+    </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <span class="text-sm">&copy; 2026 MFRGS Digital Verification. All rights reserved.</span>
-            <div class="flex space-x-6 text-xs">
-                <a href="#" class="hover:text-white transition">Privacy Policy</a>
-                <a href="#" class="hover:text-white transition">Terms of Service</a>
-                <a href="#" class="hover:text-white transition">Contact Support</a>
-            </div>
-        </div>
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 MFRGS INOVAÇÕES. All professional rights reserved. Legal Registry Infrastructure.</p>
     </footer>
 
+    <!-- Form Router Script -->
+    <script>
+        document.getElementById('verificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = encodeURIComponent(document.getElementById('email').value);
+            const company = encodeURIComponent(document.getElementById('company').value);
+            const number = encodeURIComponent(document.getElementById('number').value);
+            const country = encodeURIComponent(document.getElementById('country').value);
+            
+            // Redireciona para a tela de sucesso passando os parâmetros via Query String
+            window.location.href = `/success.html?email=${email}&company=${company}&number=${number}&country=${country}`;
+        });
+    </script>
 </body>
 </html>
-EOF
