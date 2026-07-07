@@ -1,17 +1,11 @@
-<<<<<<< HEAD
 {
   "name": "mfrgs-services",
   "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "@vercel/node": "^3.0.0",
-    "pdf-lib": "^1.17.1"
-  }
+  "description": "MFRGS INOVACOES Services Pipeline",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
-=======
-"dependencies": {
-    "@vercel/node": "^3.0.0",
-    "pdf-lib": "^1.17.1",
-    "stripe": "^14.25.0"
-  }
->>>>>>> 0138add (feat: integrated stripe gateway with dynamic pricing values)
