@@ -52,6 +52,7 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <button type="submit" 
                         class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-lg mt-6 shadow-lg shadow-teal-500/20 transition-all cursor-pointer text-center block">
                     Verify & Generate Report
@@ -60,10 +61,29 @@
         </div>
     </main>
 
+=======
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Priority Level</label>
+                    <select id="priority" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-teal-500 transition-colors">
+                        <option value="false">Standard Processing ($49.00 USD)</option>
+                        <option value="true">Priority Fast-Track ($99.00 USD)</option>
+                    </select>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-lg mt-6 shadow-lg shadow-teal-500/20 transition-all cursor-pointer text-center block">
+                    Verify & Generate Report
+                </button>
+            </form>
+        </div>
+    </main>
+
+>>>>>>> 0138add (feat: integrated stripe gateway with dynamic pricing values)
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
         <p>&copy; 2026 MFRGS INOVAÇÕES. All professional rights reserved. Legal Registry Infrastructure.</p>
     </footer>
+<<<<<<< HEAD
 
     <!-- Form Router Script -->
     <script>
@@ -77,6 +97,48 @@
             
             // Redireciona para a tela de sucesso passando os parâmetros via Query String
             window.location.href = `/success.html?email=${email}&company=${company}&number=${number}&country=${country}`;
+=======
+
+    <!-- Form Router Script linked to Stripe Checkout -->
+    <script>
+        document.getElementById('verificationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            
+            submitBtn.innerText = "Securing Gateway Connection...";
+            submitBtn.disabled = true;
+
+            const payload = {
+                email: document.getElementById('email').value,
+                company: document.getElementById('company').value,
+                number: document.getElementById('number').value,
+                country: document.getElementById('country').value,
+                priority: document.getElementById('priority').value === 'true'
+            };
+
+            try {
+                const response = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'Gateway returned empty checkout session.');
+                }
+            } catch (err) {
+                console.error("Payment routing error:", err);
+                alert("Could not connect to payment server. Please check your credentials or try again.");
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+>>>>>>> 0138add (feat: integrated stripe gateway with dynamic pricing values)
         });
     </script>
 </body>
