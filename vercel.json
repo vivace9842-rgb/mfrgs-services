@@ -1,3 +1,27 @@
 {
-  "version": 2
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/success.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/pdf.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/success",
+      "dest": "api/success.ts"
+    },
+    {
+      "src": "/api/pdf",
+      "dest": "api/pdf.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
