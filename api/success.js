@@ -1,71 +1,100 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { generateReportPdf } from './pdf.js'; // Importa o motor de PDF protegido do Guardian
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating Document — MFRGS Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
 
-/**
- * Função utilitária de log integrada ao padrão MFRGS
- */
-function logGuardian(msg: string) {
-  console.log(`📘 MFRGS GUARDIAN: ${msg}`);
-}
+    <!-- Header -->
+    <header class="border-b border-slate-800 py-6 px-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wider text-teal-400">MFRGS INOVAÇÕES</h1>
+            <span class="text-xs bg-emerald-950/50 text-emerald-400 px-3 py-1 rounded-full border border-emerald-800/60 font-semibold">Secure Payment Confirmed</span>
+        </div>
+    </header>
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // O Stripe ou o redirecionamento pós-pago envia uma requisição GET ou POST na conclusão
-  if (req.method !== 'GET' && req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+    <!-- UI State Box -->
+    <main class="max-w-md mx-auto w-full px-4 py-12 flex-grow flex flex-col justify-center">
+        <div id="statusCard" class="bg-slate-850 p-8 rounded-2xl border border-slate-800 shadow-xl bg-slate-800/50 backdrop-blur-sm text-center space-y-6">
+            
+            <!-- Animated Loader Icon -->
+            <div id="statusIcon" class="mx-auto w-16 h-16 border-4 border-t-teal-500 border-slate-700 rounded-full animate-spin"></div>
+            
+            <div class="space-y-2">
+                <h2 id="statusTitle" class="text-xl font-bold text-white">Generating Official Compliance Report</h2>
+                <p id="statusMessage" class="text-slate-400 text-sm">Please hold on. We are pooling public registries and building your secure analytical PDF document...</p>
+            </div>
 
-  try {
-    logGuardian('Processing post-payment checkout fulfillment...');
+            <!-- Dynamic Data Preview Badge -->
+            <div id="dataBadge" class="hidden text-xs bg-slate-900 border border-slate-700 rounded-lg p-3 text-left font-mono space-y-1 text-slate-400">
+                <p>⚡ <span class="text-slate-300">Target:</span> <span id="badgeCompany" class="text-teal-400"></span></p>
+                <p>⚡ <span class="text-slate-300">File Reference:</span> <span id="badgeNumber"></span></p>
+            </div>
+        </div>
+    </main>
 
-    // Captura os dados enviados dinamicamente via Query String ou Body
-    const clientEmail = req.query.email || req.body?.email || 'customer@mfrgs.com';
-    const companyName = req.query.company || req.body?.company || 'International Target Corp';
-    const targetCountry = req.query.country || req.body?.country || 'USA / Global';
-    const companyNum = req.query.number || req.body?.number || 'N/A';
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 MFRGS INOVAÇÕES. Automated Verification Pipeline Hub.</p>
+    </footer>
 
-    // Monta o payload estruturado (DNA) que o seu gerador de PDF exige
-    const reportPayload = {
-      cliente: String(clientEmail),
-      empresa: String(companyName),
-      company_number: String(companyNum),
-      status: 'ACTIVE / VERIFIED',
-      data_registro: new Date().toLocaleDateString('en-US'),
-      fonte: `MFRGS Automated Global Data Hub (${targetCountry})`,
-      gerado_em: new Date().toISOString(),
-      analise: {
-        risco: 'LOW',
-        score: 95,
-        flags: [
-          'Official active registration matches destination search parameters.',
-          'No international sanctions or insolvency flags detected in active databases.',
-          'Entity structure cleared for standard cross-border operations.'
-        ]
-      },
-      diretores: [
-        { nome: 'Verified Management Board', cargo: 'Executive Directors' }
-      ]
-    };
+    <!-- Core Automated Download Engine Pipeline -->
+    <script>
+        async function runAutoDownloadPipeline() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            const company = urlParams.get('company');
+            const number = urlParams.get('number');
+            const country = urlParams.get('country');
 
-    logGuardian(`Payload built successfully for ${clientEmail}. Triggering engine...`);
+            // Exibe badge de dados caso os parâmetros existam
+            if (company && number) {
+                document.getElementById('badgeCompany').innerText = company;
+                document.getElementById('badgeNumber').innerText = number;
+                document.getElementById('dataBadge').classList.remove('hidden');
+            }
 
-    // Gera os bytes do PDF corrigidos com paginação automática
-    const pdfBytes = await generateReportPdf(reportPayload);
+            try {
+                // Dispara a requisição contendo os parâmetros capturados da URL para o nosso endpoint serverless
+                const response = await fetch(`/api/success?email=${encodeURIComponent(email || '')}&company=${encodeURIComponent(company || '')}&number=${encodeURIComponent(number || '')}&country=${encodeURIComponent(country || '')}`, {
+                    method: 'GET'
+                });
 
-    // Configura os headers HTTP para entregar o arquivo real para o navegador do cliente
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename="MFRGS-Verification-${companyName.toString().replace(/\s+/g, '-')}.pdf"`
-    );
+                if (!response.ok) throw new Error('Backend failed to generate binary PDF report.');
 
-    logGuardian(`Report delivered successfully. Target pipeline fulfilled.`);
-    return res.status(200).send(Buffer.from(pdfBytes));
+                // Transforma a resposta em um arquivo binário bruto (blob)
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                
+                // Cria uma âncora fantasma no DOM e força o download nativo do relatório
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `MFRGS-Verification-${(company || 'Report').replace(/\s+/g, '-')}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
 
-  } catch (err: any) {
-    console.error(`❌ MFRGS BREAKDOWN IN SUCCESS ENDPOINT: ${err.message}`);
-    return res.status(500).json({
-      error: 'Failed to process your verification report pipeline.',
-      details: err.message
-    });
-  }
-}
+                // Transiciona a interface para o estado de Concluído com Sucesso
+                document.getElementById('statusIcon').className = "mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 border-2 border-emerald-500 text-2xl font-bold font-sans animate-bounce";
+                document.getElementById('statusIcon').innerHTML = "✓";
+                document.getElementById('statusTitle').innerText = "Download Started Automatically";
+                document.getElementById('statusMessage').innerText = "Your verification statement has been compiled and downloaded. If it didn't start, please refresh this page.";
+
+            } catch (error) {
+                console.error("Pipeline failure:", error);
+                // Transiciona a interface para o estado de Alerta/Erro operacional
+                document.getElementById('statusIcon').className = "mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 text-red-400 border-2 border-red-500 text-2xl font-bold font-sans";
+                document.getElementById('statusIcon').innerHTML = "✕";
+                document.getElementById('statusTitle').innerText = "Generation Engine Error";
+                document.getElementById('statusMessage').innerText = "An error occurred during verification compilation. Please verify your connection or retry your form inquiry inputs.";
+            }
+        }
+
+        // Inicializa o fluxo assim que a janela carregar completamente no navegador do cliente
+        window.onload = runAutoDownloadPipeline;
+    </script>
+</body>
+</html>
