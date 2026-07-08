@@ -1,69 +1,581 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS INOVAÇÕES - Global Corporate Intelligence</title>
+    
+    <!-- SEO Meta Tags Primárias -->
+    <title>Guardian por MFRGS INOVAÇÕES | Inteligência Corporativa, Compliance e Due Diligence</title>
+    <meta name="title" content="Guardian por MFRGS INOVAÇÕES | Inteligência Corporativa, Compliance e Due Diligence">
+    <meta name="description" content="O Guardian é a plataforma avançada da MFRGS INOVAÇÕES para auditoria, due diligence, compliance e proteção jurídica através da correlação automatizada de fontes públicas e dados oficiais.">
+    <meta name="keywords" content="inteligência corporativa, compliance, due diligence, auditoria, fontes públicas, proteção jurídica, mfrgs inovações, guardian, lgpd">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mfrgs.com.br/guardian">
+    
+    <!-- Open Graph / Facebook (Redes Sociais) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mfrgs.com.br/guardian">
+    <meta property="og:title" content="Guardian | Inteligência Corporativa e Compliance Inteligente">
+    <meta property="og:description" content="Centralize, correlacione e monitore dados oficiais e fontes públicas para mitigar riscos jurídicos e operacionais com a assinatura de inovação da MFRGS INOVAÇÕES.">
+    <meta property="og:image" content="https://mfrgs.com.br/guardian/assets/og-image.jpg">
+
+    <!-- Twitter Cards -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mfrgs.com.br/guardian">
+    <meta property="twitter:title" content="Guardian | Inteligência Corporativa e Compliance">
+    <meta property="twitter:description" content="Decisões corporativas seguras baseadas em dados públicos organizados de forma inteligente.">
+    <meta property="twitter:image" content="https://mfrgs.com.br/guardian/assets/og-image.jpg">
+
+    <!-- Favicon Adaptado (SVG Dinâmico) -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0066ff',
+                            600: '#0052cc',
+                            900: '#051937',
+                            950: '#020b18'
+                        },
+                        slate: {
+                            950: '#070a13'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Estilos Customizados Avançados (Identidade Stripe/Vercel) -->
     <style>
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020b18;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(5, 25, 55, 0.35);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 102, 255, 0.25);
+            background: rgba(5, 25, 55, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .brand-gradient {
+            background: linear-gradient(135deg, #ffffff 30%, #93c5fd 70%, #0066ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020b18;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
         }
     </style>
+
+    <!-- JSON-LD Estruturado para SEO Avançado -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Guardian",
+      "operatingSystem": "Web Application",
+      "applicationCategory": "BusinessApplication, BusinessIntelligence",
+      "description": "Plataforma inteligente da MFRGS INOVAÇÕES para auditoria, due diligence e compliance através da estruturação e correlação inteligente de dados públicos.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "MFRGS INOVAÇÕES",
+        "url": "https://mfrgs.com.br"
+      }
+    }
+    </script>
 </head>
-<body class="bg-gray-950 text-white font-sans antialiased">
+<body class="antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Header Section -->
-    <header class="absolute w-full top-0 z-50 px-6 py-6 flex justify-between items-center max-w-7xl mx-auto left-0 right-0">
-        <h1 class="text-xl font-bold tracking-tight text-white">MFRGS INOVAÇÕES</h1>
-        <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
-            <a href="#" class="hover:text-white transition">Services</a>
-            <a href="#" class="hover:text-white transition">Compliance</a>
-            <a href="#" class="hover:text-white transition">Legal</a>
-        </nav>
-    </header>
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-white/5 transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                    <span class="w-2.5 h-6 bg-brand-500 rounded-full inline-block"></span>
+                    MFRGS <span class="font-light text-slate-400 text-sm tracking-widest uppercase ml-0.5">Inovações</span>
+                </span>
+                <span class="text-[10px] bg-brand-500/10 px-2 py-0.5 rounded-full text-brand-400 border border-brand-500/20 font-mono tracking-wider">GUARDIAN</span>
+            </div>
+            
+            <nav class="hidden md:flex items-center gap-8 text-xs font-medium text-slate-400 tracking-wide uppercase">
+                <a href="#storytelling" class="hover:text-white transition-colors">O Desafio</a>
+                <a href="#solucao" class="hover:text-white transition-colors">A Solução</a>
+                <a href="#recursos" class="hover:text-white transition-colors">Recursos</a>
+                <a href="#fontes" class="hover:text-white transition-colors">Fontes Oficiais</a>
+                <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+            </nav>
 
-    <!-- Main Hero Section -->
-    <main class="relative min-h-screen flex items-center justify-center overflow-hidden px-6 lg:px-8">
-        
-        <div class="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-gray-950 to-gray-950"></div>
-
-        <div class="relative z-10 max-w-4xl mx-auto text-center">
-            
-            <span class="text-base font-semibold leading-7 text-indigo-400 tracking-wide uppercase block mb-4">
-                Global Corporate Intelligence
-            </span>
-            
-            <h1 class="text-5xl font-bold tracking-tight text-white sm:text-7xl mb-6">
-                Enterprise Compliance and Verification at Scale
-            </h1>
-            
-            <p class="text-lg leading-8 text-gray-400 mb-10 max-w-2xl mx-auto">
-                Cross-border corporate data verification crossing data from official registries including Receita Federal, Juntas Comerciais, and Companies House. Ensure your business partnerships with real-time intelligence.
-            </p>
-          
-            <div class="flex items-center justify-center gap-x-6 mb-12">
-                <a href="#" class="rounded-lg bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm shadow-indigo-600/50 hover:bg-indigo-500 transition-all duration-300 active:scale-[0.98]">
-                    Start Corporate Verification
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#cta" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-all shadow-lg shadow-brand-500/20 active:scale-95">
+                    Demonstração
                 </a>
             </div>
 
-            <!-- Legal Disclaimer Section -->
-            <div class="p-6 rounded-lg bg-gray-900/50 border border-gray-800 text-xs text-gray-500 text-left glassmorphism shadow-2xl">
-                <p class="font-semibold text-white mb-2 text-sm">Legal Disclaimer & Limitation of Liability</p>
-                <p class="mb-2">
-                    MFRGS INOVAÇÕES provides corporate data aggregation and verification services based exclusively on publicly available public records and governmental databases. We act solely as a technology facilitator for data access. We do not guarantee the absolute accuracy, completeness, or current validity of the primary sources.
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-slate-300 hover:text-white p-2 focus:outline-none" id="mobile-menu-btn" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mobile-menu">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div class="hidden md:hidden border-t border-white/5 bg-brand-950/95 px-4 py-6 space-y-4" id="mobile-menu">
+            <a href="#storytelling" class="block text-base font-medium text-slate-300 hover:text-white">O Desafio</a>
+            <a href="#solucao" class="block text-base font-medium text-slate-300 hover:text-white">A Solução</a>
+            <a href="#recursos" class="block text-base font-medium text-slate-300 hover:text-white">Recursos</a>
+            <a href="#fontes" class="block text-base font-medium text-slate-300 hover:text-white">Fontes Oficiais</a>
+            <a href="#faq" class="block text-base font-medium text-slate-300 hover:text-white">FAQ</a>
+            <div class="pt-4 border-t border-white/5">
+                <a href="#cta" class="block text-center bg-brand-500 text-white px-4 py-2.5 rounded-lg text-base font-semibold">Solicitar Acesso</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <!-- Elementos de Luz Gradiente (Glows de Fundo) -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-brand-500/10 rounded-full blur-[130px] pointer-events-none"></div>
+        <div class="absolute top-20 right-10 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <!-- Badge Superior -->
+            <div class="inline-flex items-center gap-2 bg-brand-500/5 border border-brand-500/20 px-3 py-1.5 rounded-full text-xs font-medium tracking-wider text-brand-100 mb-8 uppercase">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse"></span>
+                Inteligência Pública de Alta Performance
+            </div>
+
+            <!-- Título Principal -->
+            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white mb-6 max-w-5xl mx-auto leading-[1.1] brand-gradient">
+                A verdade corporativa estruturada a partir de dados públicos.
+            </h1>
+
+            <!-- Subtítulo -->
+            <p class="text-base sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 font-normal leading-relaxed">
+                Centralize, correlacione e monitore informações de registros oficiais, diários oficiais e portais governamentais. Mitigue riscos jurídicos e acelere auditorias corporativas.
+            </p>
+
+            <!-- Ações CTA -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <a href="#cta" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 rounded-xl text-sm font-semibold transition-all shadow-xl shadow-brand-500/20 flex items-center justify-center gap-2 group">
+                    Iniciar Análise Estratégica
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+                <a href="#solucao" class="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 px-8 py-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center">
+                    Entenda a Arquitetura
+                </a>
+            </div>
+
+            <!-- Mockup do Console Analítico (Visual High-Tech Linear/Vercel style) -->
+            <div class="relative max-w-5xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-white/10 glass-panel p-4 group text-left">
+                <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4 text-xs text-slate-500 font-mono">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/30"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/30"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500/30"></span>
+                        <span class="ml-2 text-slate-400">guardian_engine_core.py</span>
+                    </div>
+                    <div>STATUS: OPERACIONAL</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs text-slate-300">
+                    <div class="p-4 bg-black/40 rounded-lg border border-white/5">
+                        <div class="text-slate-500 mb-1">// FONTES INTEGRADAS</div>
+                        <div class="text-xl font-bold text-white tracking-tight">420+ <span class="text-xs text-brand-500">Mapeadas</span></div>
+                        <div class="mt-2 text-[11px] text-slate-400">Tribunais, Diários Oficiais e Receita Federal.</div>
+                    </div>
+                    <div class="p-4 bg-black/40 rounded-lg border border-white/5">
+                        <div class="text-slate-500 mb-1">// MONITORAMENTO AUTOMATIZADO</div>
+                        <div class="text-xl font-bold text-emerald-400 tracking-tight">Tempo Real</div>
+                        <div class="mt-2 text-[11px] text-slate-400">Varreduras programadas e cruzamento ágil.</div>
+                    </div>
+                    <div class="p-4 bg-black/40 rounded-lg border border-white/5">
+                        <div class="text-slate-500 mb-1">// PRECISÃO E VERACIDADE</div>
+                        <div class="text-xl font-bold text-white tracking-tight">100% <span class="text-xs text-slate-500">Pública</span></div>
+                        <div class="mt-2 text-[11px] text-slate-400">Indexação fidedigna sem alteração do dado bruto.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legitimidade & Disclaimer Legal Strip -->
+    <div class="border-y border-white/5 bg-brand-950/60 py-6 text-center text-xs text-slate-400 px-4">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center gap-3">
+            <span class="inline-block bg-brand-500/10 text-brand-400 font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-brand-500/20">Nota Importante de Responsabilidade</span>
+            <p class="max-w-3xl text-left md:text-center">O Guardian organiza e correlaciona exclusivamente dados provenientes de fontes públicas e oficiais. A plataforma não cria informações, não realiza juízos de valor nem substitui pareceres profissionais, técnicos ou jurídicos.</p>
+        </div>
+    </div>
+
+    <!-- Storytelling Section -->
+    <section id="storytelling" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5">
+                <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">O Contexto Atual</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-3 mb-6">
+                    A velocidade dos dados fragmentados superou a capacidade humana de análise.
+                </h2>
+                <p class="text-slate-400 mb-4 leading-relaxed">
+                    Todos os dias, milhares de páginas de diários oficiais são publicadas, novos processos são distribuídos e alterações societárias críticas ocorrem. O risco operacional ou jurídico não avisa quando vai se consolidar.
                 </p>
-                <p>
-                    Under no circumstances shall MFRGS INOVAÇÕES be liable for any direct, indirect, consequential, or special damages arising from the use of, or inability to use, our intelligence reports, or for any business decisions made in reliance thereon. By using our services, you acknowledge and agree to these terms.
+                <p class="text-slate-400 leading-relaxed">
+                    Empresas que ainda dependem de checagens manuais ou puramente reativas estão vulneráveis a passivos ocultos, fraudes de parceiros e falhas severas de compliance.
                 </p>
             </div>
-            
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="p-6 rounded-xl glass-panel">
+                    <div class="text-2xl font-bold text-white mb-2">94%</div>
+                    <p class="text-xs text-slate-400 leading-relaxed">Dos dados estratégicos de risco corporativo estão disponíveis publicamente, mas pulverizados em centenas de portais isolados do governo.</p>
+                </div>
+                <div class="p-6 rounded-xl glass-panel">
+                    <div class="text-2xl font-bold text-brand-500 mb-2">Incalculável</div>
+                    <p class="text-xs text-slate-400 leading-relaxed">É o tempo perdido por equipes analíticas e jurídicas emitindo certidões manuais que expiram em poucos dias.</p>
+                </div>
+            </div>
         </div>
-    </main>
+    </section>
 
+    <!-- Problema vs Solução -->
+    <section id="solucao" class="py-24 bg-slate-950/40 border-y border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">A Transformação</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-3">Do Caos à Estrutura Correlacionada</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- O Problema -->
+                <div class="p-8 rounded-xl bg-red-950/10 border border-red-500/20">
+                    <div class="flex items-center gap-3 mb-6 text-red-400 font-semibold tracking-tight text-sm uppercase font-mono">
+                        <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        Modelo Tradicional Fragmentado
+                    </div>
+                    <ul class="space-y-4 text-xs sm:text-sm text-slate-400">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-red-500 font-bold">✕</span> Varreduras estáticas e demoradas em portais individuais.
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-red-500 font-bold">✕</span> Falta de unificação: dados soltos que não mostram o cenário societário real.
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-red-500 font-bold">✕</span> Análises pontuais que se desatualizam poucas horas após a extração.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- A Solução -->
+                <div class="p-8 rounded-xl bg-brand-500/5 border border-brand-500/20">
+                    <div class="flex items-center gap-3 mb-6 text-brand-400 font-semibold tracking-tight text-sm uppercase font-mono">
+                        <svg class="w-5 h-5 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        A Abordagem Guardian
+                    </div>
+                    <ul class="space-y-4 text-xs sm:text-sm text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-bold">✓</span> Monitoramento em lote automatizado de fontes públicas essenciais.
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-bold">✓</span> Vinculação lógica imediata de CNPJ, CPF, processos e diários oficiais.
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-bold">✓</span> Centralização em uma única camada inteligente voltada para a governança.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recursos Principais -->
+    <section id="recursos" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">Capacidades Técnicas</span>
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-3">Desenvolvido para Cenários Corporativos Complexos</h2>
+            <p class="text-slate-400 mt-4 text-sm sm:text-base">Módulos robustos focados na exatidão, organização e consolidação de registros oficiais.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Inteligência Corporativa -->
+            <div class="p-8 rounded-xl glass-panel flex flex-col justify-between">
+                <div>
+                    <div class="text-xs font-mono text-brand-500 mb-4 uppercase tracking-widest">// INTEL_CORE</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Inteligência Corporativa</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Suporte à decisão executiva através do mapeamento de estruturas societárias, conexões de mercado e alterações cadastrais de interesse estratégico.</p>
+                </div>
+            </div>
+            <!-- Compliance & Due Diligence -->
+            <div class="p-8 rounded-xl glass-panel flex flex-col justify-between">
+                <div>
+                    <div class="text-xs font-mono text-brand-500 mb-4 uppercase tracking-widest">// COMPLIANCE_MOD</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Due Diligence & Auditoria</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Avaliação ágil de fornecedores, prestadores e parceiros comerciais com base na regularidade fiscal, trabalhista e reputacional pública.</p>
+                </div>
+            </div>
+            <!-- Proteção Jurídica Ativa -->
+            <div class="p-8 rounded-xl glass-panel flex flex-col justify-between">
+                <div>
+                    <div class="text-xs font-mono text-brand-500 mb-4 uppercase tracking-widest">// LEGAL_SHIELD</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Proteção Jurídica</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Identificação antecipada de novas distribuições processuais, execuções fiscais ou citações em diários públicos oficiais antes de notificações formais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section class="py-24 bg-slate-950/40 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">Fluxo de Engenharia</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-3">A Jornada do Dado à Visualização</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="relative">
+                    <div class="text-3xl font-bold text-brand-500/10 mb-2 font-mono">01 / CAPTURA</div>
+                    <h4 class="text-sm font-semibold text-white mb-2">Acesso Consolidado</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">A plataforma realiza consultas automatizadas e estruturadas diretamente nos repositórios e portais governamentais abertos.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-3xl font-bold text-brand-500/10 mb-2 font-mono">02 / PARSING</div>
+                    <h4 class="text-sm font-semibold text-white mb-2">Higienização e Estrutura</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Textos complexos de diários ou ementas jurídicas são tratados e convertidos em esquemas de dados limpos e legíveis.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-3xl font-bold text-brand-500/10 mb-2 font-mono">03 / MATRIX</div>
+                    <h4 class="text-sm font-semibold text-white mb-2">Correlação Avançada</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Cruzamento analítico de vínculos entre CNPJ, processos ativos e certidões para identificar potenciais riscos e conexões lógicas.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-3xl font-bold text-brand-500/10 mb-2 font-mono">04 / DASHBOARD</div>
+                    <h4 class="text-sm font-semibold text-white mb-2">Apoio à Decisão</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Os dados consolidados são exibidos em uma interface limpa, ágil e focada em otimizar a triagem operacional de riscos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fontes Oficiais & Segurança (LGPD) -->
+    <section id="fontes" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5">
+                <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">Segurança & Legalidade</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-3 mb-6">Conformidade Estrita com a LGPD e Legislação Vigente</h2>
+                <p class="text-slate-400 mb-4 text-sm leading-relaxed">
+                    O Guardian opera sob estrita conformidade legal, utilizando apenas dados de legítimo interesse corporativo e tornados manifestamente públicos pelas autoridades competentes.
+                </p>
+                <div class="flex items-start gap-4 mt-8 p-4 bg-brand-500/5 border border-brand-500/20 rounded-xl">
+                    <span class="text-emerald-400 font-bold text-lg leading-none">✓</span>
+                    <p class="text-xs text-slate-300 leading-relaxed">Processamento transparente pautado no cumprimento de obrigações regulatórias, auditorias internas e mitigação de riscos comerciais legítimos.</p>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-7 bg-black/40 border border-white/5 rounded-xl p-6 sm:p-8 font-mono text-xs space-y-4">
+                <div class="text-slate-500">// FONTES EXCLUSIVAMENTE PÚBLICAS INDEXADAS</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-3 bg-white/5 rounded border border-white/5">
+                        <div class="text-white font-semibold mb-1">Tribunais de Justiça</div>
+                        <div class="text-[11px] text-slate-500 leading-normal">Mapeamento de distribuições cíveis, trabalhistas, federais e fiscais de âmbito nacional.</div>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded border border-white/5">
+                        <div class="text-white font-semibold mb-1">Diários Oficiais</div>
+                        <div class="text-[11px] text-slate-500 leading-normal">Monitoramento do Diário Oficial da União (DOU), estados e municípios para atos relevantes.</div>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded border border-white/5">
+                        <div class="text-white font-semibold mb-1">Receita Federal do Brasil</div>
+                        <div class="text-[11px] text-slate-500 leading-normal">Estruturas e composições de quadros de sócios e administradores (QSA) e capitais sociais.</div>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded border border-white/5">
+                        <div class="text-white font-semibold mb-1">Cadastros e Transparência</div>
+                        <div class="text-[11px] text-slate-500 leading-normal">Consulta a bases restritivas governamentais abertas, como CEIS, CEPIM e sanções públicas.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Casos de Uso -->
+    <section class="py-24 bg-slate-950/40 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">Aplicações Práticas</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-3">Impacto Estratégico por Setor</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-brand-950/40 border border-white/5 rounded-xl">
+                    <h4 class="text-base font-semibold text-white mb-3">Diretoria Executiva</h4>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Apoio ágil e embasado em dados oficiais organizados antes de parcerias estratégicas, joint ventures ou novos investimentos no mercado.</p>
+                </div>
+                <div class="p-6 bg-brand-950/40 border border-white/5 rounded-xl">
+                    <h4 class="text-base font-semibold text-white mb-3">Gestão de Riscos & Supply Chain</h4>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Homologação constante e segura de fornecedores de grande porte, prevenindo quebras contratuais ou corresponsabilidade trabalhista.</p>
+                </div>
+                <div class="p-6 bg-brand-950/40 border border-white/5 rounded-xl">
+                    <h4 class="text-base font-semibold text-white mb-3">M&A e Fusões</h4>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">Aceleração da auditoria investigativa preliminar em empresas-alvo antes do avanço para fases vinculantes de auditoria interna.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="text-xs font-mono tracking-widest text-brand-500 uppercase">Esclarecimentos</span>
+            <h2 class="text-3xl font-bold tracking-tight text-white mt-3">Dúvidas Frequentes</h2>
+        </div>
+
+        <div class="space-y-4">
+            <!-- Pergunta 1 -->
+            <div class="border border-white/5 rounded-xl bg-brand-950/20 overflow-hidden">
+                <button class="w-full p-6 text-left font-medium text-sm sm:text-base text-white flex items-center justify-between hover:bg-white/5 transition-colors faq-btn focus:outline-none">
+                    <span>O Guardian emite pareceres jurídicos ou relatórios de crédito?</span>
+                    <span class="text-brand-500 font-bold ml-4 text-xl leading-none">+</span>
+                </button>
+                <div class="hidden p-6 pt-0 text-xs sm:text-sm text-slate-400 border-t border-white/5 bg-black/20 leading-relaxed">
+                    Não. O Guardian não emite nenhum tipo de juízo de valor, análise de crédito, nota reputacional ou parecer jurídico. A ferramenta atua exclusivamente como um organizador técnico de informações estruturadas de interesse público. Caberá sempre aos profissionais especializados a interpretação final dos dados.
+                </div>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="border border-white/5 rounded-xl bg-brand-950/20 overflow-hidden">
+                <button class="w-full p-6 text-left font-medium text-sm sm:text-base text-white flex items-center justify-between hover:bg-white/5 transition-colors faq-btn focus:outline-none">
+                    <span>A plataforma armazena ou comercializa dados privados?</span>
+                    <span class="text-brand-500 font-bold ml-4 text-xl leading-none">+</span>
+                </button>
+                <div class="hidden p-6 pt-0 text-xs sm:text-sm text-slate-400 border-t border-white/5 bg-black/20 leading-relaxed">
+                    Não. O compromisso da MFRGS INOVAÇÕES é com a transparência total. O Guardian realiza pesquisas indexadas unicamente em fontes declaradas abertas e oficiais pelo governo brasileiro, vedando o uso de vazamentos de dados ou informações que violem o sigilo legal.
+                </div>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="border border-white/5 rounded-xl bg-brand-950/20 overflow-hidden">
+                <button class="w-full p-6 text-left font-medium text-sm sm:text-base text-white flex items-center justify-between hover:bg-white/5 transition-colors faq-btn focus:outline-none">
+                    <span>Como as informações são atualizadas na plataforma?</span>
+                    <span class="text-brand-500 font-bold ml-4 text-xl leading-none">+</span>
+                </button>
+                <div class="hidden p-6 pt-0 text-xs sm:text-sm text-slate-400 border-t border-white/5 bg-black/20 leading-relaxed">
+                    As requisições e varreduras analíticas ocorrem de forma programada e parametrizada conforme a demanda do monitoramento corporativo, buscando sempre refletir o estado mais recente publicado nos respectivos diários e painéis oficiais do Estado.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final e Formulário de Contato -->
+    <section id="cta" class="py-24 bg-gradient-to-b from-brand-950 to-black relative border-t border-white/5">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-brand-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-6">
+                Leve a inteligência de dados pública para o núcleo estratégico do seu negócio.
+            </h2>
+            <p class="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+                Entre em contato com nossa equipe técnica para alinhar um mapeamento analítico direcionado à governança corporativa da sua instituição.
+            </p>
+            
+            <form id="contact-form" class="max-w-md mx-auto space-y-4 text-left p-6 rounded-xl glass-panel border border-white/10">
+                <div>
+                    <label for="name" class="block text-xs font-medium text-slate-300 mb-1">Nome do Gestor</label>
+                    <input type="text" id="name" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-brand-500 transition-colors">
+                </div>
+                <div>
+                    <label for="email" class="block text-xs font-medium text-slate-300 mb-1">E-mail Corporativo</label>
+                    <input type="email" id="email" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-brand-500 transition-colors">
+                </div>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm py-3 rounded-lg transition-all shadow-lg shadow-brand-500/10 active:scale-95">
+                    Solicitar Diagnóstico Técnico
+                </button>
+                <div id="form-success" class="hidden text-xs text-emerald-400 text-center mt-2 font-medium">✓ Solicitação simulada com sucesso para MFRGS INOVAÇÕES!</div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-black py-12 text-slate-600 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-left">
+                <p class="font-semibold text-slate-300 text-sm mb-1 tracking-tight">MFRGS INOVAÇÕES</p>
+                <p class="mt-1">&copy; 2026 MFRGS INOVAÇÕES. Todos os direitos reservados. Guardian é uma plataforma proprietária.</p>
+            </div>
+            <div class="flex items-center gap-6 text-slate-400 font-medium">
+                <a href="#storytelling" class="hover:text-white transition-colors">Sobre o Risco</a>
+                <a href="#fontes" class="hover:text-white transition-colors">Políticas de Uso de Dados</a>
+                <a href="#faq" class="hover:text-white transition-colors">Termos Legais</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Vanilla Limpo e Otimizado -->
+    <script>
+        // Transição de opacidade do Header no Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 40) {
+                header.classList.add('bg-brand-950/95', 'shadow-xl');
+            } else {
+                header.classList.remove('bg-brand-950/95', 'shadow-xl');
+            }
+        });
+
+        // Alternância do Menu Mobile (Acessibilidade Basica)
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            menuBtn.setAttribute('aria-expanded', !isHidden);
+        });
+
+        // Mecanismo Sanfona (Accordion) do FAQ
+        const faqBtns = document.querySelectorAll('.faq-btn');
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('span:last-child');
+                const isCollapsed = content.classList.toggle('hidden');
+                icon.textContent = isCollapsed ? '+' : '−';
+            });
+        });
+
+        // Captura e Envio do Formulário de Contato
+        const form = document.getElementById('contact-form');
+        const successMsg = document.getElementById('form-success');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            successMsg.classList.remove('hidden');
+            form.reset();
+        });
+    </script>
 </body>
 </html>
