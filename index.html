@@ -1,135 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS INOVAÇÕES | Enterprise Intelligence & Compliance</title>
+    <title>MFRGS INOVAÇÕES | Corporate Intelligence & Compliance Network</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        enterprise: {
+                            50: '#f0f4f8',
+                            100: '#dbe3ec',
+                            700: '#1e293b',
+                            800: '#0f172a',
+                            900: '#020617',
+                            accent: '#3b82f6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .glow-button {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between">
+<body class="bg-enterprise-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between antialiased selection:bg-blue-500/30 selection:text-white">
 
-    <!-- Header / Navbar -->
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">M</div>
-                <span class="text-lg font-bold tracking-wider text-white">MFRGS INOVAÇÕES</span>
+    <!-- Header / Enterprise Navigation -->
+    <header class="border-b border-slate-800/80 bg-enterprise-900/70 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3.5 group cursor-pointer">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center font-extrabold text-white shadow-xl shadow-blue-500/10 transform group-hover:scale-105 transition duration-300">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-md font-black tracking-widest text-white leading-none">MFRGS</span>
+                    <span class="text-[10px] font-bold tracking-wider text-blue-400 uppercase mt-0.5">INOVAÇÕES</span>
+                </div>
             </div>
-            <nav class="flex space-x-6 text-sm font-medium text-slate-400">
-                <a href="#features" class="hover:text-white transition">Features</a>
-                <a href="#pipeline" class="hover:text-white transition">Search Hub</a>
-                <a href="#legal-disclaimer" class="hover:text-white transition">Legal Disclaimer</a>
+            <nav class="hidden md:flex space-x-10 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <a href="#architecture" class="hover:text-blue-400 transition-colors duration-200">Architecture</a>
+                <a href="#pipeline" class="hover:text-blue-400 transition-colors duration-200">Execution Hub</a>
+                <a href="#legal-disclaimer" class="hover:text-blue-400 transition-colors duration-200">Compliance Terms</a>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 space-y-16">
+    <!-- Main Operational Workspace -->
+    <main class="flex-grow py-20 px-4 sm:px-6 lg:px-8 space-y-28 max-w-7xl mx-auto w-full">
         
         <!-- Hero Section -->
-        <div class="text-center space-y-4 max-w-3xl mx-auto">
-            <span class="px-3 py-1 text-xs font-semibold tracking-wider text-blue-400 bg-blue-500/10 rounded-full border border-blue-500/20 uppercase">B2B Compliance Engine</span>
-            <h1 class="text-4xl font-extrabold text-white tracking-tight sm:text-5xl mt-3">Instant Business Auditing & Risk Assessment</h1>
-            <p class="text-base text-slate-400 max-w-xl mx-auto">Verify legal entities, analyze corporate structures, and download risk compliance reports directly from official public registries.</p>
+        <div class="text-center space-y-6 max-w-4xl mx-auto">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 text-[11px] font-bold tracking-widest text-blue-400 bg-blue-500/10 rounded-full border border-blue-500/20 uppercase shadow-inner">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                <span>B2B Global Compliance Engine v1.2</span>
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.1] bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Automated Corporate Intelligence Network
+            </h1>
+            <p class="text-md sm:text-lg text-slate-400 max-w-2xl mx-auto font-normal leading-relaxed">
+                Query, cross-match, and isolate entity risk telemetry across legal databases in real-time. Designed for international legal defense and strategic asset verification.
+            </p>
         </div>
 
-        <!-- Diferenciais Estratégicos (Features requisitadas pelo Guardian) -->
-        <section id="features" class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 space-y-2">
-                <div class="text-blue-500 font-bold text-lg">✓ Global Datashare</div>
-                <p class="text-xs text-slate-400">Cross-border information processing mapping local and international corporate data frameworks in seconds.</p>
+        <!-- Architecture Division (Rebuilt Features) -->
+        <section id="architecture" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="glass-panel p-8 rounded-2xl border border-slate-800/60 shadow-xl flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-300">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white tracking-wide">Target Discovery</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Algorithmic ingestion of raw target strings with direct parsing for structured legal identification records.</p>
+                </div>
             </div>
-            <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 space-y-2">
-                <div class="text-blue-500 font-bold text-lg">✓ Automated Matching</div>
-                <p class="text-xs text-slate-400">Smart parsing logic cleans strings, validates identifiers (CPF/CNPJ), and structural registry matching flawlessly.</p>
+            <!-- Card 2 -->
+            <div class="glass-panel p-8 rounded-2xl border border-slate-800/60 shadow-xl flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-300">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white tracking-wide">Data Aggregation</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Consolidated synchronization pipelines extracting live status criteria from active governmental repositories.</p>
+                </div>
             </div>
-            <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 space-y-2">
-                <div class="text-blue-500 font-bold text-lg">✓ Fast-Track Checkout</div>
-                <p class="text-xs text-slate-400">Direct integration to instant processing triggers, enabling corporate legal defense teams to execute fast audits.</p>
+            <!-- Card 3 -->
+            <div class="glass-panel p-8 rounded-2xl border border-slate-800/60 shadow-xl flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-300">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white tracking-wide">Risk Mitigation</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Immediate verification logs mapped cleanly onto enterprise-grade dashboards for compliance processing.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Operational Hub (Formulário de Busca focado) -->
-        <section id="pipeline" class="max-w-xl mx-auto bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 backdrop-blur shadow-2xl space-y-6">
-            
-            <div class="text-center space-y-1">
-                <h2 class="text-xl font-bold text-white">Live Verification Hub</h2>
-                <p class="text-xs text-slate-400">Input target identifier data to execute database mapping.</p>
-            </div>
+        <!-- Execution Hub (Refined Glassmorphism Form) -->
+        <section id="pipeline" class="max-w-xl mx-auto w-full">
+            <div class="glass-panel p-10 rounded-3xl border border-slate-700/40 shadow-2xl space-y-8 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+                
+                <div class="text-center space-y-1.5">
+                    <h2 class="text-2xl font-bold text-white tracking-wide">Secure Verification Terminal</h2>
+                    <p class="text-xs text-slate-400">Authorized request interface for production database telemetry.</p>
+                </div>
 
-            <form id="verificationForm" class="space-y-6">
-                <div class="space-y-4">
-                    
-                    <!-- Email Field -->
-                    <div>
-                        <label for="email" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Corporate Requestor Email</label>
-                        <input type="email" id="email" required placeholder="attorney@firm.com" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium">
-                    </div>
+                <form id="verificationForm" class="space-y-6">
+                    <div class="space-y-5">
+                        <!-- Email Input -->
+                        <div class="space-y-2">
+                            <label for="email" class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest">Corporate Requester Email</label>
+                            <input type="email" id="email" required placeholder="operator@firm.com" class="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 font-medium">
+                        </div>
 
-                    <!-- Target Identifier -->
-                    <div>
-                        <label for="companyNumber" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Target Document (CPF or CNPJ)</label>
-                        <input type="text" id="companyNumber" required placeholder="11 digits for CPF / 14 digits for CNPJ" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium">
-                    </div>
+                        <!-- Document Input -->
+                        <div class="space-y-2">
+                            <label for="companyNumber" class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest">Target Document Identifier</label>
+                            <input type="text" id="companyNumber" required placeholder="11-digit CPF / 14-digit CNPJ" class="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 font-medium tracking-wide">
+                        </div>
 
-                    <!-- Priority Level Selection -->
-                    <div>
-                        <label for="priority" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Audit Priority Track</label>
-                        <div class="relative">
-                            <select id="priority" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition font-medium appearance-none cursor-pointer">
-                                <option value="standard">Standard Digital Verification ($49.00 USD)</option>
-                                <option value="priority">Priority Certified Compliance Track ($99.00 USD)</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        <!-- Priority Track Dropdown -->
+                        <div class="space-y-2">
+                            <label for="priority" class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest">Processing Speed Vector</label>
+                            <div class="relative">
+                                <select id="priority" class="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 font-medium appearance-none cursor-pointer">
+                                    <option value="standard">Standard Digital Verification Track ($49.00 USD)</option>
+                                    <option value="priority">Priority Certified Compliance Track ($99.00 USD)</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
+                    <!-- Action Control -->
+                    <button type="submit" id="submitBtn" class="w-full glow-button bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-6 rounded-xl text-xs uppercase tracking-widest shadow-lg flex items-center justify-center space-x-2">
+                        <span id="btnText">Execute Telemetry Search</span>
+                    </button>
+                </form>
 
-                <!-- Submit Button -->
-                <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/20 transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500-sm uppercase tracking-wider flex items-center justify-center space-x-2">
-                    <span id="btnText">Execute Corporate Search</span>
-                </button>
-            </form>
-
-            <!-- Box Dinâmico para Resultados -->
-            <div id="resultBox" class="hidden p-5 bg-slate-900/80 border border-emerald-500/30 rounded-xl space-y-2">
-                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">🎯 Intelligence Map Retrieved</h3>
-                <div class="text-sm space-y-1">
-                    <p><span class="text-slate-400">Entity Legal Name:</span> <span id="resName" class="text-white font-semibold"></span></p>
-                    <p><span class="text-slate-400">Registry Status:</span> <span id="resStatus" class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"></span></p>
-                    <p><span class="text-slate-400">Log Timestamp:</span> <span id="resDate" class="text-slate-300"></span></p>
+                <!-- Result Card -->
+                <div id="resultBox" class="hidden p-6 bg-slate-950/60 border border-emerald-500/20 rounded-xl space-y-3 animate-fadeIn">
+                    <div class="flex items-center space-x-2 border-b border-slate-800/80 pb-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Telemetry Stream Synchronized</h3>
+                    </div>
+                    <div class="text-xs space-y-2">
+                        <div class="flex justify-between"><span class="text-slate-500">Entity Structure:</span> <span id="resName" class="text-white font-semibold tracking-wide"></span></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500">System State:</span> <span id="resStatus" class="px-2 py-0.5 text-[10px] font-black rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wide"></span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Registry Timestamp:</span> <span id="resDate" class="text-slate-400"></span></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Legal Disclaimer Section (Blindagem total requerida) -->
-        <section id="legal-disclaimer" class="max-w-3xl mx-auto p-6 bg-slate-950/40 rounded-xl border border-slate-800 space-y-4 text-justify">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-2">
-                <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                <span>Legal Terms of Liability & Data Provenance Disclaimer</span>
-            </h3>
+        <!-- Compliance & Legal Disclaimer -->
+        <section id="legal-disclaimer" class="max-w-4xl mx-auto p-8 bg-slate-950/30 rounded-2xl border border-slate-800/80 space-y-4 text-justify">
+            <div class="flex items-center space-x-2 border-b border-slate-800/60 pb-3">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Legal Architecture & Liability Framework</h3>
+            </div>
             <p class="text-[11px] leading-relaxed text-slate-500">
-                <strong>1. Natureza do Serviço e Ausência de Garantia Exclusiva:</strong> A MFRGS INOVAÇÕES, na qualidade de plataforma independente de tecnologia e automação de dados, expressamente declara que os relatórios e consultas gerados por seus algoritmos não constituem pareceres jurídicos formais, certidões oficiais dotadas de fé pública ou atestados infalíveis de regularidade civil ou comercial. A plataforma atua estritamente como ferramenta de consolidação tecnológica de dados.
+                <strong>1. Scope of Telemetry & Operational Limitation:</strong> MFRGS INOVAÇÕES operates purely as an independent software framework and routing engine. Information rendered via this interface does not constitute statutory certification, legal opinion, or binding government declaration.
             </p>
             <p class="text-[11px] leading-relaxed text-slate-500">
-                <strong>2. Proveniência dos Dados e Fontes Oficiais:</strong> Toda a inteligência corporativa e relatórios emitidos são baseados no espelhamento, processamento de requisições e compilação de dados públicos obtidos diretamente de fontes governamentais externas e bureaus regulamentados terceiros, incluindo, mas não se limitando a: <em>Receita Federal do Brasil (RFB), Juntas Comerciais Estaduais, Companies House (Reino Unido) e OpenCorporates API</em>. Portanto, a MFRGS INOVAÇÕES não assume qualquer responsabilidade pela exatidão, integridade, mutabilidade ou eventuais inconsistências temporárias contidas nos registros originais destas instituições terceiras.
+                <strong>2. Data Provenance Boundaries:</strong> System indices rely on continuous public data aggregation mirrors, sourcing raw feeds directly from public domain legal indexes, including the <em>Receita Federal do Brasil (RFB), Juntas Comerciais, Companies House (UK), and OpenCorporates</em>. MFRGS INOVAÇÕES accepts no civil liability for record latency or origin-tier missing nodes.
             </p>
             <p class="text-[11px] leading-relaxed text-slate-500">
-                <strong>3. Isenção Integral de Responsabilidade Civil e Comercial:</strong> O usuário assume total e exclusivo risco pelas decisões comerciais, transações financeiras, parcerias B2B ou análises de risco de crédito realizadas com base nas informações visualizadas. Sob nenhuma circunstância a MFRGS INOVAÇÕES, seus fundadores, desenvolvedores ou prepostos serão responsabilizados civil, administrativa ou judicialmente por lucros cessantes, danos diretos, indiretos ou prejuízos decorrentes de falhas nas bases originais dos órgãos emissores.
+                <strong>3. Absolute Indemnification Clause:</strong> Requesters assume total transaction risk. Under no theory of commercial code or statutory tort shall MFRGS INOVAÇÕES or its developers be liable for internal business loss, transactional failure, or structural mitigation liabilities based on output stream data.
             </p>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800/60 py-6 bg-slate-950/20 text-center text-xs text-slate-500 space-y-1">
-        <p>&copy; 2026 MFRGS INOVAÇÕES. All professional rights reserved. Corporate Integrity Network.</p>
+    <footer class="border-t border-slate-800/40 py-8 bg-slate-950/40 text-center text-[11px] text-slate-600 tracking-wide">
+        <div>&copy; 2026 MFRGS INOVAÇÕES. All technical rights reserved. International Compliance Network.</div>
     </footer>
 
-    <!-- Script de Busca -->
+    <!-- Production JavaScript Pipeline -->
     <script>
         document.getElementById('verificationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -141,27 +215,26 @@
 
             submitBtn.disabled = true;
             btnText.innerText = "Querying Live Registries...";
-            submitBtn.classList.replace('bg-blue-600', 'bg-slate-700');
             resultBox.classList.add('hidden');
 
             try {
                 const response = await fetch(`/api/search-company?document=${encodeURIComponent(documentInput)}`);
                 const data = await response.json();
 
-                if (!response.ok) throw new Error(data.error || 'Failed to fetch company details.');
+                if (!response.ok) throw new Error(data.error || 'Failed to isolate target telemetry.');
 
                 document.getElementById('resName').innerText = data.name;
                 document.getElementById('resStatus').innerText = data.status;
                 document.getElementById('resDate').innerText = data.registrationDate;
+                
                 resultBox.classList.remove('hidden');
 
             } catch (error) {
-                console.error("Pipeline Search Error:", error);
+                console.error("Pipeline Sync Error:", error);
                 alert(`Error: ${error.message}`);
             } finally {
                 submitBtn.disabled = false;
-                btnText.innerText = "Execute Corporate Search";
-                submitBtn.classList.replace('bg-slate-700', 'bg-blue-600');
+                btnText.innerText = "Execute Telemetry Search";
             }
         });
     </script>
