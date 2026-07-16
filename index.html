@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS INOVAÇÕES | Next-Gen Automation</title>
+    <title>MFRGS Digital Verification | International Business Verification</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -14,7 +14,7 @@
                         brand: {
                             dark: '#0B0F19',
                             card: '#151D30',
-                            accent: '#6366F1',
+                            accent: '#3B82F6', /* Trust Blue */
                             teal: '#14B8A6'
                         }
                     }
@@ -29,15 +29,17 @@
     <header class="fixed top-0 left-0 w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">
-                MFRGS INOVAÇÕES
+                MFRGS DIGITAL VERIFICATION
             </div>
             <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-300">
-                <a href="#features" class="hover:text-white transition">Features</a>
-                <a href="#pricing" class="hover:text-white transition">Pricing</a>
+                <a href="#problem" class="hover:text-white transition">The Threat</a>
+                <a href="#how-it-works" class="hover:text-white transition">Our Method</a>
+                <a href="#pricing" class="hover:text-white transition">Pricing Plans</a>
+                <a href="#legal" class="hover:text-white transition">Legal Disclaimer</a>
             </nav>
             <div>
-                <a href="#pricing" class="px-5 py-2.5 text-sm font-semibold bg-brand-accent hover:bg-indigo-500 rounded-lg transition shadow-lg shadow-brand-accent/20">
-                    Get Started
+                <a href="#pricing" class="px-5 py-2.5 text-sm font-semibold bg-brand-accent hover:bg-blue-600 rounded-lg transition shadow-lg shadow-brand-accent/20">
+                    Verify Now
                 </a>
             </div>
         </div>
@@ -48,122 +50,217 @@
         <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-accent/10 text-brand-accent border border-brand-accent/20">
-                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span> Now Live: International Operations
+                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span> Safe & Legally Compliant Verification
                 </span>
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
-                    Automate Your Workflow, <br>
-                    <span class="bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">Scale Your Revenue</span>
+                    Minimize Risk <br>
+                    <span class="bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">Before You Send Money</span>
                 </h1>
                 <p class="text-lg text-gray-400 max-w-xl mx-auto lg:mx-0">
-                    Deploy high-performance systems designed to scrape, automate, and process operations at scale. Zero friction, total control.
+                    Identify inactive registries, proxy structures, and structural inconsistencies through official records and public data before committing capital or signing new contracts.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="#pricing" class="w-full sm:w-auto px-8 py-4 text-center font-bold bg-brand-accent hover:bg-indigo-500 rounded-xl transition shadow-xl shadow-brand-accent/30">
-                        Explore Access Plans
+                    <a href="#pricing" class="w-full sm:w-auto px-8 py-4 text-center font-bold bg-brand-accent hover:bg-blue-600 rounded-xl transition shadow-xl shadow-brand-accent/30">
+                        Initiate Verification Report
                     </a>
-                    <a href="#features" class="w-full sm:w-auto px-8 py-4 text-center font-semibold bg-gray-800 hover:bg-gray-750 rounded-xl transition border border-gray-700">
+                    <a href="#how-it-works" class="w-full sm:w-auto px-8 py-4 text-center font-semibold bg-gray-800 hover:bg-gray-750 rounded-xl transition border border-gray-700">
                         How It Works
                     </a>
                 </div>
+                <p class="text-xs text-gray-500 italic">
+                    Fully transparent pricing. Verified using public registries and corporate filings. No hidden fees.
+                </p>
             </div>
-            <!-- Imagem 1: Hero Render -->
+            <!-- Image Frame -->
             <div class="lg:col-span-5 relative flex justify-center">
                 <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-accent to-brand-teal opacity-30 blur-2xl"></div>
-                <div class="relative bg-brand-card p-2 rounded-2xl border border-gray-850 shadow-2xl max-w-[450px]">
-                    <!-- COLOQUE AQUI O LINK DA PRIMEIRA IMAGEM GERADA NO IMAGEN 3 -->
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000" alt="Tech Visual" class="rounded-xl w-full object-cover aspect-square">
+                <div class="relative bg-brand-card p-2 rounded-2xl border border-gray-800 shadow-2xl max-w-[450px]">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000" alt="MFRGS Corporate Security Graphic" class="rounded-xl w-full object-cover aspect-square">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-24 bg-brand-card/30 border-y border-gray-900">
-        <div class="max-w-7xl mx-auto px-6">
+    <!-- Problem Section -->
+    <section id="problem" class="py-24 bg-brand-card/20 border-t border-gray-900">
+        <div class="max-w-5xl mx-auto px-6">
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Built for Speed and Reliability</h2>
-                <p class="text-gray-400">Everything you need to optimize web automation, scrape targets seamlessly, and monetize automatically.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-white">Why Business Verification Matters</h2>
+                <p class="text-gray-400">Operating in the global marketplace exposes you to severe commercial uncertainty. Protect your business from structural threats.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="p-8 bg-brand-card rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
-                    <div class="w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-6">
-                        ⚡
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Instant Execution</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Serverless automation pipeline running under optimized edge workers for maximum delivery speed.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-brand-card/50 rounded-xl border border-gray-800">
+                    <h3 class="text-lg font-bold text-red-400 mb-2">❌ Inactive & Dissolved Entities</h3>
+                    <p class="text-sm text-gray-400">Dealing with organizations that are legally struck off, leaving your agreements with zero legal standing.</p>
                 </div>
-                <!-- Card 2 -->
-                <div class="p-8 bg-brand-card rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
-                    <div class="w-12 h-12 rounded-lg bg-brand-teal/10 flex items-center justify-center text-brand-teal mb-6">
-                        🔍
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Scraping Engine</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Highly-resilient scrapers configured to bypass blockages, gathering structural data smoothly.</p>
+                <div class="p-6 bg-brand-card/50 rounded-xl border border-gray-800">
+                    <h3 class="text-lg font-bold text-red-400 mb-2">❌ Proxy and Shell Structures</h3>
+                    <p class="text-sm text-gray-400">Entities listing virtual mailboxes or hidden directors to completely evade operational accountability.</p>
                 </div>
-                <!-- Card 3 -->
-                <div class="p-8 bg-brand-card rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
-                    <div class="w-12 h-12 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6">
-                        💳
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Stripe Integration</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Ready-made international checkout pipelines, configured for both recurring models and instant payments.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section id="how-it-works" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                <h2 class="text-3xl font-bold tracking-tight">The MFRGS Verification Framework</h2>
+                <p class="text-gray-400">We do not offer speculation. We execute standard corporate analysis step-by-step.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                <!-- Ask -->
+                <div class="p-6 bg-brand-card rounded-xl border border-gray-800 relative">
+                    <div class="text-xs font-bold text-brand-accent mb-4">STAGE 01</div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Ask</h3>
+                    <p class="text-xs text-gray-400">Submit company name, registration number, website, or agreements.</p>
+                </div>
+                <!-- Verify -->
+                <div class="p-6 bg-brand-card rounded-xl border border-gray-800 relative">
+                    <div class="text-xs font-bold text-brand-teal mb-4">STAGE 02</div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Verify</h3>
+                    <p class="text-xs text-gray-400">We pull records from official government databases and corporate filings.</p>
+                </div>
+                <!-- Analyse -->
+                <div class="p-6 bg-brand-card rounded-xl border border-gray-800 relative">
+                    <div class="text-xs font-bold text-indigo-400 mb-4">STAGE 03</div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Analyse</h3>
+                    <p class="text-xs text-gray-400">Our team inspects address footprints, filing timelines, and leadership structure.</p>
+                </div>
+                <!-- Classify -->
+                <div class="p-6 bg-brand-card rounded-xl border border-gray-800 relative">
+                    <div class="text-xs font-bold text-yellow-400 mb-4">STAGE 04</div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Classify</h3>
+                    <p class="text-xs text-gray-400">We measure and score risk into Low, Medium, High, or Critical levels.</p>
+                </div>
+                <!-- Conclude -->
+                <div class="p-6 bg-brand-card rounded-xl border border-gray-800 relative">
+                    <div class="text-xs font-bold text-green-400 mb-4">STAGE 05</div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Conclude</h3>
+                    <p class="text-xs text-gray-400">Receive an objective, structured decision-making PDF report.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="py-24">
+    <section id="pricing" class="py-24 bg-brand-card/10 border-t border-gray-900">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Flexible, Transparent Pricing</h2>
-                <p class="text-gray-400">Choose the perfect plan to fuel your scaling operations. Secure checkout integrated via Stripe.</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Transparent Pricing Plans</h2>
+                <p class="text-gray-400">Verify your potential partner or supplier today. Flat rates, one-time payments securely via Stripe.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Plan 1 -->
-                <div class="p-10 bg-brand-card rounded-3xl border border-gray-800 relative flex flex-col justify-between">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 1. MFRGS Standard Execution -->
+                <div class="p-8 bg-brand-card rounded-2xl border border-gray-850 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-xl font-bold text-gray-200">Standard Access</h3>
-                        <p class="text-sm text-gray-400 mt-2">Perfect for independent creators and starting systems.</p>
+                        <h3 class="text-xl font-bold text-gray-200">Standard Execution</h3>
+                        <p class="text-xs text-gray-400 mt-2">Perfect for independent freelancers and micro-businesses verifying a single target.</p>
                         <div class="mt-6 flex items-baseline gap-1">
-                            <span class="text-4xl font-black">$49</span>
-                            <span class="text-sm text-gray-400">/mo</span>
+                            <span class="text-4xl font-black">$47</span>
+                            <span class="text-xs text-gray-400">/ One-time</span>
                         </div>
-                        <ul class="mt-8 space-y-4 text-sm text-gray-300">
-                            <li class="flex items-center gap-3">✔️ 10,000 monthly automation runs</li>
-                            <li class="flex items-center gap-3">✔️ Standard web scraping suite</li>
-                            <li class="flex items-center gap-3">✔️ Dashboard access & telemetry</li>
+                        <ul class="mt-8 space-y-4 text-xs text-gray-300 border-t border-gray-800 pt-6">
+                            <li>✔️ Standard registration verification</li>
+                            <li>✔️ Core active status check</li>
+                            <li>✔️ Basic address consistency</li>
+                            <li>✔️ Standard delivery (48 business hours)</li>
                         </ul>
                     </div>
-                    <!-- Substitua o link pelo seu checkout real do Stripe -->
-                    <a href="#" class="mt-8 block w-full py-3 text-center font-semibold bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-xl transition">
-                        Select Standard
+                    <a href="https://buy.stripe.com/4gMdRb78r1lsari2ftfMA0b" target="_blank" class="mt-8 block w-full py-3 text-center font-semibold bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-xl transition text-xs">
+                        Select Standard Access
                     </a>
                 </div>
 
-                <!-- Plan 2 -->
-                <div class="p-10 bg-brand-card rounded-3xl border-2 border-brand-accent relative flex flex-col justify-between">
-                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-accent text-white text-xs font-bold rounded-full">MOST POPULAR</span>
+                <!-- 2. MFRGS Priority Processing (Featured) -->
+                <div class="p-8 bg-brand-card rounded-2xl border-2 border-brand-accent relative flex flex-col justify-between">
+                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-accent text-white text-[10px] font-bold rounded-full">RECOMMENDED FOR DEALS</span>
                     <div>
-                        <h3 class="text-xl font-bold text-gray-200">Premium Operations</h3>
-                        <p class="text-sm text-gray-400 mt-2">Unlimited power for scaling startups and dynamic scrapers.</p>
+                        <h3 class="text-xl font-bold text-gray-200">Priority Processing</h3>
+                        <p class="text-xs text-gray-450 mt-2">Deep background evaluation and proxy address screening. Priority delivery queue.</p>
                         <div class="mt-6 flex items-baseline gap-1">
-                            <span class="text-4xl font-black">$99</span>
-                            <span class="text-sm text-gray-400">/mo</span>
+                            <span class="text-4xl font-black">$97</span>
+                            <span class="text-xs text-gray-400">/ One-time</span>
                         </div>
-                        <ul class="mt-8 space-y-4 text-sm text-gray-300">
-                            <li class="flex items-center gap-3">✔️ Unlimited edge operations</li>
-                            <li class="flex items-center gap-3">✔️ Dedicated rotating proxy networks</li>
-                            <li class="flex items-center gap-3">✔️ Premium custom webhooks</li>
-                            <li class="flex items-center gap-3">✔️ Direct developer API access</li>
+                        <ul class="mt-8 space-y-4 text-xs text-gray-300 border-t border-gray-800 pt-6">
+                            <li>✔️ In-depth structural analysis</li>
+                            <li>✔️ Directors & historical filings cross-match</li>
+                            <li>✔️ Virtual mailbox address detection</li>
+                            <li>✔️ Fast-track delivery (24 business hours)</li>
                         </ul>
                     </div>
-                    <!-- Substitua o link pelo seu checkout real do Stripe -->
-                    <a href="#" class="mt-8 block w-full py-3 text-center font-bold bg-brand-accent hover:bg-indigo-500 rounded-xl transition shadow-lg shadow-brand-accent/20">
-                        Go Premium
+                    <a href="https://buy.stripe.com/28EbJ350jd4a1UM5rFfMA0c" target="_blank" class="mt-8 block w-full py-3 text-center font-bold bg-brand-accent hover:bg-blue-600 rounded-xl transition shadow-lg shadow-brand-accent/20 text-xs">
+                        Start Priority Verification
                     </a>
+                </div>
+
+                <!-- 3. MFRGS High-End Batch Execution -->
+                <div class="p-8 bg-brand-card rounded-2xl border border-gray-850 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-200">High-End Batch</h3>
+                        <p class="text-xs text-gray-400 mt-2">Comprehensive batch screening designed for importers and growing procurement teams.</p>
+                        <div class="mt-6 flex items-baseline gap-1">
+                            <span class="text-4xl font-black">$247</span>
+                            <span class="text-xs text-gray-400">/ One-time</span>
+                        </div>
+                        <ul class="mt-8 space-y-4 text-xs text-gray-300 border-t border-gray-800 pt-6">
+                            <li>✔️ Up to 6 companies/suppliers verified</li>
+                            <li>✔️ Full-depth documentation & address reviews</li>
+                            <li>✔️ Consolidated executive portfolio summary</li>
+                            <li>✔️ Fast turnaround time (72 business hours)</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/00w28t8cvd4a42U6vJfMA0d" target="_blank" class="mt-8 block w-full py-3 text-center font-semibold bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-xl transition text-xs">
+                        Initiate Batch Processing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEGAL DISCLAIMER & TERMS OF SERVICE SECTION -->
+    <section id="legal" class="py-16 bg-brand-dark/50 border-t border-gray-950">
+        <div class="max-w-4xl mx-auto px-6 space-y-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold tracking-tight text-white">Legal Information & Liability Disclaimer</h2>
+                <p class="text-xs text-gray-500 mt-2">Please read our legal boundaries and operational framework carefully before ordering.</p>
+            </div>
+            
+            <div class="bg-brand-card/30 p-8 rounded-2xl border border-gray-800 text-xs text-gray-400 space-y-6 leading-relaxed">
+                <!-- 1. Scope of Service -->
+                <div>
+                    <h4 class="font-bold text-gray-200 uppercase tracking-wider mb-2">1. Scope of Service & Limitation of Liability</h4>
+                    <p>
+                        MFRGS Digital Verification (operated under MFRGS INOVAÇÕES) acts strictly as an independent data integration and research service. The reports, risk classifications, and insights provided are compiled exclusively from open-source intelligence (OSINT), publicly available corporate registries, and open official records at the exact time of the query. 
+                    </p>
+                    <p class="mt-2 font-semibold text-yellow-500/90">
+                        Under no circumstances shall MFRGS INOVAÇÕES, Gilberto Santos, or its affiliates be held liable for any direct, indirect, incidental, special, or consequential damages—including but not limited to loss of capital, failed transactions, broken contracts, or legal disputes—arising out of your decision to transact or not transact with any analyzed entity.
+                    </p>
+                </div>
+
+                <!-- 2. No Professional Advice -->
+                <div>
+                    <h4 class="font-bold text-gray-200 uppercase tracking-wider mb-2">2. No Legal, Financial, or Investment Advice</h4>
+                    <p>
+                        Our reports do not constitute legal advice, financial auditing, tax counsel, or investment recommendations. All risk classifications (Low, Medium, High, Critical) are objective technical evaluations of public data inconsistencies. You are strictly advised to consult with certified legal counsel and registered financial auditors before executing high-ticket international contracts or money transfers.
+                    </p>
+                </div>
+
+                <!-- 3. Accuracy and Source Reliability -->
+                <div>
+                    <h4 class="font-bold text-gray-200 uppercase tracking-wider mb-2">3. Accuracy and Source Reliability</h4>
+                    <p>
+                        While MFRGS INOVAÇÕES applies highly rigorous verification frameworks, we rely on third-party governmental databases, corporate registries, and public filings. MFRGS does not guarantee, warrant, or represent that the public registers themselves are 100% accurate, complete, or updated in real-time by their respective governmental jurisdictions. We deliver the truth of what is legally recorded at the time of verification.
+                    </p>
+                </div>
+
+                <!-- 4. Governing Law and Jurisdiction -->
+                <div>
+                    <h4 class="font-bold text-gray-200 uppercase tracking-wider mb-2">4. Governing Law and Jurisdiction</h4>
+                    <p>
+                        These terms, services, and any arising disputes shall be governed by and construed in accordance with the laws of the Federative Republic of Brazil. By purchasing any of our services, you explicitly agree that any legal action or proceeding relating to your access to or use of the services shall be instituted exclusively in the competent courts of Bahia, Brazil, waiving any other jurisdiction.
+                    </p>
                 </div>
             </div>
         </div>
@@ -174,8 +271,7 @@
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
             <div>&copy; 2026 MFRGS INOVAÇÕES. All rights reserved.</div>
             <div class="flex space-x-6">
-                <a href="#" class="hover:text-gray-300 transition">Privacy Policy</a>
-                <a href="#" class="hover:text-gray-300 transition">Terms of Service</a>
+                <a href="#legal" class="hover:text-gray-300 transition">Privacy & Compliance Commitment</a>
             </div>
         </div>
     </footer>
