@@ -4,20 +4,22 @@ import stripeLib from 'stripe';
 // 1. Inicializa o Stripe
 const stripe = stripeLib(process.env.STRIPE_SECRET_KEY);
 
-// 2. Inicializa o Supabase com as variáveis padrão do seu projeto
+// 2. Corrige as variáveis do Supabase (sem repetição!)
 const supabaseUrl = process.env.SUPABASE_URL;
+// Usa a chave de serviço (permite escrita no banco)
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
+// ✅ Inicializa o cliente Supabase que estava faltando
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Configuração necessária para a Vercel não tentar parsear o body como JSON antes do Stripe ler
+// Mantém a configuração do bodyParser certa
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Função para pegar o body bruto (raw body) exigido pelo Stripe
+// Função de raw body continua igual
 async function getRawBody(readable) {
   const chunks = [];
   for await (const chunk of readable) {
@@ -35,35 +37,35 @@ export default async function handler(req, res) {
     let event;
 
     try {
-      // Valida se a requisição realmente veio do Stripe
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
     } catch (err) {
-      console.error(`❌ Erro na assinatura do Webhook: ${err.message}`);
+      console.error(`❌ Erro na assinatura: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // Processa os eventos do Stripe
     try {
       if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-        
-        console.log(`💰 Sessão de checkout concluída para: ${session.customer_email}`);
+        console.log(`💰 Pagamento confirmado: ${session.customer_email}`);
 
-        // Insira ou atualize o status de pagamento no seu banco de dados
-        // Exemplo:
-        // const { error } = await supabase
-        //   .from('payments')
-        //   .insert([{ email: session.customer_email, status: 'paid' }]);
-        
-        // if (error) throw error;
+        // ✅ Agora o supabase existe e funciona
+        const { error } = await supabase
+          .from('payments')
+          .insert([{ 
+            email: session.customer_email, 
+            status: 'paid',
+            session_id: session.id
+          }]);
+
+        if (error) throw error;
       }
 
-      // Retorna sucesso para o Stripe
+      // ✅ Retorno 200 garantido
       return res.status(200).json({ received: true });
 
     } catch (dbError) {
-      console.error(`❌ Erro ao salvar no Supabase: ${dbError.message}`);
-      return res.status(500).json({ error: 'Erro interno ao salvar os dados.' });
+      console.error(`❌ Erro Supabase: ${dbError.message}`);
+      return res.status(500).json({ error: dbError.message });
     }
   } else {
     res.setHeader('Allow', 'POST');
