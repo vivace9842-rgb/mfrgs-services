@@ -1,98 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MFRGS - Painel de Vendas</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:40px 20px;background:#0f172a;color:#e2e8f0;min-height:100vh}
-.container{max-width:1200px;margin:0 auto}
-h1{font-size:32px;margin-bottom:8px}
-p.sub{color:#94a3b8;margin-bottom:30px;font-size:14px}
-.btn{background:#3b82f6;color:#fff;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;margin-bottom:20px}
-.btn:hover{background:#2563eb}
-table{width:100%;background:#1e293b;border-radius:12px;overflow:hidden;border-collapse:collapse}
-th{background:#334155;padding:16px;text-align:left;font-weight:600;color:#f8fafc;font-size:13px;text-transform:uppercase;letter-spacing:0.5px}
-td{padding:16px;border-bottom:1px solid #334155;font-size:14px}
-tr:hover{background:#252f47}
-tr:last-child td{border-bottom:none}
-.valor{color:#4ade80;font-weight:700;font-size:16px}
-.email{color:#60a5fa;font-weight:600}
-.status{background:#dcfce7;color:#166534;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
-.vazio{text-align:center;padding:60px 20px;color:#64748b;font-size:16px}
-.erro{background:#7f1d1d;color:#fca5a5;padding:20px;border-radius:8px;margin-bottom:20px;font-size:14px;line-height:1.6}
-.info{background:#1e3a5f;color:#93c5fd;padding:16px;border-radius:8px;margin-bottom:20px;font-size:13px;line-height:1.6}
-.footer{margin-top:40px;text-align:center;color:#475569;font-size:12px}
-@media(max-width:768px){body{padding:20px 10px}td,th{padding:12px 8px;font-size:12px}h1{font-size:24px}}
-</style>
-<base target="_blank">
+<head><meta charset="utf-8"><title>MFRGS</title>
+<style>body{font-family:sans-serif;padding:40px;background:#0f172a;color:#fff}table{width:100%;background:#1e293b;border-radius:12px;border-collapse:collapse}th{background:#334155;padding:14px;text-align:left}td{padding:14px;border-bottom:1px solid #334155}.vazio{text-align:center;padding:40px;color:#94a3b8}</style>
 </head>
 <body>
-<div class="container">
-<h1>💰 MFRGS - Painel de Vendas</h1>
-<p class="sub">Atualize a página para ver novas vendas. Sem celular, sem complicação.</p>
-<button class="btn" onclick="location.reload()">🔄 Atualizar Página</button>
-<div id="msg"></div>
-<table>
-<thead><tr><th>Data/Hora</th><th>Email do Cliente</th><th>Valor</th><th>Status</th></tr></thead>
-<tbody id="tb"><tr><td colspan="4" class="vazio">Carregando vendas...</td></tr></tbody>
-</table>
-<div class="footer">© 2026 MFRGS Digital Verification</div>
-</div>
-
-<script>
-// SUBSTITUA AQUI SUAS CREDENCIAIS DO SUPABASE
-const SUPABASE_URL ="https://ggbhtrybmjzyalsrjxtg.supabase.co";        // ex: https://abc123.supabase.co
-const SUPABASE_KEY ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnYmh0cnlibWp6eWFsc3JqeHRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NzczMjUsImV4cCI6MjA5NjQ1MzMyNX0.A-SWQJy_4it4azN2HKIXgfzTfcz9aFbwaqlZw09QDg0"';   // ex: eyJhbG...
-
-async function load() {
-  const msg = document.getElementById('msg');
-  const tb = document.getElementById('tb');
-
-  if (SUPABASE_URL === 'COLE_SUA_URL_AQUI' || SUPABASE_KEY === 'COLE_SUA_ANON_KEY_AQUI') {
-    msg.innerHTML = '<div class="erro">⚠️ <b>Configure suas credenciais!</b><br>Abra este arquivo no VS Code e substitua COLE_SUA_URL_AQUI e COLE_SUA_ANON_KEY_AQUI pelos valores do Supabase > Project Settings > API</div>';
-    tb.innerHTML = '<tr><td colspan="4" class="vazio">Aguardando configuração...</td></tr>';
-    return;
-  }
-
-  try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/orders?select=*&order=created_at.desc', {
-      method: 'GET',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY
-      }
-    });
-
-    if (!res.ok) {
-      const errText = await res.text();
-      throw new Error('HTTP ' + res.status + ': ' + errText);
-    }
-
-    const data = await res.json();
-
-    if (!data || data.length === 0) {
-      tb.innerHTML = '<tr><td colspan="4" class="vazio">📭 Nenhuma venda ainda.<br><br>Quando um cliente pagar, a venda aparecerá aqui automaticamente.</td></tr>';
-      return;
-    }
-
-    tb.innerHTML = data.map(o => '<tr>' +
-      '<td>' + new Date(o.created_at).toLocaleString('pt-BR') + '</td>' +
-      '<td class="email">' + (o.email || 'N/A') + '</td>' +
-      '<td class="valor">$' + (o.amount || 0) + '</td>' +
-      '<td><span class="status">' + (o.status || 'paid') + '</span></td>' +
-    '</tr>').join('');
-
-    msg.innerHTML = '<div class="info">✅ ' + data.length + ' venda(s) carregada(s). Total: $' + data.reduce((a,b)=>a+(b.amount||0),0).toFixed(2) + '</div>';
-
-  } catch (e) {
-    msg.innerHTML = '<div class="erro">❌ <b>Erro ao carregar:</b><br>' + e.message + '<br><br><b>Solução:</b> Verifique se a tabela "orders" existe no Supabase e se a URL/KEY estão corretas.</div>';
-    tb.innerHTML = '<tr><td colspan="4" class="vazio">Erro ao carregar dados</td></tr>';
-  }
-}
-
-load();
+<h1>💰 MFRGS - Vendas</h1>
+<button onclick="location.reload()" style="background:#3b82f6;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;margin-bottom:20px">🔄 Atualizar</button>
+<table><thead><tr><th>Data</th><th>Email</th><th>Valor</th><th>Status</th></tr></thead><tbody id="b"><tr><td colspan="4" class="vazio">Carregando...</td></tr></tbody></table>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+const supabase = createClient('https://ggbhtrybmjzyalsrjxtg.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnYmh0cnlibWp6eWFsc3JqeHRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NzczMjUsImV4cCI6MjA5NjQ1MzMyNX0.A-SWQJy_4it4azN2HKIXgfzTfcz9aFbwaqlZw09QDg0')
+const el = document.getElementById('b')
+const { data, error } = await supabase.from('orders').select('*').order('created_at',{ascending:false})
+if(error){ el.innerHTML = `<tr><td colspan=4>Erro: ${error.message}</td></tr>` }
+else if(!data.length){ el.innerHTML = `<tr><td colspan=4 class=vazio>Nenhuma venda ainda</td></tr>` }
+else { el.innerHTML = data.map(o=>`<tr><td>${new Date(o.created_at).toLocaleString('pt-BR')}</td><td>${o.email||'--'}</td><td>$${o.amount||0}</td><td>${o.status}</td></tr>`).join('') }
 </script>
 </body>
 </html>
