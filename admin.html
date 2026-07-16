@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>MFRGS - Painel de Vendas</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:40px;background:#0f172a;color:#e2e8f0}
+h1{margin:0 0:10px;font-size:28px}
+p{color:#94a3b8;margin-bottom:30px}
+table{width:100%;background:#1e293b;border-radius:12px;overflow:hidden;border-collapse:collapse}
+th{background:#334155;padding:14px;text-align:left;font-weight:600;color:#f8fafc}
+td{padding:14px;border-bottom:1px solid #334155}
+tr:hover{background:#252f47}
+.valor{color:#4ade80;font-weight:600}
+.email{color:#60a5fa;font-weight:600}
+.vazio{text-align:center;padding:40px;color:#64748b}
+.atualizar{background:#3b82f6;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;margin-bottom:20px}
+.atualizar:hover{background:#2563eb}
+</style>
+</head>
+<body>
+<h1>💰 MFRGS - Vendas</h1>
+<p>Painel de controle. Atualize a página para ver novas vendas.</p>
+<button class="atualizar" onclick="location.reload()">🔄 Atualizar</button>
+<table>
+<thead><tr><th>Data/Hora</th><th>Email do Cliente</th><th>Valor</th><th>Status</th></tr></thead>
+<tbody id="b"><tr><td colspan="4" class="vazio">Carregando vendas...</td></tr></tbody>
+</table>
+<script>
+const URL='https://ggbhtrybmjzyalsrjxtg.supabase.co'
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnYmh0cnlibWp6eWFsc3JqeHRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NzczMjUsImV4cCI6MjA5NjQ1MzMyNX0.A-SWQJy_4it4azN2HKIXgfzTfcz9aFbwaqlZw09QDg0'
+const supabase=window.supabase.createClient(URL,KEY)
+async function load(){
+  const {data,error}=await supabase.from('orders').select('*').order('created_at',{ascending:false})
+  if(error){document.getElementById('b').innerHTML='<tr><td colspan="4" class="vazio">Erro: '+error.message+'</td></tr>';return}
+  document.getElementById('b').innerHTML=data&&data.length?data.map(o=>`<tr><td>${new Date(o.created_at).toLocaleString('pt-BR')}</td><td class="email">${o.email||'N/A'}</td><td class="valor">$${o.amount||0}</td><td>${o.status||'paid'}</td></tr>`).join(''):'<tr><td colspan="4" class="vazio">Nenhuma venda ainda. Quando cair, aparece aqui.</td></tr>'
+}
+load()
+</script>
+</body>
+</html>
