@@ -1,0 +1,98 @@
+"""
+===========================================================
+MFRGS DIGITAL VERIFICATION
+AGENTE 06 - MARKET INTELLIGENCE
+Version: 1.0
+===========================================================
+
+Responsabilidade:
+
+• Monitorar o mercado continuamente
+• Identificar concorrentes
+• Detectar tendências
+• Pesquisar novos serviços
+• Encontrar oportunidades comerciais
+
+Nunca altera o sistema automaticamente.
+Sempre reporta ao Guardian.
+"""
+
+import os
+from openai import OpenAI
+
+from guardian import guardian
+
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
+)
+
+
+def executar(evento):
+
+    guardian.registrar_log(
+        "Market Intelligence",
+        "Iniciando monitoramento de mercado."
+    )
+
+    dados = evento.get("dados", "")
+
+    prompt = """
+You are the Market Intelligence Agent of MFRGS Digital Verification.
+
+Your objectives:
+
+• Monitor competitors.
+• Detect market opportunities.
+• Detect new public verification services.
+• Suggest improvements without changing the company's core mission.
+• Keep recommendations practical.
+
+Return ONLY this JSON:
+
+{
+  "market_trend":"",
+  "new_competitors":[],
+  "new_services":[],
+  "business_opportunities":[],
+  "priority":"LOW|MEDIUM|HIGH",
+  "recommendation":""
+}
+"""
+
+    resposta = client.chat.completions.create(
+
+        model="gpt-4o-mini",
+
+        messages=[
+            {
+                "role":"system",
+                "content":prompt
+            },
+            {
+                "role":"user",
+                "content":dados
+            }
+        ],
+
+        temperature=0.2
+
+    )
+
+    guardian.registrar_log(
+        "Market Intelligence",
+        "Pesquisa concluída."
+    )
+
+    return {
+
+        "tipo":"mercado_analisado",
+
+        "resultado":resposta.choices[0].message.content
+
+    }
+
+
+guardian.registrar_agente(
+    "market_intelligence",
+    executar
+)

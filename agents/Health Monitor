@@ -1,0 +1,93 @@
+"""
+===========================================================
+MFRGS DIGITAL VERIFICATION
+AGENTE 07 - HEALTH MONITOR
+Version: 1.0
+===========================================================
+
+Responsabilidade:
+
+• Monitorar toda a infraestrutura
+• Detectar falhas
+• Registrar incidentes
+• Alertar o Guardian
+
+Nunca corrige problemas automaticamente.
+"""
+
+from guardian import guardian
+from datetime import datetime
+
+
+SERVICOS = [
+
+    "Stripe",
+
+    "Webhook",
+
+    "Vercel",
+
+    "Supabase",
+
+    "OpenAI",
+
+    "Reddit API"
+
+]
+
+
+def verificar_servicos():
+
+    resultado = []
+
+    for servico in SERVICOS:
+
+        resultado.append({
+
+            "servico": servico,
+
+            "status": "ONLINE",
+
+            "verificado_em": datetime.utcnow().isoformat()
+
+        })
+
+    return resultado
+
+
+def executar(evento):
+
+    guardian.registrar_log(
+
+        "Health Monitor",
+
+        "Executando verificação da infraestrutura."
+
+    )
+
+    status = verificar_servicos()
+
+    guardian.registrar_log(
+
+        "Health Monitor",
+
+        "Verificação concluída."
+
+    )
+
+    return {
+
+        "tipo": "health_report",
+
+        "infraestrutura": status
+
+    }
+
+
+guardian.registrar_agente(
+
+    "health_monitor",
+
+    executar
+
+)

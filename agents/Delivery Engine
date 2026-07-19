@@ -1,0 +1,107 @@
+"""
+===========================================================
+MFRGS DIGITAL VERIFICATION
+AGENTE 05 - DELIVERY ENGINE
+Version: 1.0
+===========================================================
+
+Responsabilidade:
+
+• Receber o relatório do Guardian
+• Gerar o PDF
+• Enviar o e-mail ao cliente
+• Registrar a entrega
+• Informar o Guardian
+
+Nunca executa análises.
+Nunca consulta o Stripe.
+Nunca conversa com outros agentes diretamente.
+"""
+
+import os
+
+from guardian import guardian
+
+
+def gerar_pdf(relatorio):
+
+    """
+    Aqui ficará a geração do PDF.
+    (Inicialmente é um placeholder.)
+    """
+
+    caminho_pdf = "reports/report.pdf"
+
+    return caminho_pdf
+
+
+def enviar_email(email_cliente, pdf):
+
+    """
+    Aqui ficará a integração com o serviço
+    de envio de e-mails (Resend, SendGrid etc.)
+    """
+
+    print(f"📧 Enviando relatório para {email_cliente}")
+
+    return True
+
+
+def executar(evento):
+
+    guardian.registrar_log(
+        "Delivery Engine",
+        "Preparando entrega."
+    )
+
+    email = evento.get("email")
+
+    relatorio = evento.get("resultado")
+
+    empresa = evento.get("empresa")
+
+    pdf = gerar_pdf(relatorio)
+
+    enviado = enviar_email(email, pdf)
+
+    if enviado:
+
+        guardian.registrar_log(
+            "Delivery Engine",
+            f"Relatório entregue para {email}"
+        )
+
+        return {
+
+            "tipo": "entrega_concluida",
+
+            "empresa": empresa,
+
+            "email": email,
+
+            "pdf": pdf,
+
+            "status": "SUCESSO"
+
+        }
+
+    guardian.registrar_log(
+        "Delivery Engine",
+        "Falha na entrega."
+    )
+
+    return {
+
+        "tipo": "erro",
+
+        "origem": "delivery_engine",
+
+        "mensagem": "Falha ao enviar relatório."
+
+    }
+
+
+guardian.registrar_agente(
+    "delivery_engine",
+    executar
+)
