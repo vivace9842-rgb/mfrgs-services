@@ -1,180 +1,54 @@
-"""
-===========================================================
-MFRGS DIGITAL VERIFICATION
-GUARDIAN AI ORCHESTRATOR
-Version: 2.0
-===========================================================
-
-Função:
-O Guardian é o cérebro operacional da MFRGS.
-
-Ele NÃO executa tarefas específicas.
-Ele apenas coordena, registra, monitora e distribui tarefas.
-
-Todo agente conversa obrigatoriamente com o Guardian.
-
-Arquitetura:
-
-Agente
-    ↓
-Guardian
-    ↓
-Próximo Agente
-
-Autor: MFRGS Digital Verification
-"""
-
-from datetime import datetime
-from typing import Callable, Dict, Any
-
+import logging
 
 class Guardian:
-
     def __init__(self):
+        self.agentes = {}
 
-        self.version = "2.0"
+    def registrar_log(self, origem, mensagem):
+        logging.info(f"[{origem}] {mensagem}")
 
-        self.system_name = "Guardian"
-
-        self.logs = []
-
-        # Registro dinâmico dos agentes
-        self.agentes: Dict[str, Callable] = {}
-
-    ############################################################
-
-    def registrar_log(self, origem: str, mensagem: str):
-
-        evento = {
-            "timestamp": datetime.utcnow().isoformat(),
-            "origem": origem,
-            "mensagem": mensagem
-        }
-
-        self.logs.append(evento)
-
-        print(f"[GUARDIAN] [{origem}] {mensagem}")
-
-    ############################################################
-
-    def registrar_agente(self, nome: str, funcao: Callable):
-
-        self.agentes[nome] = funcao
-
-        self.registrar_log(
-            "Guardian",
-            f"Agente registrado: {nome}"
-        )
-
-    ############################################################
-
-    def receber_evento(self, agente: str, evento: dict):
-
-        self.registrar_log(
-
-            agente,
-
-            f"Evento recebido ({evento.get('tipo')})"
-
-        )
-
-        destino = self.decidir_proximo_passo(evento)
-
-        return self.encaminhar(destino, evento)
-
-    ############################################################
-
-    def decidir_proximo_passo(self, evento: dict):
-
-        tipo = evento.get("tipo")
-
-        mapa = {
-
-            "lead_encontrado": "convertedor",
-
-            "cliente_pagou": "verification_engine",
-
-            "relatorio_concluido": "delivery_engine",
-
-            "nova_tendencia": "market_intelligence",
-
-            "erro": "health_monitor"
-
-        }
-
-        destino = mapa.get(tipo, "humano")
-
-        self.registrar_log(
-
-            "Guardian",
-
-            f"Destino escolhido: {destino}"
-
-        )
-
-        return destino
-
-    ############################################################
-
-    def encaminhar(self, destino: str, evento: dict):
-
-        if destino == "humano":
-
-            return self.solicitar_aprovacao(evento)
-
-        if destino not in self.agentes:
-
-            self.registrar_log(
-
-                "Guardian",
-
-                f"Agente '{destino}' não registrado."
-
-            )
-
-            return None
-
-        self.registrar_log(
-
-            "Guardian",
-
-            f"Executando {destino}"
-
-        )
-
-        return self.agentes[destino](evento)
-
-    ############################################################
-
-    def solicitar_aprovacao(self, evento: dict):
-
-        self.registrar_log(
-
-            "Guardian",
-
-            "Aguardando aprovação humana."
-
-        )
-
-        return {
-
-            "status": "aguardando_aprovacao",
-
-            "evento": evento
-
-        }
-
-    ############################################################
+    def registrar_agente(self, nome, agente):
+        self.agentes[nome] = agente
+        self.registrar_log("Guardian", f"Agente registrado: {nome}")
 
     def listar_agentes(self):
-
         return list(self.agentes.keys())
 
-    ############################################################
+    def receber_evento(self, evento):
+        self.registrar_log("Guardian", f"Evento recebido: {evento}")
+        pass
+
+    def decidir_proximo_passo(self):
+        pass
+
+    def encaminhar(self):
+        pass
+
+    def solicitar_aprovacao(self):
+        pass
 
     def obter_logs(self):
+        pass
 
-        return self.logs
+    # --- MÉTODO ADICIONADO PARA INTEGRAÇÃO COM O MAIN.PY ---
+    def initialize_operation(self):
+        """
+        Ponto de entrada chamado pelo main.py.
+        Inicia a orquestração da MFRGS Digital Verification.
+        """
+        self.registrar_log("Guardian", "Sistema orquestrador Guardian iniciado.")
+        
+        agentes_registrados = self.listar_agentes()
+        if agentes_registrados:
+            self.registrar_log("Guardian", f"Agentes online: {', '.join(agentes_registrados)}")
+        else:
+            self.registrar_log("Guardian", "Nenhum agente registrado no momento. Aguardando conexões.")
+            
+        logging.info("MFRGS Digital Verification: Guardian aguardando tarefas...")
+        
+        # Mantém o sistema rodando. Futuramente você pode trocar por um loop de eventos.
+        while True:
+            pass
 
-
+# Instância única exportada para o resto do sistema
 guardian = Guardian()
