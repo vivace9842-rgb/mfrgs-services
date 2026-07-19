@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS DIGITAL VERIFICATION | Business Verification Reports</title>
-    <meta name="description" content="Independent business verification reports built from official registries and public records.">
+    <title>MFRGS DIGITAL VERIFICATION | Business Verification Reports for Importers & Small Businesses</title>
+    <meta name="description" content="Independent business verification reports built from official registries and public records — helping importers, entrepreneurs and small businesses make safer decisions before sending money or signing contracts.">
+    <meta name="keywords" content="business verification, supplier verification, corporate due diligence, OSINT, corporate risk assessment, business background report, verify supplier before payment">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -12,73 +14,378 @@
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#0B0F19',
-                            card: '#151D30',
-                            accent: '#3B82F6',
-                            teal: '#14B8A6'
+                            dark: '#060913',
+                            card: '#0F1626',
+                            accent: '#2563EB', 
+                            teal: '#0D9488'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         }
                     }
                 }
             }
         }
     </script>
+    <style>
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
-<body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-accent selection:text-white">
+<body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-accent selection:text-white overflow-x-hidden">
 
-    <!-- Navbar Otimizada (Revisada) -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="text-lg font-extrabold tracking-wider bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">
+    <!-- Navbar Otimizada com Efeito de Vidro -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-brand-dark/70 backdrop-blur-lg border-b border-gray-800/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="text-base sm:text-lg font-black tracking-wider bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
                 MFRGS DIGITAL VERIFICATION
             </div>
-            <nav class="hidden md:flex space-x-4 text-xs font-semibold tracking-wide text-gray-300 uppercase">
-                <a href="#services" class="hover:text-white transition">Verification Solutions</a>
-                <a href="#who-uses" class="hover:text-white transition">Who We Serve</a>
-                <a href="#how-it-works" class="hover:text-white transition">Our Framework</a>
-                <a href="#pricing" class="hover:text-white transition">Pricing Plans</a>
-                <a href="#faq" class="hover:text-white transition">FAQ</a>
+            <nav class="hidden lg:flex space-x-6 text-xs font-bold tracking-wide text-gray-400 uppercase">
+                <a href="#services" class="hover:text-white transition duration-250">Solutions</a>
+                <a href="#who-uses" class="hover:text-white transition duration-250">Who We Serve</a>
+                <a href="#how-it-works" class="hover:text-white transition duration-250">Framework</a>
+                <a href="#pricing" class="hover:text-white transition duration-250">Pricing</a>
+                <a href="#faq" class="hover:text-white transition duration-250">FAQ</a>
             </nav>
             <div>
-                <a href="#pricing" class="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-brand-accent hover:bg-blue-600 rounded-lg transition shadow-lg shadow-brand-accent/20">
-                    Request a Verification
+                <a href="#pricing" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider bg-brand-accent hover:bg-blue-700 rounded-lg transition duration-250 shadow-lg shadow-brand-accent/20 block text-center transform hover:scale-[1.02]">
+                    Get Verification
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <!-- Hero Section de Elite com Background Orbital -->
+    <section class="relative pt-36 pb-24 md:pt-48 md:pb-32 overflow-hidden">
+        <!-- Esferas de Luz em Segundo Plano -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+        <div class="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-brand-teal/10 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-accent/10 text-brand-accent border border-brand-accent/20">
-                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span> Business Verification
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-brand-accent/10 text-blue-400 border border-brand-accent/20 uppercase tracking-widest">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> Risk Management Framework
                 </span>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
                     Avoid Losing Thousands <br>
-                    <span class="bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">Before Your First Payment</span>
+                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">Before Your First Wire Transfer</span>
                 </h1>
-                <p class="text-sm text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                    Independent business verification reports, built from official registries and public records, that help importers, entrepreneurs and small businesses make safer decisions.
+                <p class="text-sm sm:text-base text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                    Independent business verification reports, built exclusively from official registries and verified public records. Protect your capital and secure imports before contract signing.
                 </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="#pricing" class="w-full sm:w-auto px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider bg-brand-accent hover:bg-blue-600 rounded-xl transition shadow-xl shadow-brand-accent/30">
-                        Order Your Verification
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#pricing" class="w-full sm:w-auto px-8 py-4 text-center text-xs font-bold uppercase tracking-wider bg-brand-accent hover:bg-blue-700 rounded-xl transition duration-250 shadow-xl shadow-brand-accent/30 transform hover:-translate-y-0.5">
+                        Order Your Report Now
+                    </a>
+                    <a href="#services" class="w-full sm:w-auto px-8 py-4 text-center text-xs font-semibold uppercase tracking-wider bg-gray-900 hover:bg-gray-800 rounded-xl transition duration-250 border border-gray-800">
+                        See Report Architecture
                     </a>
                 </div>
+                <!-- Trust Bar -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 pt-4 text-xs font-medium text-gray-500">
+                    <span class="flex items-center gap-1.5"><span class="text-brand-accent">✓</span> Government Registries</span>
+                    <span class="flex items-center gap-1.5"><span class="text-brand-teal">✓</span> Public Records OSINT</span>
+                    <span class="flex items-center gap-1.5"><span class="text-blue-500">✓</span> Secured via Stripe</span>
+                </div>
             </div>
-            <div class="lg:col-span-5 relative flex justify-center">
-                <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-accent to-brand-teal opacity-30 blur-2xl"></div>
-                <div class="relative bg-brand-card p-2 rounded-2xl border border-gray-800 shadow-2xl max-w-[400px]">
+            <!-- Image Frame com Efeito Float -->
+            <div class="lg:col-span-5 relative flex justify-center animate-float">
+                <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-accent to-brand-teal opacity-20 blur-2xl"></div>
+                <div class="relative bg-brand-card p-2 rounded-2xl border border-gray-800 shadow-2xl max-w-[380px] w-full">
                     <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000" alt="MFRGS Corporate Intelligence" class="rounded-xl w-full object-cover aspect-square">
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Why Companies Choose MFRGS (Com Efeito Hover Avançado) -->
+    <section id="why-mfrgs" class="py-24 bg-brand-card/20 border-t border-gray-900/60 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3 reveal">
+                <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">Why Companies Choose MFRGS DIGITAL VERIFICATION</h2>
+                <p class="text-sm text-gray-400">A disciplined, records-based approach to international corporate intelligence.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 bg-brand-card/40 rounded-xl border border-gray-800/60 hover:border-blue-500/30 hover:bg-brand-card/60 transition-all duration-300 transform hover:-translate-y-1 reveal">
+                    <h3 class="text-sm font-bold text-gray-200 mb-2 uppercase tracking-wide">Official Data Sources</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Every finding traces back directly to official corporate registries and public filings, discarding unverified assumptions.</p>
+                </div>
+                <div class="p-6 bg-brand-card/40 rounded-xl border border-gray-800/60 hover:border-blue-500/30 hover:bg-brand-card/60 transition-all duration-300 transform hover:-translate-y-1 reveal">
+                    <h3 class="text-sm font-bold text-gray-200 mb-2 uppercase tracking-wide">Objective Risk Analysis</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Structured, criteria-based evaluation matrices that cleanly separate observed facts from interpretation.</p>
+                </div>
+                <div class="p-6 bg-brand-card/40 rounded-xl border border-gray-800/60 hover:border-teal-500/30 hover:bg-brand-card/60 transition-all duration-300 transform hover:-translate-y-1 reveal">
+                    <h3 class="text-sm font-bold text-gray-200 mb-2 uppercase tracking-wide">Executive PDF Reports</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Findings delivered as a professional, publication-grade document engineered for swift internal approval.</p>
+                </div>
+                <div class="p-6 bg-brand-card/40 rounded-xl border border-gray-800/60 hover:border-teal-500/30 hover:bg-brand-card/60 transition-all duration-300 transform hover:-translate-y-1 reveal">
+                    <h3 class="text-sm font-bold text-gray-200 mb-2 uppercase tracking-wide">Fast Turnaround</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Strict SLAs per plan so your procurement pipeline never faces operational lag or bottlenecks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-brand-dark border-t border-gray-900/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3 reveal">
+                <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">Verification Solutions</h2>
+                <p class="text-sm text-gray-400">Structured modules built to reduce specific transaction vulnerabilities in cross-border trade.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="p-6 bg-brand-card/30 rounded-xl border border-gray-800/80 hover:border-brand-accent/50 transition-all duration-300 reveal">
+                    <div class="w-8 h-8 rounded-lg bg-brand-accent/10 flex items-center justify-center text-blue-400 text-xs font-bold mb-4">01</div>
+                    <h3 class="text-base font-bold text-gray-200 mb-2">Business Verification</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Confirms legal existence, registry validity, and operational status before allocating resources.</p>
+                </div>
+                <div class="p-6 bg-brand-card/30 rounded-xl border border-gray-800/80 hover:border-brand-accent/50 transition-all duration-300 reveal">
+                    <div class="w-8 h-8 rounded-lg bg-brand-accent/10 flex items-center justify-center text-blue-400 text-xs font-bold mb-4">02</div>
+                    <h3 class="text-base font-bold text-gray-200 mb-2">Supplier Verification</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Comprehensive risk assessment targeting supplier records prior to advancing monetary deposits.</p>
+                </div>
+                <div class="p-6 bg-brand-card/30 rounded-xl border border-gray-800/80 hover:border-brand-accent/50 transition-all duration-300 reveal">
+                    <div class="w-8 h-8 rounded-lg bg-brand-accent/10 flex items-center justify-center text-blue-400 text-xs font-bold mb-4">03</div>
+                    <h3 class="text-base font-bold text-gray-200 mb-2">Corporate Risk Assessment</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Standardized evaluation mapping exposure indicators to establish baseline transaction alignment.</p>
+                </div>
+                <div class="p-6 bg-brand-card/30 rounded-xl border border-gray-800/80 hover:border-brand-teal/50 transition-all duration-300 reveal">
+                    <div class="w-8 h-8 rounded-lg bg-brand-teal/10 flex items-center justify-center text-teal-400 text-xs font-bold mb-4">04</div>
+                    <h3 class="text-base font-bold text-gray-200 mb-2">Corporate Due Diligence</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Deep-dive structural review supporting long-term commercial allocations or high-capital contracts.</p>
+                </div>
+                <div class="p-6 bg-brand-card/30 rounded-xl border border-gray-800/80 hover:border-brand-teal/50 transition-all duration-300 reveal">
+                    <div class="w-8 h-8 rounded-lg bg-brand-teal/10 flex items-center justify-center text-teal-400 text-xs font-bold mb-4">05</div>
+                    <h3 class="text-base font-bold text-gray-200 mb-2">Business Background Report</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Complete chronological reconstruction of entity filing integrity to flag operational inconsistencies.</p>
+                </div>
+                <div class="p-6 bg-brand-card/30 rounded-xl border border-gray-800/80 hover:border-brand-teal/50 transition-all duration-300 reveal">
+                    <div class="w-8 h-8 rounded-lg bg-brand-teal/10 flex items-center justify-center text-teal-400 text-xs font-bold mb-4">06</div>
+                    <h3 class="text-base font-bold text-gray-200 mb-2">Executive Risk Report</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Aggregated intelligence framework formatted for fast review and corporate sign-off workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Serve -->
+    <section id="who-uses" class="py-20 bg-brand-card/10 border-t border-gray-900/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-2 reveal">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Who We Serve</h2>
+                <p class="text-xs sm:text-sm text-gray-400">Enterprise rigor scaled down to an accessible paradigm for growing businesses.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-center reveal">
+                <div class="p-4 bg-brand-card/50 rounded-xl border border-gray-800/80 hover:bg-brand-card transition"><p class="text-xs font-bold text-gray-300 uppercase tracking-wider">Importers</p></div>
+                <div class="p-4 bg-brand-card/50 rounded-xl border border-gray-800/80 hover:bg-brand-card transition"><p class="text-xs font-bold text-gray-300 uppercase tracking-wider">Entrepreneurs</p></div>
+                <div class="p-4 bg-brand-card/50 rounded-xl border border-gray-800/80 hover:bg-brand-card transition"><p class="text-xs font-bold text-gray-300 uppercase tracking-wider">Small Businesses</p></div>
+                <div class="p-4 bg-brand-card/50 rounded-xl border border-gray-800/80 hover:bg-brand-card transition"><p class="text-xs font-bold text-gray-300 uppercase tracking-wider">E-com Sellers</p></div>
+                <div class="p-4 bg-brand-card/50 rounded-xl border border-gray-800/80 hover:bg-brand-card transition"><p class="text-xs font-bold text-gray-300 uppercase tracking-wider">Procurement</p></div>
+                <div class="p-4 bg-brand-card/50 rounded-xl border border-gray-800/80 hover:bg-brand-card transition"><p class="text-xs font-bold text-gray-300 uppercase tracking-wider">Startups</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Are Our Prices Affordable -->
+    <section class="py-20 bg-brand-dark border-t border-gray-900/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4 reveal">
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Why Are Our Prices Affordable?</h2>
+            <p class="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-3xl mx-auto">
+                We believe target business intelligence should not be gatekept by corporate bloat. Small companies routinely forgo vital risk frameworks because enterprise agencies charge prohibitive retainers.
+            </p>
+            <p class="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-3xl mx-auto">
+                MFRGS DIGITAL VERIFICATION leverages standardized open-source intel data pipelines while maintaining core investigative logic, ensuring top-tier report delivery at clear, scalable retail pricing.
+            </p>
+        </div>
+    </section>
+
+    <!-- Scope Parameters & Exclusions -->
+    <section id="scope" class="py-24 bg-brand-card/20 border-t border-gray-900/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 space-y-4 reveal">
+                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Compliance & Scope Boundaries</h2>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        MFRGS DIGITAL VERIFICATION enforces strict operational bounds. All intelligence maps back cleanly to verifiable corporate documentation and structured open-source intelligence vectors.
+                    </p>
+                </div>
+                <div class="lg:col-span-7 bg-brand-card/60 p-6 rounded-2xl border border-gray-800/80 reveal">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">Exclusion Parameters</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-xs text-gray-400">
+                        <div class="flex items-center gap-2">— <span>No field or undercover operations</span></div>
+                        <div class="flex items-center gap-2">— <span>No regulated private detective workflows</span></div>
+                        <div class="flex items-center gap-2">— <span>No execution of judicial or legal advice</span></div>
+                        <div class="flex items-center gap-2">— <span>No auditing or tax optimization metrics</span></div>
+                        <div class="flex items-center gap-2">— <span>No baseline liquidity guarantees</span></div>
+                        <div class="flex items-center gap-2">— <span>No formal non-fraud credentials</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Framework Section -->
+    <section id="how-it-works" class="py-24 bg-brand-dark border-t border-gray-900/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-2 reveal">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">System Framework</h2>
+                <p class="text-xs text-gray-400">Iterative execution path deployed for every intake request.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="p-5 bg-brand-card rounded-xl border border-gray-800/60 reveal">
+                    <div class="text-[10px] font-bold text-blue-400 mb-3 tracking-widest">STAGE 01</div>
+                    <h3 class="text-sm font-bold mb-1 text-white">Intake</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">Target parameter mapping (Registration, URL, identity data).</p>
+                </div>
+                <div class="p-5 bg-brand-card rounded-xl border border-gray-800/60 reveal">
+                    <div class="text-[10px] font-bold text-teal-400 mb-3 tracking-widest">STAGE 02</div>
+                    <h3 class="text-sm font-bold mb-1 text-white">Parsing</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">Live retrieval from central state and administrative records.</p>
+                </div>
+                <div class="p-5 bg-brand-card rounded-xl border border-gray-800/60 reveal">
+                    <div class="text-[10px] font-bold text-indigo-400 mb-3 tracking-widest">STAGE 03</div>
+                    <h3 class="text-sm font-bold mb-1 text-white">Validation</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">Cross-referencing timeline anomalies and corporate shifts.</p>
+                </div>
+                <div class="p-5 bg-brand-card rounded-xl border border-gray-800/60 reveal">
+                    <div class="text-[10px] font-bold text-yellow-400 mb-3 tracking-widest">STAGE 04</div>
+                    <h3 class="text-sm font-bold mb-1 text-white">Scoring</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">Risk assignment matching formal risk matrix indices.</p>
+                </div>
+                <div class="p-5 bg-brand-card rounded-xl border border-gray-800/60 sm:col-span-2 lg:col-span-1 reveal">
+                    <div class="text-[10px] font-bold text-green-400 mb-3 tracking-widest">STAGE 05</div>
+                    <h3 class="text-sm font-bold mb-1 text-white">Delivery</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">Secure dispatch of compile-ready executive PDF report.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section High-Ticket Conversão -->
+    <section id="pricing" class="py-24 bg-brand-card/10 border-t border-gray-900/60 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3 reveal">
+                <h2 class="text-3xl font-black tracking-tight text-white">Predictable, Flat Pricing</h2>
+                <p class="text-xs sm:text-sm text-gray-400">Zero hidden expenses. Choose the intelligence scale your deal demands.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                <!-- 1. Essential Pack -->
+                <div class="p-6 bg-brand-card/80 rounded-2xl border border-gray-800 flex flex-col justify-between transition-all duration-300 hover:border-gray-700 reveal">
+                    <div>
+                        <h3 class="text-base font-bold text-gray-200 uppercase tracking-wide">Essential Pack</h3>
+                        <p class="text-[11px] text-gray-400 mt-1">Perfect for fast check ups and validation baselines.</p>
+                        <div class="mt-4 flex items-baseline gap-1">
+                            <span class="text-3xl font-black text-white">US$ 99</span>
+                            <span class="text-[10px] text-gray-500 font-semibold">/ Per Target</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-400 border-t border-gray-800 pt-4">
+                            <li>✔️ Core Corporate Registration Review</li>
+                            <li>✔️ Good Standing Record Validation</li>
+                            <li>✔️ Registered Facility Match Check</li>
+                            <li>✔️ Turnaround: 48 Business Hours</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/14AaEZ50j4xEczqbQ3fMA0h" target="_blank" class="mt-8 block w-full py-3 text-center text-[11px] font-bold uppercase tracking-wider bg-gray-900 hover:bg-gray-850 border border-gray-800 rounded-xl transition duration-200">
+                        Select Essential
+                    </a>
+                </div>
+
+                <!-- 2. Professional Grade (Premium Featured) -->
+                <div class="p-6 bg-brand-card rounded-2xl border-2 border-brand-accent relative flex flex-col justify-between shadow-2xl shadow-brand-accent/10 transition-all duration-300 transform hover:scale-[1.02] reveal">
+                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-accent text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-brand-accent/30">RECOMMENDED</span>
+                    <div>
+                        <h3 class="text-base font-bold text-gray-100 uppercase tracking-wide">Professional Grade</h3>
+                        <p class="text-[11px] text-gray-300 mt-1">Deep-dive due diligence framework for critical supply tracks.</p>
+                        <div class="mt-4 flex items-baseline gap-1">
+                            <span class="text-3xl font-black text-white">US$ 199</span>
+                            <span class="text-[10px] text-gray-400 font-semibold">/ Per Target</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-200 border-t border-gray-800 pt-4">
+                            <li>✔️ Comprehensive Business Verification</li>
+                            <li>✔️ Full Supplier Public Footprint OSINT</li>
+                            <li>✔️ Standardized Risk Matrix Grid</li>
+                            <li>✔️ Priority Intake & SLA Acceleration</li>
+                            <li>✔️ Turnaround: 24 Business Hours</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/cNi14p0K3ggmari3jxfMA0i" target="_blank" class="mt-8 block w-full py-3 text-center text-[11px] font-bold uppercase tracking-wider bg-brand-accent hover:bg-blue-600 rounded-xl transition duration-200 shadow-lg shadow-brand-accent/20">
+                        Select Professional
+                    </a>
+                </div>
+
+                <!-- 3. Enterprise Suite -->
+                <div class="p-6 bg-brand-card/80 rounded-2xl border border-gray-800 flex flex-col justify-between transition-all duration-300 hover:border-gray-700 reveal">
+                    <div>
+                        <h3 class="text-base font-bold text-gray-200 uppercase tracking-wide">Enterprise Suite</h3>
+                        <p class="text-[11px] text-gray-400 mt-1">Bulk validation layer across diverse international lines.</p>
+                        <div class="mt-4 flex items-baseline gap-1">
+                            <span class="text-3xl font-black text-white">US$ 499</span>
+                            <span class="text-[10px] text-gray-500 font-semibold">/ 6 Entities</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-400 border-t border-gray-800 pt-4">
+                            <li>✔️ Full Verification up to 6 Entities</li>
+                            <li>✔️ Cross-entity Risk Vulnerability Mapping</li>
+                            <li>✔️ Dedicated VIP Execution Window</li>
+                            <li>✔️ Turnaround: 72 Business Hours Consolidated</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/6oU8wR8cvfcibvmf2ffMA0j" target="_blank" class="mt-8 block w-full py-3 text-center text-[11px] font-bold uppercase tracking-wider bg-gray-900 hover:bg-gray-850 border border-gray-800 rounded-xl transition duration-200">
+                        Select Enterprise
+                    </a>
+                </div>
+            </div>
+            <p class="text-center text-[11px] text-gray-500 mt-8">Secure encryption layer processing handled instantly via Stripe.</p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 bg-brand-dark border-t border-gray-900/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-4 reveal">
+                <div class="p-5 bg-brand-card/40 rounded-xl border border-gray-800/80">
+                    <h3 class="text-xs sm:text-sm font-bold text-gray-200 mb-2">Do you access private databases?</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">No. We work strictly within the boundaries of international public registries and administrative corporate data nodes to ensure full structural compliance.</p>
+                </div>
+                <div class="p-5 bg-brand-card/40 rounded-xl border border-gray-800/80">
+                    <h3 class="text-xs sm:text-sm font-bold text-gray-200 mb-2">How long does delivery take?</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Delivery depends on your plan layer: 24 hours for Professional Grade, 48 hours for Essential, and 72 hours for bulk corporate portfolios.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="py-8 bg-brand-dark border-t border-gray-900 text-center text-xs text-gray-500">
+    <footer class="py-8 bg-brand-dark border-t border-gray-900 text-center text-[11px] text-gray-500">
         <p>&copy; 2026 MFRGS DIGITAL VERIFICATION. All rights reserved.</p>
     </footer>
 
+    <!-- JavaScript para Scroll Reveal Inteligente -->
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Executa uma vez no início caso o usuário recarregue no meio da página
+        window.addEventListener("DOMContentLoaded", reveal);
+    </script>
 </body>
 </html>
