@@ -1,5 +1,8 @@
 import logging
 
+# Configuração básica de logging para exibir as saídas no terminal durante os testes
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 class Guardian:
     def __init__(self):
         self.agentes = {}
@@ -14,9 +17,16 @@ class Guardian:
     def listar_agentes(self):
         return list(self.agentes.keys())
 
-    def receber_evento(self, evento):
-        self.registrar_log("Guardian", f"Evento recebido: {evento}")
-        pass
+    def receber_evento(self, agente, evento):
+        """
+        Assinatura corrigida para aceitar o remetente (agente) e os dados enviados.
+        Retorna o próximo passo lógico para o Farejador exibir no print.
+        """
+        self.registrar_log("Guardian", f"Evento recebido do agente [{agente}]: {evento}")
+        
+        # Lógica de roteamento simples para o teste: direciona o lead para o Cientista
+        proximo_passo = "cientista"
+        return proximo_passo
 
     def decidir_proximo_passo(self):
         pass
@@ -45,10 +55,6 @@ class Guardian:
             self.registrar_log("Guardian", "Nenhum agente registrado no momento. Aguardando conexões.")
             
         logging.info("MFRGS Digital Verification: Guardian aguardando tarefas...")
-        
-        # Mantém o sistema rodando. Futuramente você pode trocar por um loop de eventos.
-        while True:
-            pass
 
 # Instância única exportada para o resto do sistema
 guardian = Guardian()

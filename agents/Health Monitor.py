@@ -15,79 +15,72 @@ Responsabilidade:
 Nunca corrige problemas automaticamente.
 """
 
-from guardian import guardian
-from datetime import datetime
+import os
+import sys
+from datetime import datetime, timezone
 
+# Ajuste para garantir que o Python encontre o módulo guardian na pasta correta
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from agents.guardian import guardian
 
 SERVICOS = [
-
     "Stripe",
-
     "Webhook",
-
     "Vercel",
-
     "Supabase",
-
     "OpenAI",
-
     "Reddit API"
-
 ]
 
 
 def verificar_servicos():
-
     resultado = []
-
     for servico in SERVICOS:
-
         resultado.append({
-
             "servico": servico,
-
             "status": "ONLINE",
-
-            "verificado_em": datetime.utcnow().isoformat()
-
+            "verificado_em": datetime.now(timezone.utc).isoformat()
         })
-
     return resultado
 
 
 def executar(evento):
 
     guardian.registrar_log(
-
         "Health Monitor",
-
         "Executando verificação da infraestrutura."
-
     )
 
     status = verificar_servicos()
 
     guardian.registrar_log(
-
         "Health Monitor",
-
         "Verificação concluída."
-
     )
 
     return {
-
         "tipo": "health_report",
-
         "infraestrutura": status
-
     }
 
 
+# Auto-registro do agente no Guardian
 guardian.registrar_agente(
-
     "health_monitor",
-
     executar
-
 )
+
+
+# --- BLOCO DE EXECUÇÃO DE TESTE LOCAL ---
+if __name__ == "__main__":
+    print("🏥 Iniciando teste local do Agente Health Monitor...")
+    
+    evento_exemplo = {"comando": "check_now"}
+    
+    resultado = executar(evento_exemplo)
+    print("\n--- RESULTADO RETORNADO AO GUARDIAN ---")
+    print(f"Tipo: {resultado['tipo']}")
+    print("Status dos Serviços Monitorados:")
+    for s in resultado["infraestrutura"]:
+        print(f"  - [{s['servico']}]: {s['status']} ({s['verificado_em']})")
+    print("---------------------------------------")

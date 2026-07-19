@@ -18,13 +18,21 @@ Sempre reporta ao Guardian.
 """
 
 import os
+import sys
+import json
 from openai import OpenAI
 
-from guardian import guardian
+# Ajuste para garantir que o Python encontre o módulo guardian na pasta correta
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from agents.guardian import guardian
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+# Inicialização do cliente OpenAI com tratamento para testes locais
+try:
+    client = OpenAI(
+        api_key=os.getenv("OPENAI_API_KEY", "mock-key-para-teste-local")
+    )
+except Exception:
+    client = None
 
 
 def executar(evento):
@@ -59,23 +67,37 @@ Return ONLY this JSON:
 }
 """
 
+    # Desvio para simulação (Mock) caso a chave da API real não esteja configurada
+    if os.getenv("OPENAI_API_KEY") is None or os.getenv("OPENAI_API_KEY") == "mock-key-para-teste-local":
+        guardian.registrar_log("Market Intelligence", "[MOCK INTERNO] Simulando análise competitiva com OpenAI API...")
+        mock_json = {
+            "market_trend": "Expansão de APIs de verificação instantânea na América Latina.",
+            "new_competitors": ["SaaSVerify Global", "CheckBiz Corp"],
+            "new_services": ["Consulta unificada automatizada de certidões estaduais"],
+            "business_opportunities": ["Parcerias estratégicas com plataformas de importação locais"],
+            "priority": "MEDIUM",
+            "recommendation": "Integrar webhooks de monitoramento contínuo para portais B2B."
+        }
+        
+        guardian.registrar_log("Market Intelligence", "Pesquisa concluída.")
+        return {
+            "tipo": "mercado_analisado",
+            "resultado": json.dumps(mock_json, ensure_ascii=False)
+        }
+
     resposta = client.chat.completions.create(
-
         model="gpt-4o-mini",
-
         messages=[
             {
-                "role":"system",
-                "content":prompt
+                "role": "system",
+                "content": prompt
             },
             {
-                "role":"user",
-                "content":dados
+                "role": "user",
+                "content": dados
             }
         ],
-
         temperature=0.2
-
     )
 
     guardian.registrar_log(
@@ -84,15 +106,27 @@ Return ONLY this JSON:
     )
 
     return {
-
-        "tipo":"mercado_analisado",
-
-        "resultado":resposta.choices[0].message.content
-
+        "tipo": "mercado_analisado",
+        "resultado": resposta.choices[0].message.content
     }
 
 
+# Auto-registro do agente no Guardian
 guardian.registrar_agente(
     "market_intelligence",
     executar
 )
+
+
+# --- BLOCO DE EXECUÇÃO DE TESTE LOCAL ---
+if __name__ == "__main__":
+    print("📈 Iniciando teste local do Agente Market Intelligence...")
+    
+    evento_exemplo = {
+        "dados": "Análise de movimentação de mercado Q2 2026: surgimento de ferramentas focadas em KYC para e-commerce internacional."
+    }
+    
+    resultado = executar(evento_exemplo)
+    print("\n--- RESULTADO RETORNADO AO GUARDIAN ---")
+    print(f"Tipo: {resultado['tipo']}")
+    print(f"Resultado de Mercado (JSON):\n{resultado['resultado']}\n---------------------------------------")
