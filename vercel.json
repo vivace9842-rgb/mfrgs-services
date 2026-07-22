@@ -1,7 +1,17 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/api/webhook", "dest": "/api/webhook.js" },
-    { "src": "/admin", "dest": "/admin.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
