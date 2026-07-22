@@ -2,57 +2,63 @@ import time
 import sys
 from pathlib import Path
 
-root_dir = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(root_dir))
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
+sys.path.insert(0, str(ROOT_DIR))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from audit_env import EnvAuditor
 from audit_structure import StructureAuditor
 
+
 def run_full_audit():
-    start_time = time.time()
-    print("====================================")
-    print("      MFRGS CORE AUDIT v3.0         ")
-    print("====================================")
 
-    env_result = EnvAuditor(root_dir).run()
-    structure_result = StructureAuditor(root_dir).run()
+    start = time.time()
 
-    elapsed = round(time.time() - start_time, 2)
+    print("=" * 50)
+    print("        MFRGS CORE AUDIT v3.2")
+    print("=" * 50)
 
-    print(f"Arquivos Python.............{structure_result['total_files']}")
-    
-    print("
---- CATEGORIAS ARQUITETURAIS ---")
-    for cat, files in structure_result['categories'].items():
-        print(f"{cat}:")
-        for file in files:
-            print(f"  ✓ {file}")
+    env = EnvAuditor(ROOT_DIR).run()
+    structure = StructureAuditor(ROOT_DIR).run()
 
-    if structure_result['naming_warnings']:
-        print("
-⚠ ALERTA DE NOMENCLATURA (Espaços/Maiúsculas):")
-        for warn in structure_result['naming_warnings']:
-            print(f"  ⚠ {warn} (Recomendado: snake_case)")
+    print(f"\nArquivos Python.............{structure['python_files']}")
 
-    print("
---- VARIÁVEIS DE AMBIENTE ---")
-    print(f"✓ Total usadas no código....{len(env_result['used_envs'])}")
-    print(f"❌ Obrigatórias ausentes....{len(env_result['missing_required'])}") 
-    for req in env_result['missing_required']:
-        print(f"   -> Ausente: {req}")
-        
-    print(f"⚠ Opcionais ausentes........{len(env_result['missing_optional'])}") 
-    for opt in env_result['missing_optional']:
-        print(f"   -> Ausente (Degradação suave): {opt}")
+    print("\n--- CATEGORIAS ---")
 
-    print(f"
-Tempo.......................{elapsed}s")
-    print("====================================")
-    
-    status = "NÃO OPERACIONAL" if env_result['missing_required'] else "OPERACIONAL"
-    print(f"STATUS: {status}")
-    print("====================================")
+    for categoria, arquivos in structure["categorized"].items():
 
-if __name__ == '__main__':
+        print(f"\n{categoria}")
+
+        if not arquivos:
+            print("  -")
+
+        for arq in sorted(arquivos):
+            print(f"  ✓ {arq}")
+
+    print("\n--- VARIÁVEIS DE AMBIENTE ---")
+
+    print(f"Encontradas.................{len(env['used_envs'])}")
+    print(f"Obrigatórias ausentes.......{len(env['missing_required'])}")
+
+    if env["missing_required"]:
+
+        print("\nFALTANDO:")
+
+        for item in env["missing_required"]:
+            print(f"  ❌ {item}")
+
+    print(f"\nTempo.......................{round(time.time()-start,2)} s")
+
+    print("=" * 50)
+
+    if env["missing_required"]:
+        print("STATUS: NÃO OPERACIONAL")
+    else:
+        print("STATUS: OPERACIONAL")
+
+    print("=" * 50)
+
+
+if __name__ == "__main__":
     run_full_audit()

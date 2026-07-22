@@ -1,37 +1,59 @@
 from pathlib import Path
 
+
 class StructureAuditor:
+
     def __init__(self, root_dir: Path):
         self.root_dir = root_dir
 
     def run(self):
-        python_files = [f for f in self.root_dir.glob("**/*.py") if "venv" not in f.parts and ".git" not in f.parts and "tools" not in f.parts]
-        
-        categories = {
-            "ENTRY POINTS": [],
-            "CORE": [],
-            "AGENTS": [],
-            "UTILS": []
+
+        python_files = []
+
+        categorized = {
+            "Agents": [],
+            "API": [],
+            "Core": [],
+            "Tools": [],
+            "Tests": [],
+            "Other": []
         }
-        
-        naming_warnings = []
 
-        for f in python_files:
-            name_str = f.name
-            if ' ' in name_str or any(c.isupper() for c in f.stem):
-                naming_warnings.append(name_str)
+        ignore = {
+            ".git",
+            "venv",
+            "__pycache__",
+            "node_modules"
+        }
 
-            if f.name in ("main.py", "run.py"):
-                categories["ENTRY POINTS"].append(name_str)
-            elif "guardian" in f.name.lower():
-                categories["CORE"].append(name_str)
-            elif "engine" in f.name.lower() or "agent" in str(f.parent).lower() or f.stem in ("cientista", "farejador"):
-                categories["AGENTS"].append(name_str)
+        for file in self.root_dir.glob("**/*.py"):
+
+            if any(part in ignore for part in file.parts):
+                continue
+
+            python_files.append(file)
+
+            rel = file.relative_to(self.root_dir).as_posix()
+
+            if rel.startswith("agents/"):
+                categorized["Agents"].append(rel)
+
+            elif rel.startswith("api/"):
+                categorized["API"].append(rel)
+
+            elif rel.startswith("core/"):
+                categorized["Core"].append(rel)
+
+            elif rel.startswith("tools/"):
+                categorized["Tools"].append(rel)
+
+            elif rel.startswith("tests/"):
+                categorized["Tests"].append(rel)
+
             else:
-                categories["UTILS"].append(name_str)
+                categorized["Other"].append(rel)
 
         return {
-            "total_files": len(python_files),
-            "categories": categories,
-            "naming_warnings": naming_warnings
+            "python_files": len(python_files),
+            "categorized": categorized
         }

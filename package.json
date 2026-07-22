@@ -2,6 +2,7 @@
   "name": "mfrgs-services",
   "version": "1.0.0",
   "description": "MFRGS INOVACOES Services Pipeline",
+  "type": "module",
   "main": "index.html",
   "scripts": {
     "dev": "webpack serve --mode development"
@@ -10,5 +11,9 @@
     "webpack": "^5.108.4",
     "webpack-cli": "^7.2.1",
     "webpack-dev-server": "^6.0.0"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "resend": "^6.18.0"
   }
 }
