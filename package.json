@@ -13,6 +13,7 @@
     "webpack-dev-server": "^6.0.0"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "pdf-lib": "^1.17.1",
     "resend": "^6.18.0"
   }
