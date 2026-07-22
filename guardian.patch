@@ -1,0 +1,249 @@
+diff --git a/agents/guardian.py b/agents/guardian.py
+index 8b3196b..d222824 100644
+--- a/agents/guardian.py
++++ b/agents/guardian.py
+@@ -1,60 +1,187 @@
++# agents/guardian.py
++
++from datetime import datetime
++from queue import PriorityQueue
++import threading
++import time
+ import logging
+ 
+-# Configuração básica de logging para exibir as saídas no terminal durante os testes
+-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
++from verification_engine import VerificationEngine
++from delivery_engine import DeliveryEngine
++from market_intelligence import MarketIntelligence
++from health_monitor import HealthMonitor
++from reliability_engine import ReliabilityEngine
++
++
++logging.basicConfig(
++    level=logging.INFO,
++    format="%(asctime)s | %(levelname)s | %(message)s"
++)
++
+ 
+ class Guardian:
++
+     def __init__(self):
+-        self.agentes = {}
+-
+-    def registrar_log(self, origem, mensagem):
+-        logging.info(f"[{origem}] {mensagem}")
+-
+-    def registrar_agente(self, nome, agente):
+-        self.agentes[nome] = agente
+-        self.registrar_log("Guardian", f"Agente registrado: {nome}")
+-
+-    def listar_agentes(self):
+-        return list(self.agentes.keys())
+-
+-    def receber_evento(self, agente, evento):
+-        """
+-        Assinatura corrigida para aceitar o remetente (agente) e os dados enviados.
+-        Retorna o próximo passo lógico para o Farejador exibir no print.
+-        """
+-        self.registrar_log("Guardian", f"Evento recebido do agente [{agente}]: {evento}")
+-        
+-        # Lógica de roteamento simples para o teste: direciona o lead para o Cientista
+-        proximo_passo = "cientista"
+-        return proximo_passo
+-
+-    def decidir_proximo_passo(self):
+-        pass
+-
+-    def encaminhar(self):
+-        pass
+-
+-    def solicitar_aprovacao(self):
+-        pass
+-
+-    def obter_logs(self):
+-        pass
+-
+-    # --- MÉTODO ADICIONADO PARA INTEGRAÇÃO COM O MAIN.PY ---
+-    def initialize_operation(self):
+-        """
+-        Ponto de entrada chamado pelo main.py.
+-        Inicia a orquestração da MFRGS Digital Verification.
+-        """
+-        self.registrar_log("Guardian", "Sistema orquestrador Guardian iniciado.")
+-        
+-        agentes_registrados = self.listar_agentes()
+-        if agentes_registrados:
+-            self.registrar_log("Guardian", f"Agentes online: {', '.join(agentes_registrados)}")
+-        else:
+-            self.registrar_log("Guardian", "Nenhum agente registrado no momento. Aguardando conexões.")
+-            
+-        logging.info("MFRGS Digital Verification: Guardian aguardando tarefas...")
+-
+-# Instância única exportada para o resto do sistema
+-guardian = Guardian()
+\ No newline at end of file
++
++        self.verification = VerificationEngine()
++
++        self.delivery = DeliveryEngine()
++
++        self.market = MarketIntelligence()
++
++        self.health = HealthMonitor()
++
++        self.reliability = ReliabilityEngine()
++
++        self.memory = {}
++
++        self.events = []
++
++        self.tasks = PriorityQueue()
++
++        self.running = False
++
++    ######################################################
++
++    def register_event(self, event):
++
++        log = {
++            "time": datetime.now(),
++            "event": event
++        }
++
++        self.events.append(log)
++
++        logging.info(event)
++
++    ######################################################
++
++    def save_memory(self, key, value):
++
++        self.memory[key] = value
++
++    ######################################################
++
++    def load_memory(self, key):
++
++        return self.memory.get(key)
++
++    ######################################################
++
++    def dispatch(self, task, priority=5):
++
++        self.tasks.put((priority, task))
++
++        self.register_event(f"Task queued -> {task}")
++
++    ######################################################
++
++    def process_tasks(self):
++
++        while self.running:
++
++            if self.tasks.empty():
++
++                time.sleep(1)
++
++                continue
++
++            priority, task = self.tasks.get()
++
++            agent = task["agent"]
++
++            payload = task["payload"]
++
++            try:
++
++                self.register_event(f"Executing {agent}")
++
++                if agent == "verification":
++
++                    result = self.verification.run(payload)
++
++                elif agent == "market":
++
++                    result = self.market.run(payload)
++
++                elif agent == "delivery":
++
++                    result = self.delivery.run(payload)
++
++                else:
++
++                    result = None
++
++                self.save_memory(task["id"], result)
++
++                self.register_event(f"{agent} completed")
++
++            except Exception as e:
++
++                self.register_event(f"ERROR {agent}: {e}")
++
++    ######################################################
++
++    def monitor_agents(self):
++
++        while self.running:
++
++            try:
++
++                status = self.health.check()
++
++                self.register_event(status)
++
++                reliability = self.reliability.check()
++
++                self.register_event(reliability)
++
++            except Exception as e:
++
++                self.register_event(str(e))
++
++            time.sleep(60)
++
++    ######################################################
++
++    def daily_report(self):
++
++        report = {
++
++            "generated": datetime.now(),
++
++            "events": len(self.events),
++
++            "cached_objects": len(self.memory),
++
++            "pending_tasks": self.tasks.qsize()
++
++        }
++
++        return report
++
++    ######################################################
++
++    def start(self):
++
++        self.running = True
++
++        threading.Thread(
++            target=self.process_tasks,
++            daemon=True
++        ).start()
++
++        threading.Thread(
++            target=self.monitor_agents,
++            daemon=True
++        ).start()
++
++        self.register_event("Guardian ONLINE")
++
++    ######################################################
++
++    def stop(self):
++
++        self.running = False
++
++        self.register_event("Guardian OFFLINE")
+\ No newline at end of file
