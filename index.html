@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MFRGS Digital Verification | Global Business Verification & Due Diligence</title>
-    <meta name="description" content="Agile corporate verification and due diligence based strictly on public registers and open-source intelligence (OSINT). Independent business verification reports for importers, e-commerce sellers and procurement teams worldwide.">
-    <meta name="keywords" content="business verification, supplier verification, corporate due diligence, OSINT, corporate risk assessment, business background report, verify supplier before payment">
-    
-    <!-- Tailwind CSS -->
+    <title>MFRGS Digital Verification | Global Business Verification & OSINT</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,519 +12,501 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            dark: '#0B0F19',
-                            card: '#151D30',
-                            accent: '#3B82F6',
-                            teal: '#14B8A6'
-                        }
+                        darkbg: '#0a0d14',
+                        cardbg: '#121824',
+                        bordercolor: '#1e293b',
+                        accent: '#3b82f6',
+                        accentglow: '#60a5fa'
                     }
                 }
             }
         }
     </script>
-    <!-- GSAP & ScrollTrigger para animações imersivas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- FontAwesome para ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        .glass-panel {
-            background: rgba(21, 29, 48, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
         .glow-effect {
-            box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.15);
+            background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+        }
+        .card-glow:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.1);
         }
     </style>
 </head>
-<body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-accent selection:text-white overflow-x-hidden">
- 
-    <!-- Navbar -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-gray-800">
+<body class="bg-darkbg text-slate-100 antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Glowing Background Effect -->
+    <div class="absolute top-0 left-0 w-full h-[600px] glow-effect pointer-events-none z-0"></div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-darkbg/85 border-b border-bordercolor">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">
-                MFRGS DIGITAL VERIFICATION
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-lg text-white shadow-lg shadow-blue-500/30">M</div>
+                <div class="leading-tight">
+                    <span class="font-bold tracking-wider text-sm block text-white">MFRGS</span>
+                    <span class="text-[10px] tracking-widest text-blue-400 font-semibold block">DIGITAL VERIFICATION</span>
+                </div>
             </div>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-300">
+            
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
                 <a href="#services" class="hover:text-white transition">Our Services</a>
                 <a href="#simulator" class="hover:text-white transition">OSINT Simulator</a>
                 <a href="#risk-matrix" class="hover:text-white transition">Risk Matrix</a>
                 <a href="#pricing" class="hover:text-white transition">Plans & Rates</a>
                 <a href="#faq" class="hover:text-white transition">FAQ</a>
             </nav>
+
             <div>
-                <a href="#pricing" class="px-5 py-2.5 text-sm font-semibold bg-brand-accent hover:bg-blue-600 rounded-lg transition shadow-lg shadow-brand-accent/20">
+                <a href="#pricing" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition shadow-lg shadow-blue-600/20">
                     Protect My Business
                 </a>
             </div>
         </div>
     </header>
- 
-    <!-- Hero -->
-    <section class="relative pt-36 pb-20 md:pt-48 md:pb-28 overflow-hidden">
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left hero-content">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-accent/10 text-brand-accent border border-brand-accent/20">
-                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span> Global Business Verification & OSINT
-                </span>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
-                    Make Safer Business Decisions <br>
-                    <span class="bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent">Without the Overhead</span>
-                </h1>
-                <p class="text-lg text-gray-400 max-w-xl mx-auto lg:mx-0">
-                    Agile corporate verification and due diligence based strictly on public registers and open-source intelligence (OSINT). Deal protection for micro-enterprises, importers, and procurement teams worldwide — without traditional due diligence pricing.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="#pricing" class="w-full sm:w-auto px-8 py-4 text-center font-bold bg-brand-accent hover:bg-blue-600 rounded-xl transition shadow-xl shadow-brand-accent/30">
-                        Protect My Business
-                    </a>
-                    <a href="#simulator" class="w-full sm:w-auto px-8 py-4 text-center font-semibold bg-gray-800 hover:bg-gray-700 rounded-xl transition border border-gray-700">
-                        Test OSINT Simulator
-                    </a>
-                </div>
+    <!-- HERO SECTION -->
+    <section class="relative pt-24 pb-20 px-6 z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-6">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                <span>MFRGS Corporate Intelligence</span>
             </div>
-            <div class="lg:col-span-5 relative flex justify-center hero-image">
-                <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-accent to-brand-teal opacity-30 blur-2xl"></div>
-                <div class="relative bg-brand-card p-2 rounded-2xl border border-gray-800 shadow-2xl max-w-[450px]">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000" alt="MFRGS Corporate Intelligence" class="rounded-xl w-full object-cover aspect-square">
-                </div>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
+                Global Business Verification <br class="hidden sm:inline">& OSINT
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Make Safer Business Decisions Without the Overhead. Agile corporate verification and due diligence based strictly on public registers and open-source intelligence (OSINT). Deal protection for micro-enterprises, importers, and procurement teams worldwide.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#pricing" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white px-8 py-3.5 rounded-xl font-semibold transition shadow-xl shadow-blue-600/25">
+                    Protect My Business
+                </a>
+                <a href="#simulator" class="w-full sm:w-auto bg-cardbg hover:bg-slate-800 border border-bordercolor text-slate-300 px-8 py-3.5 rounded-xl font-semibold transition">
+                    Test OSINT Simulator
+                </a>
             </div>
-        </div>
- 
-        <!-- Trust strip -->
-        <div class="max-w-7xl mx-auto px-6 mt-16">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="trust-item p-5 bg-brand-card/40 rounded-xl border border-gray-800">
-                    <p class="text-sm font-bold text-gray-200">Exclusively Public Data</p>
-                    <p class="text-xs text-gray-500 mt-1">Verifiable government records</p>
+
+            <!-- Highlights badges -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 text-left">
+                <div class="bg-cardbg/50 border border-bordercolor p-4 rounded-xl">
+                    <div class="text-blue-400 font-bold mb-1 text-sm">Exclusively Public Data</div>
+                    <div class="text-xs text-slate-400">Verifiable government records</div>
                 </div>
-                <div class="trust-item p-5 bg-brand-card/40 rounded-xl border border-gray-800">
-                    <p class="text-sm font-bold text-gray-200">Strategic Pricing</p>
-                    <p class="text-xs text-gray-500 mt-1">No thousand-dollar barriers</p>
+                <div class="bg-cardbg/50 border border-bordercolor p-4 rounded-xl">
+                    <div class="text-blue-400 font-bold mb-1 text-sm">Strategic Pricing</div>
+                    <div class="text-xs text-slate-400">No thousand-dollar barriers</div>
                 </div>
-                <div class="trust-item p-5 bg-brand-card/40 rounded-xl border border-gray-800">
-                    <p class="text-sm font-bold text-gray-200">Objective Findings</p>
-                    <p class="text-xs text-gray-500 mt-1">Zero hype, zero absolute claims</p>
+                <div class="bg-cardbg/50 border border-bordercolor p-4 rounded-xl">
+                    <div class="text-blue-400 font-bold mb-1 text-sm">Objective Findings</div>
+                    <div class="text-xs text-slate-400">Zero hype, zero absolute claims</div>
                 </div>
-                <div class="trust-item p-5 bg-brand-card/40 rounded-xl border border-gray-800">
-                    <p class="text-sm font-bold text-gray-200">SMB Friendly</p>
-                    <p class="text-xs text-gray-500 mt-1">Built for e-commerce & importers</p>
+                <div class="bg-cardbg/50 border border-bordercolor p-4 rounded-xl">
+                    <div class="text-blue-400 font-bold mb-1 text-sm">SMB Friendly</div>
+                    <div class="text-xs text-slate-400">Built for e-commerce & importers</div>
                 </div>
             </div>
         </div>
     </section>
- 
-    <!-- What We Do -->
-    <section id="services" class="py-24 bg-brand-card/20 border-t border-gray-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">What We Do to Protect Your Commercial Transactions</h2>
-                <p class="text-gray-400">MFRGS fills the gap between risky informal deals and traditional due diligence pricing, using structured public registers and open-source intelligence (OSINT) so you can make informed decisions.</p>
+
+    <!-- WHAT WE DO -->
+    <section id="services" class="py-20 px-6 border-t border-bordercolor bg-cardbg/20 z-10 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold mb-3">What We Do</h2>
+                <h3 class="text-3xl font-bold text-white">What We Do to Protect Your Commercial Transactions</h3>
+                <p class="text-slate-400 mt-3 text-sm">MFRGS fills the gap between risky informal deals and traditional due diligence pricing, using structured public registers and open-source intelligence (OSINT).</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="service-card p-6 bg-brand-card/50 rounded-xl border border-gray-800 transition hover:border-brand-accent/50">
-                    <div class="w-10 h-10 rounded-lg bg-brand-accent/10 flex items-center justify-center text-brand-accent font-bold mb-4">01</div>
-                    <h3 class="text-lg font-bold text-gray-200 mb-2">Supplier & Vendor Verification</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Avoid wiring deposits to inactive entities or mismatched commercial addresses. We check official corporate registrations, tax standing, and operating filings to verify operational validity.</p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-cardbg border border-bordercolor p-8 rounded-2xl card-glow transition">
+                    <div class="text-blue-500 font-mono text-2xl font-bold mb-4">01</div>
+                    <h4 class="text-lg font-bold text-white mb-3">Supplier & Vendor Verification</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Avoid wiring deposits to inactive entities or mismatched commercial addresses. We check official corporate registrations, tax standing, and operating filings to verify operational validity.</p>
                 </div>
-                <div class="service-card p-6 bg-brand-card/50 rounded-xl border border-gray-800 transition hover:border-brand-accent/50">
-                    <div class="w-10 h-10 rounded-lg bg-brand-accent/10 flex items-center justify-center text-brand-accent font-bold mb-4">02</div>
-                    <h3 class="text-lg font-bold text-gray-200 mb-2">Reputational Audit & OSINT</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">We analyze digital footprints, local news indexes, business dispute publications, and public complaint databases to build a clear picture of the counterparty's track record.</p>
+                <!-- Service 2 -->
+                <div class="bg-cardbg border border-bordercolor p-8 rounded-2xl card-glow transition">
+                    <div class="text-blue-500 font-mono text-2xl font-bold mb-4">02</div>
+                    <h4 class="text-lg font-bold text-white mb-3">Reputational Audit & OSINT</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">We analyze digital footprints, local news indexes, business dispute publications, and public complaint databases to build a clear picture of the counterparty's track record.</p>
                 </div>
-                <div class="service-card p-6 bg-brand-card/50 rounded-xl border border-gray-800 transition hover:border-brand-teal/50">
-                    <div class="w-10 h-10 rounded-lg bg-brand-teal/10 flex items-center justify-center text-brand-teal font-bold mb-4">03</div>
-                    <h3 class="text-lg font-bold text-gray-200 mb-2">Litigation & Registry History</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">We compile active civil, tax, and labor court records from the relevant national or regional court systems, helping you identify regulatory burdens or pending liabilities before signing.</p>
+                <!-- Service 3 -->
+                <div class="bg-cardbg border border-bordercolor p-8 rounded-2xl card-glow transition">
+                    <div class="text-blue-500 font-mono text-2xl font-bold mb-4">03</div>
+                    <h4 class="text-lg font-bold text-white mb-3">Litigation & Registry History</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">We compile active civil, tax, and labor court records from the relevant national or regional court systems, helping you identify regulatory burdens or pending liabilities.</p>
                 </div>
             </div>
- 
-            <!-- Scope & Compliance Memorandum -->
-            <div class="mt-10 p-6 bg-brand-card/40 rounded-2xl border border-gray-800 max-w-4xl mx-auto">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Scope & Compliance Memorandum</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">
-                    MFRGS compiles intelligence relying strictly on verified government registries and open-access public records. We do not provide legal advice, financial counsel, formal accounting audits, or private detective/investigative services. Our reports consolidate available public records to support safer commercial choices, under the ordering company's sole discretion and final business responsibility.
-                </p>
+
+            <!-- Memorandum box -->
+            <div class="mt-12 bg-darkbg border border-bordercolor p-6 rounded-xl text-xs text-slate-400 leading-relaxed">
+                <strong class="text-slate-300 block mb-1">Scope & Compliance Memorandum</strong>
+                MFRGS compiles intelligence relying strictly on verified government registries and open-access public records. We do not provide legal advice, financial counsel, formal accounting audits, or private detective/investigative services. Our reports consolidate available public records to support safer commercial choices, under the ordering company's sole discretion and final business responsibility.
             </div>
         </div>
     </section>
- 
-    <!-- OSINT Simulator -->
-    <section id="simulator" class="py-24 bg-brand-dark border-t border-gray-900">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
-                <h2 class="text-3xl font-bold tracking-tight text-white">How Our Database Retrieval Works</h2>
-                <p class="text-gray-400 text-sm">Try the interactive demo below. Enter any company name to see the type of public sources our analysts comb through to build your report.</p>
+
+    <!-- INTERACTIVE DEMO / OSINT SIMULATOR -->
+    <section id="simulator" class="py-20 px-6 border-t border-bordercolor z-10 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold mb-3">Interactive Demo</h2>
+                <h3 class="text-3xl font-bold text-white">How Our Database Retrieval Works</h3>
+                <p class="text-slate-400 mt-3 text-sm">Try the interactive demo below. Enter any company name to see the type of public sources our analysts comb through.</p>
             </div>
- 
-            <div class="bg-black/60 rounded-2xl border border-gray-800 overflow-hidden max-w-3xl mx-auto shadow-2xl">
-                <div class="flex items-center gap-2 px-4 py-3 bg-brand-card border-b border-gray-800">
-                    <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
-                    <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
-                    <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
-                    <span class="ml-3 text-xs text-gray-500 font-mono">osint_retrieval_demo.sh — Terminal Active</span>
-                </div>
-                <div class="p-6 font-mono text-sm space-y-4">
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <input id="simInput" type="text" placeholder="Enter company name, registry code, or tax ID" class="flex-1 bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-gray-200 text-xs focus:outline-none focus:border-brand-accent">
-                        <button onclick="runSimulation()" class="px-6 py-3 bg-brand-accent hover:bg-blue-600 rounded-lg text-xs font-bold transition">
-                            Simulate Scan
-                        </button>
+
+            <div class="bg-cardbg border border-bordercolor rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-[#0f141f] px-6 py-4 border-b border-bordercolor flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
-                    <div id="simOutput" class="text-xs text-gray-500 leading-relaxed border-t border-gray-800 pt-4">
+                    <span class="text-xs font-mono text-slate-400">osint_retrieval_demo.sh — Terminal Active</span>
+                </div>
+                <div class="p-6 md:p-8 font-mono text-sm">
+                    <div class="text-slate-400 mb-4">$ Enter target entity name or registration code:</div>
+                    <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                        <input type="text" id="sim-input" placeholder="e.g., Shenzhen Global Logistics Co." class="flex-1 bg-darkbg border border-bordercolor rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
+                        <button onclick="runSimulation()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-sans font-semibold transition shadow-md">Simulate Scan</button>
+                    </div>
+                    <div id="sim-output" class="bg-darkbg/80 border border-bordercolor rounded-xl p-4 text-xs text-slate-300 min-h-[120px] flex items-center justify-center text-slate-500">
                         Awaiting input... this is an illustrative demo and does not perform a live search or return real data.
                     </div>
                 </div>
             </div>
- 
-            <div class="mt-10 max-w-3xl mx-auto">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">Public databases analyzed under our full service:</h3>
-                <ul class="text-xs text-gray-400 space-y-2 leading-relaxed">
-                    <li>• General Corporate Registry (national company registrar / secretary of state or equivalent)</li>
-                    <li>• Tax Standing and Regulatory Compliance Registries</li>
-                    <li>• Public Protest Offices & Bankruptcy Gazette Filings</li>
-                    <li>• Civil, Tax, and Labor Lawsuits (relevant state and federal court systems)</li>
-                    <li>• Official Gazette Publications (municipal, state, and federal levels)</li>
-                    <li>• Public Commercial Sanctions Lists & Regulatory Restriction Databases</li>
-                    <li>• Open-Source Brand Footprint, Business News, and Digital Media Scans</li>
-                </ul>
-                <p class="text-[11px] text-gray-600 mt-4">Sources consulted vary by jurisdiction and are selected based on the registered country of the entity being verified.</p>
-            </div>
-        </div>
-    </section>
- 
-    <!-- Self-Assessment / Risk Matrix -->
-    <section id="risk-matrix" class="py-24 bg-brand-card/10 border-t border-gray-900">
-        <div class="max-w-3xl mx-auto px-6">
-            <div class="text-center mb-12 space-y-4">
-                <h2 class="text-3xl font-bold tracking-tight text-white">Evaluate Your Transaction's Risk Exposure</h2>
-                <p class="text-gray-400 text-sm">Answer these 5 quick questions about your prospective partner or deal structure to receive an illustrative risk level diagnostic.</p>
-            </div>
- 
-            <form id="riskForm" class="space-y-8 glass-panel p-8 rounded-2xl border border-gray-800">
-                <div>
-                    <p class="text-sm font-semibold text-gray-200 mb-3">1. What is the jurisdiction of your business partner?</p>
-                    <div class="space-y-2 text-xs text-gray-400">
-                        <label class="flex items-center gap-2"><input type="radio" name="q1" value="0" class="accent-brand-accent"> Established jurisdiction with strong corporate transparency (e.g., US, UK, EU, Japan, Australia)</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q1" value="1" class="accent-brand-accent"> Country with standard compliance regulations</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q1" value="2" class="accent-brand-accent"> Tax haven / low-transparency registry</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q1" value="3" class="accent-brand-accent"> Unknown / virtual address without a verifiable physical office</label>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-gray-200 mb-3">2. What is the payment model required for this deal?</p>
-                    <div class="space-y-2 text-xs text-gray-400">
-                        <label class="flex items-center gap-2"><input type="radio" name="q2" value="0" class="accent-brand-accent"> Net payment terms / invoice settled post-delivery</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q2" value="1" class="accent-brand-accent"> Up to 30% advance deposit, balance post-delivery</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q2" value="2" class="accent-brand-accent"> 50% advance deposit, 50% upon shipping dispatch</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q2" value="3" class="accent-brand-accent"> 100% advance payment via wire transfer or cryptocurrency</label>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-gray-200 mb-3">3. How long has this partner been active in public registries?</p>
-                    <div class="space-y-2 text-xs text-gray-400">
-                        <label class="flex items-center gap-2"><input type="radio" name="q3" value="0" class="accent-brand-accent"> More than 5 years of uninterrupted activity</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q3" value="1" class="accent-brand-accent"> Between 2 and 5 years</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q3" value="2" class="accent-brand-accent"> Less than 2 years since initial registration</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q3" value="3" class="accent-brand-accent"> Newly incorporated (under 6 months) or unidentifiable history</label>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-gray-200 mb-3">4. How was the initial commercial contact established?</p>
-                    <div class="space-y-2 text-xs text-gray-400">
-                        <label class="flex items-center gap-2"><input type="radio" name="q4" value="0" class="accent-brand-accent"> Direct referral from a trusted colleague or verified trade show</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q4" value="1" class="accent-brand-accent"> Proactively initiated by you through official corporate channels</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q4" value="2" class="accent-brand-accent"> Online advertisement or casual social media inquiry</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q4" value="3" class="accent-brand-accent"> Unsolicited cold outreach promising urgent deals</label>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-gray-200 mb-3">5. How consistent are the offered prices vs. industry average?</p>
-                    <div class="space-y-2 text-xs text-gray-400">
-                        <label class="flex items-center gap-2"><input type="radio" name="q5" value="0" class="accent-brand-accent"> Standard price aligned with recognized competitors</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q5" value="1" class="accent-brand-accent"> Slightly more competitive due to proven volume</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q5" value="2" class="accent-brand-accent"> Significantly lower without a clear economic explanation</label>
-                        <label class="flex items-center gap-2"><input type="radio" name="q5" value="3" class="accent-brand-accent"> Excessively cheap, almost unrealistic</label>
-                    </div>
-                </div>
- 
-                <button type="button" onclick="calculateRisk()" class="w-full py-3.5 text-center font-bold bg-brand-accent hover:bg-blue-600 rounded-xl transition text-sm shadow-lg shadow-brand-accent/20">
-                    Calculate Commercial Risk
-                </button>
-                <p id="riskResult" class="text-sm text-center pt-2 font-medium"></p>
-            </form>
-        </div>
-    </section>
- 
-    <!-- Why Accessible -->
-    <section class="py-24 bg-brand-dark border-t border-gray-900">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-12 space-y-4">
-                <h2 class="text-3xl font-bold tracking-tight text-white">Why Are Our Services So Accessible?</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="p-6 bg-brand-card/45 rounded-xl border border-gray-800">
-                    <div class="text-xs font-bold text-brand-accent mb-3">01</div>
-                    <h3 class="text-base font-bold text-gray-200 mb-2">Built-In Retrieval Optimization</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">We use standardized automation to search official public endpoints in seconds. This removes slow administrative overhead and lets our analysts focus on strategic risk analysis and final validation.</p>
-                </div>
-                <div class="p-6 bg-brand-card/45 rounded-xl border border-gray-800">
-                    <div class="text-xs font-bold text-brand-teal mb-3">02</div>
-                    <h3 class="text-base font-bold text-gray-200 mb-2">Democratizing Global Sourcing</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Corporate due diligence has traditionally been restricted to large corporations with budgets to match. Our purpose is to offer clear risk dossiers to small businesses, e-commerce sellers, and procurement teams at transparent rates.</p>
-                </div>
-            </div>
-            <p class="text-center text-xs text-gray-500 mt-8 max-w-2xl mx-auto">Our pricing reflects structural automation and a strict focus on public records — technological efficiency, not compromised quality.</p>
-        </div>
-    </section>
- 
-    <!-- Pricing -->
-    <section id="pricing" class="py-24 bg-brand-card/10 border-t border-gray-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Invest in Better Transaction Decisions</h2>
-                <p class="text-gray-400">Select the scope corresponding to your transaction size. One-time payment only. No monthly contracts, hidden fees, or recurring charges.</p>
-            </div>
- 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-                <!-- Essential -->
-                <div class="pricing-card p-6 bg-brand-card rounded-2xl border border-gray-800 flex flex-col justify-between transition hover:border-gray-700">
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-200">Essential Verification</h3>
-                        <p class="text-xs text-gray-400 mt-2">Basic registration and compliance verification for lower-risk transactions.</p>
-                        <div class="mt-4 flex items-baseline gap-1">
-                            <span class="text-3xl font-black">$99</span>
-                            <span class="text-xs text-gray-400">/ one-time</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-xs text-gray-300 border-t border-gray-800 pt-4">
-                            <li>✔️ Corporate registry check (registration number)</li>
-                            <li>✔️ Active operational status & tax compliance standing</li>
-                            <li>✔️ Physical office check via public mapping data</li>
-                            <li>✔️ Media scan & digital brand footprint</li>
-                            <li>✔️ Turnaround: within 2 business days</li>
-                        </ul>
-                    </div>
-                    <a href="https://buy.stripe.com/4gMdRb78r1lsari2ftfMA0b" target="_blank" class="mt-6 block w-full py-2.5 text-center font-semibold bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl transition text-xs">
-                        Order Verification
-                    </a>
-                </div>
- 
-                <!-- Professional Due Diligence -->
-                <div class="pricing-card p-6 bg-brand-card rounded-2xl border-2 border-brand-accent relative flex flex-col justify-between glow-effect">
-                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-accent text-white text-[10px] font-bold rounded-full">MOST POPULAR</span>
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-200">Professional Due Diligence</h3>
-                        <p class="text-xs text-gray-400 mt-2">Detailed analysis of commercial risk, reputational audit, and litigation history.</p>
-                        <div class="mt-4 flex items-baseline gap-1">
-                            <span class="text-3xl font-black">$199</span>
-                            <span class="text-xs text-gray-400">/ one-time</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-xs text-gray-300 border-t border-gray-800 pt-4">
-                            <li>✔️ Everything in Essential Verification</li>
-                            <li>✔️ Corporate structure & ultimate beneficial owners (UBO)</li>
-                            <li>✔️ Lookup in official gazettes and bankruptcy registries</li>
-                            <li>✔️ Litigation scan in public court systems</li>
-                            <li>✔️ Consolidated visual risk assessment matrix</li>
-                            <li>✔️ Turnaround: within 3 business days</li>
-                        </ul>
-                    </div>
-                    <a href="https://buy.stripe.com/28EbJ350jd4a1UM5rFfMA0c" target="_blank" class="mt-6 block w-full py-2.5 text-center font-bold bg-brand-accent hover:bg-blue-600 rounded-xl transition shadow-lg shadow-brand-accent/20 text-xs">
-                        Order Verification
-                    </a>
-                </div>
- 
-                <!-- Enterprise Portfolio Review -->
-                <div class="pricing-card p-6 bg-brand-card rounded-2xl border border-gray-800 flex flex-col justify-between transition hover:border-gray-700">
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-200">Enterprise Portfolio Review</h3>
-                        <p class="text-xs text-gray-400 mt-2">Tailored solution for recurring verification of multiple partners or suppliers.</p>
-                        <div class="mt-4 flex items-baseline gap-1">
-                            <span class="text-3xl font-black">$499</span>
-                            <span class="text-xs text-gray-400">/ one-time</span>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-xs text-gray-300 border-t border-gray-800 pt-4">
-                            <li>✔️ Up to 5 Professional Due Diligence reports included</li>
-                            <li>✔️ Customized executive portfolio review</li>
-                            <li>✔️ Periodic checks for ongoing risk monitoring</li>
-                            <li>✔️ Priority email and direct channel support</li>
-                            <li>✔️ Report validity period: 6 months</li>
-                        </ul>
-                    </div>
-                    <a href="https://buy.stripe.com/00w28t8cvd4a42U6vJfMA0d" target="_blank" class="mt-6 block w-full py-2.5 text-center font-semibold bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl transition text-xs">
-                        Order Verification
-                    </a>
-                </div>
-            </div>
-            <p class="text-center text-xs text-gray-500 mt-8">Secure checkout via Stripe.</p>
-        </div>
-    </section>
- 
-    <!-- FAQ -->
-    <section id="faq" class="py-24 bg-brand-dark border-t border-gray-900">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-14 space-y-4">
-                <h2 class="text-3xl font-bold tracking-tight text-white">Identity & Clarifications</h2>
-                <p class="text-gray-400 text-sm">Frequently Asked Questions. Have questions regarding the exact scope of MFRGS Digital Verification? Review our detailed parameters below.</p>
-            </div>
-            <div class="space-y-4">
-                <div class="faq-item p-6 bg-brand-card/50 rounded-xl border border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-200 mb-2">Where do the records in the report originate?</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Exclusively from official public corporate registries, tax and regulatory authorities, government gazettes, and court systems in the jurisdiction where the entity is registered.</p>
-                </div>
-                <div class="faq-item p-6 bg-brand-card/50 rounded-xl border border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-200 mb-2">Does MFRGS offer guaranteed fraud protection?</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">No report can guarantee the absence of fraud. We provide an objective analysis of public data to support your own decision, not a fraud-proof guarantee.</p>
-                </div>
-                <div class="faq-item p-6 bg-brand-card/50 rounded-xl border border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-200 mb-2">How are reports formatted and delivered?</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Reports are delivered as a structured executive PDF document, sent by email within the turnaround window stated for each plan.</p>
-                </div>
-                <div class="faq-item p-6 bg-brand-card/50 rounded-xl border border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-200 mb-2">Does MFRGS provide legal counsel or tax advisory?</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">No. Our reports are objective technical evaluations, not legal, tax, or financial advice. Consult qualified professionals for those matters.</p>
-                </div>
-                <div class="faq-item p-6 bg-brand-card/50 rounded-xl border border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-200 mb-2">What are the limitations of MFRGS' liability?</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">Reports reflect what is officially on public record at the time of verification. MFRGS is not liable for outcomes of transactions or decisions made using the report; final contractual and financial choices remain the ordering company's sole responsibility.</p>
-                </div>
-            </div>
-        </div>
-    </section>
- 
-    <!-- Footer -->
-    <footer class="border-t border-gray-900 py-16 bg-brand-dark">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
-                <div>
-                    <div class="text-sm font-extrabold tracking-wider bg-gradient-to-r from-brand-accent to-brand-teal bg-clip-text text-transparent mb-2">
-                        MFRGS DIGITAL VERIFICATION
-                    </div>
-                    <p class="text-xs text-gray-500 leading-relaxed">Open-source intelligence (OSINT) and consolidated public corporate database verification designed to mitigate commercial transaction risk. Operated in Brazil by MFRGS INOVAÇÕES.</p>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Site Map</h4>
-                    <ul class="text-xs text-gray-500 space-y-2">
-                        <li><a href="#services" class="hover:text-gray-300 transition">Our Services</a></li>
-                        <li><a href="#simulator" class="hover:text-gray-300 transition">OSINT Simulator</a></li>
-                        <li><a href="#risk-matrix" class="hover:text-gray-300 transition">Risk Matrix</a></li>
-                        <li><a href="#pricing" class="hover:text-gray-300 transition">Plans & Rates</a></li>
-                        <li><a href="#faq" class="hover:text-gray-300 transition">FAQ</a></li>
+
+            <!-- Analyzed sources list -->
+            <div class="mt-8 grid md:grid-cols-2 gap-4 text-xs text-slate-400">
+                <div class="bg-cardbg/40 border border-bordercolor p-4 rounded-xl">
+                    <strong class="text-slate-200 block mb-2">Public databases analyzed under our full service:</strong>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li>General Corporate Registry (national registrar / state equivalent)</li>
+                        <li>Tax Standing and Regulatory Compliance Registries</li>
+                        <li>Public Protest Offices & Bankruptcy Gazette Filings</li>
+                        <li>Civil, Tax, and Labor Lawsuits (state and federal court systems)</li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Jurisdiction & Governing Law</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Our services are governed by the laws of the Federative Republic of Brazil. Disputes arising from these terms are resolved exclusively within the forum of Salvador, State of Bahia, Brazil.</p>
+                <div class="bg-cardbg/40 border border-bordercolor p-4 rounded-xl">
+                    <strong class="text-slate-200 block mb-2">Additional verification layers:</strong>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li>Official Gazette Publications (municipal, state, and federal levels)</li>
+                        <li>Public Commercial Sanctions Lists & Regulatory Databases</li>
+                        <li>Open-Source Brand Footprint, Business News, and Digital Media Scans</li>
+                        <li><span class="text-slate-500">Sources consulted vary by jurisdiction selected.</span></li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-900 pt-8 text-center text-xs text-gray-600">
-                &copy; 2026 MFRGS INOVAÇÕES. Todos os direitos reservados.
+        </div>
+    </section>
+
+    <!-- RISK ASSESSMENT MATRIX -->
+    <section id="risk-matrix" class="py-20 px-6 border-t border-bordercolor bg-cardbg/20 z-10 relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold mb-3">Risk Assessment</h2>
+                <h3 class="text-3xl font-bold text-white">Evaluate Your Transaction's Risk Exposure</h3>
+                <p class="text-slate-400 mt-3 text-sm">Answer these 5 quick questions about your prospective partner or deal structure to receive an illustrative risk level diagnostic.</p>
+            </div>
+
+            <div class="bg-cardbg border border-bordercolor rounded-2xl p-6 md:p-8">
+                <div id="risk-quiz">
+                    <div class="mb-6">
+                        <span id="quiz-step" class="text-xs text-blue-400 font-mono font-semibold">QUESTION 1 OF 5</span>
+                        <h4 id="quiz-question" class="text-lg font-semibold text-white mt-1">What is the jurisdiction of your business partner?</h4>
+                    </div>
+                    <div id="quiz-options" class="space-y-3 mb-6">
+                        <!-- Options injected via JS -->
+                    </div>
+                    <div class="flex justify-between items-center pt-4 border-t border-bordercolor">
+                        <span id="quiz-progress" class="text-xs text-slate-500">0/5 questions answered</span>
+                        <button id="quiz-next" onclick="nextQuestion()" disabled class="bg-blue-600/50 text-white px-5 py-2 rounded-lg text-sm font-semibold transition cursor-not-allowed">Next Step</button>
+                    </div>
+                </div>
+
+                <!-- Result display (hidden initially) -->
+                <div id="quiz-result" class="hidden text-center py-6">
+                    <div class="w-16 h-16 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center mx-auto text-2xl font-bold mb-4">🛡️</div>
+                    <h4 class="text-xl font-bold text-white mb-2">Preliminary Risk Gauge Generated</h4>
+                    <p class="text-sm text-slate-400 mb-6 max-w-md mx-auto">Based on your selections, transaction risk factors require targeted public registry validation.</p>
+                    <a href="#pricing" class="inline-block bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold transition text-sm">Secure Your Due Diligence Report Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANS & RATES -->
+    <section id="pricing" class="py-20 px-6 border-t border-bordercolor z-10 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold mb-3">Plans & Rates</h2>
+                <h3 class="text-3xl font-bold text-white">Invest in Better Transaction Decisions</h3>
+                <p class="text-slate-400 mt-3 text-sm">Select the scope corresponding to your transaction size. One-time payment only. No monthly contracts, hidden fees, or recurring charges.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Plan 1 -->
+                <div class="bg-cardbg border border-bordercolor rounded-2xl p-8 flex flex-col justify-between card-glow transition">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Essential Verification</h4>
+                        <p class="text-xs text-slate-400 mb-6 min-h-[32px]">Basic registration and compliance verification for lower-risk transactions.</p>
+                        <div class="text-3xl font-bold text-white mb-6">$99 <span class="text-xs font-normal text-slate-400">/ one-time</span></div>
+                        
+                        <ul class="space-y-3 text-xs text-slate-300 mb-8 border-t border-bordercolor pt-6">
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Corporate registry check (registration number)</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Active operational status & tax compliance standing</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Physical office check via public mapping data</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Media scan & digital brand footprint</li>
+                            <li class="flex items-start text-slate-400"><span class="mr-2">⏱</span> Turnaround: within 2 business days</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/14AaEZ50j4xEczqbQ3fMA0h" target="_blank" class="w-full bg-slate-800 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold text-sm transition text-center block shadow-md">
+                        Order Verification
+                    </a>
+                </div>
+
+                <!-- Plan 2 (Popular) -->
+                <div class="bg-cardbg border-2 border-blue-500 rounded-2xl p-8 flex flex-col justify-between relative shadow-xl shadow-blue-500/10">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                        Most Popular
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Professional Due Diligence</h4>
+                        <p class="text-xs text-slate-400 mb-6 min-h-[32px]">Detailed analysis of commercial risk, reputational audit, and litigation history.</p>
+                        <div class="text-3xl font-bold text-white mb-6">$199 <span class="text-xs font-normal text-slate-400">/ one-time</span></div>
+                        
+                        <ul class="space-y-3 text-xs text-slate-300 mb-8 border-t border-bordercolor pt-6">
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Everything in Essential Verification</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Corporate structure & ultimate beneficial owners (UBO)</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Lookup in official gazettes and bankruptcy registries</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Litigation scan in public court systems</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Consolidated visual risk assessment matrix</li>
+                            <li class="flex items-start text-slate-400"><span class="mr-2">⏱</span> Turnaround: within 3 business days</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/cNi14p0K3ggmari3jxfMA0i" target="_blank" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-semibold text-sm transition text-center block shadow-lg shadow-blue-600/30">
+                        Order Verification
+                    </a>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="bg-cardbg border border-bordercolor rounded-2xl p-8 flex flex-col justify-between card-glow transition">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Enterprise Portfolio Review</h4>
+                        <p class="text-xs text-slate-400 mb-6 min-h-[32px]">Tailored solution for recurring verification of multiple partners or suppliers.</p>
+                        <div class="text-3xl font-bold text-white mb-6">$499 <span class="text-xs font-normal text-slate-400">/ one-time</span></div>
+                        
+                        <ul class="space-y-3 text-xs text-slate-300 mb-8 border-t border-bordercolor pt-6">
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Up to 5 Professional Due Diligence reports included</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Customized executive portfolio review</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Periodic checks for ongoing risk monitoring</li>
+                            <li class="flex items-start"><span class="text-blue-400 mr-2">✓</span> Priority email and direct channel support</li>
+                            <li class="flex items-start text-slate-400"><span class="mr-2">⏱</span> Report validity period: 6 months</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/6oU8wR8cvfcibvmf2ffMA0j" target="_blank" class="w-full bg-slate-800 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold text-sm transition text-center block shadow-md">
+                        Order Verification
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-8 text-xs text-slate-500">
+                Secure checkout processed via Stripe. Direct receipt and automated delivery tracking sent to your email.
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-20 px-6 border-t border-bordercolor bg-cardbg/20 z-10 relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold mb-3">Identity & Clarifications</h2>
+                <h3 class="text-3xl font-bold text-white">Frequently Asked Questions</h3>
+                <p class="text-slate-400 mt-3 text-sm">Have questions regarding the exact scope of MFRGS Digital Verification? Review our detailed parameters below.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-cardbg border border-bordercolor rounded-xl p-6">
+                    <h4 class="text-base font-semibold text-white mb-2">Where do the records in the report originate?</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">All information is gathered exclusively from official state registries, government portals, court systems, and verified open-source intelligence databases corresponding to the company's registration jurisdiction.</p>
+                </div>
+                <div class="bg-cardbg border border-bordercolor rounded-xl p-6">
+                    <h4 class="text-base font-semibold text-white mb-2">Does MFRGS offer guaranteed fraud protection?</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">No. We provide objective OSINT intelligence and registry facts to significantly lower your blind spots, but commercial transactions carry inherent business risks under the ordering company's final discretion.</p>
+                </div>
+                <div class="bg-cardbg border border-bordercolor rounded-xl p-6">
+                    <h4 class="text-base font-semibold text-white mb-2">How are reports formatted and delivered?</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Reports are compiled into clean, structured executive PDF dossiers sent directly to your designated email address within the turnaround timeline specified in your chosen plan.</p>
+                </div>
+                <div class="bg-cardbg border border-bordercolor rounded-xl p-6">
+                    <h4 class="text-base font-semibold text-white mb-2">Does MFRGS provide legal counsel or tax advisory?</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">No. MFRGS is an intelligence provider, not a law firm or accounting consultancy. Our findings support your commercial risk evaluation process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-bordercolor bg-darkbg py-16 px-6 z-10 relative text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm text-white">M</div>
+                    <span class="font-bold tracking-wider text-white">MFRGS</span>
+                </div>
+                <p class="leading-relaxed text-slate-400">
+                    Open-source intelligence (OSINT) and consolidated public corporate database verification designed to mitigate commercial transaction risk. Operated in Brazil by MFRGS INOVAÇÕES.
+                </p>
+            </div>
+            <div>
+                <h5 class="text-slate-200 font-semibold mb-3">Input</h5>
+                <ul class="space-y-2">
+                    <li><a href="#services" class="hover:text-white transition">Our Services</a></li>
+                    <li><a href="#simulator" class="hover:text-white transition">OSINT Simulator</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-slate-200 font-semibold mb-3">Process</h5>
+                <ul class="space-y-2">
+                    <li><a href="#risk-matrix" class="hover:text-white transition">Risk Matrix</a></li>
+                    <li><a href="#pricing" class="hover:text-white transition">Plans & Rates</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-slate-200 font-semibold mb-3">Output</h5>
+                <ul class="space-y-2">
+                    <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+                    <li><a href="#pricing" class="hover:text-white transition">Secure Checkout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-bordercolor pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500">
+            <div>
+                <p class="mb-1">Jurisdiction & Governing Law: Our services are governed by the laws of the Federative Republic of Brazil. Disputes are resolved exclusively in Salvador, Bahia, Brazil.</p>
+                <p>© 2026 MFRGS INOVAÇÕES. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts de Simulação e Animações GSAP -->
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
     <script>
-        // Simulador OSINT funcional original
+        // Terminal Simulator Demo
         function runSimulation() {
-            const val = document.getElementById('simInput').value.trim();
-            const out = document.getElementById('simOutput');
-            if(!val) {
-                out.innerHTML = `<span class="text-red-400">⚠️ Please enter a company name, registry code, or tax ID to execute the simulation.</span>`;
+            const input = document.getElementById('sim-input').value.trim();
+            const output = document.getElementById('sim-output');
+            if(!input) {
+                output.innerHTML = '<span class="text-red-400">Please enter a company name or registration code to test.</span>';
                 return;
             }
-            out.innerHTML = `<span class="text-brand-accent animate-pulse">Initializing OSINT retrieval for "${val}"... querying public registries, tax standing files, and court indices...</span>`;
-            setTimeout(() => {
-                out.innerHTML = `<span class="text-brand-teal">✓ Target entity located in regional official records. Active status verified. No critical public protests detected. Generating dossier structure... Done.</span>`;
-            }, 1500);
+            output.innerHTML = `<span class="text-blue-400">[*] Initializing OSINT query for target: "${input}"...</span><br>` +
+                               `<span class="text-slate-400">[*] Scanning corporate registers and active status...</span><br>` +
+                               `<span class="text-slate-400">[*] Searching civil and commercial dispute publications...</span><br>` +
+                               `<span class="text-green-400">[✓] Simulated analysis complete. Data sources mapped successfully.</span>`;
         }
 
-        // Calculadora de Risco original
-        function calculateRisk() {
-            const form = document.getElementById('riskForm');
-            let score = 0;
-            let answered = true;
-            for(let i=1; i<=5; i++) {
-                const radios = form.elements['q' + i];
-                let val = -1;
-                for(let r of radios) {
-                    if(r.checked) { val = parseInt(r.value); break; }
-                }
-                if(val === -1) { answered = false; break; }
-                score += val;
+        // Quiz Matrix Logic
+        const questions = [
+            {
+                q: "What is the jurisdiction of your business partner?",
+                options: [
+                    "Established jurisdiction with strong corporate transparency (US, UK, EU, JP)",
+                    "Country with standard compliance regulations",
+                    "Tax haven / low-transparency registry",
+                    "Unknown / virtual address without a verifiable physical office"
+                ]
+            },
+            {
+                q: "What is the payment model required for this deal?",
+                options: [
+                    "Net payment terms / invoice settled post-delivery",
+                    "Up to 30% advance deposit, balance post-delivery",
+                    "50% advance deposit, 50% upon shipping dispatch",
+                    "100% advance payment via wire transfer or cryptocurrency"
+                ]
+            },
+            {
+                q: "How long has this partner been active in public registries?",
+                options: [
+                    "More than 5 years of uninterrupted activity",
+                    "Between 2 and 5 years",
+                    "Less than 2 years since initial registration",
+                    "Newly incorporated (under 6 months) or unidentifiable history"
+                ]
+            },
+            {
+                q: "How was the initial commercial contact established?",
+                options: [
+                    "Direct referral from a trusted colleague or verified trade show",
+                    "Proactively initiated by you through official corporate channels",
+                    "Online advertisement or casual social media inquiry",
+                    "Unsolicited cold outreach promising urgent deals"
+                ]
+            },
+            {
+                q: "How consistent are the offered prices vs. industry average?",
+                options: [
+                    "Standard price aligned with recognized competitors",
+                    "Slightly more competitive due to proven volume",
+                    "Significantly lower without a clear economic explanation",
+                    "Excessively cheap, almost unrealistic"
+                ]
             }
-            const res = document.getElementById('riskResult');
-            if(!answered) {
-                res.className = "text-sm text-center pt-2 font-medium text-red-400";
-                res.innerText = "Please answer all 5 questions to calculate the risk score.";
+        ];
+
+        let currentQ = 0;
+        let selectedAnswers = [];
+
+        function renderQuiz() {
+            if(currentQ >= questions.length) {
+                document.getElementById('quiz-question').parentElement.parentElement.classList.add('hidden');
+                document.getElementById('quiz-result').classList.remove('hidden');
                 return;
             }
-            if(score <= 3) {
-                res.className = "text-sm text-center pt-2 font-medium text-emerald-400";
-                res.innerText = "Risk Level: LOW (Transparent jurisdiction and reliable transaction conditions).";
-            } else if(score <= 10) {
-                res.className = "text-sm text-center pt-2 font-medium text-amber-400";
-                res.innerText = "Risk Level: MODERATE (Standard risk profile. Professional due diligence recommended before final transfer).";
-            } else {
-                res.className = "text-sm text-center pt-2 font-medium text-red-400";
-                res.innerText = "Risk Level: ELEVATED / HIGH (Critical risk indicators present. Professional Due Diligence report strongly advised).";
-            }
+
+            const qData = questions[currentQ];
+            document.getElementById('quiz-step').innerText = `QUESTION ${currentQ + 1} OF 5`;
+            document.getElementById('quiz-question').innerText = qData.q;
+            document.getElementById('quiz-progress').innerText = `${currentQ}/5 questions answered`;
+
+            const optContainer = document.getElementById('quiz-options');
+            optContainer.innerHTML = '';
+            qData.options.forEach((opt, idx) => {
+                optContainer.innerHTML += `
+                    <label class="flex items-start p-3 rounded-xl bg-darkbg border border-bordercolor hover:border-blue-500 cursor-pointer transition">
+                        <input type="radio" name="quiz_opt" value="${idx}" onclick="enableNext()" class="mt-1 mr-3 accent-blue-600">
+                        <span class="text-sm text-slate-300">${opt}</span>
+                    </label>
+                `;
+            });
+            document.getElementById('quiz-next').disabled = true;
+            document.getElementById('quiz-next').className = "bg-blue-600/50 text-white px-5 py-2 rounded-lg text-sm font-semibold transition cursor-not-allowed";
         }
 
-        // Animações Fluidas com GSAP e ScrollTrigger
-        document.addEventListener("DOMContentLoaded", () => {
-            gsap.from(".hero-content > *", {
-                duration: 1,
-                y: 30,
-                opacity: 0,
-                stagger: 0.15,
-                ease: "power3.out"
-            });
+        function enableNext() {
+            const nextBtn = document.getElementById('quiz-next');
+            nextBtn.disabled = false;
+            nextBtn.className = "bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition shadow-md cursor-pointer";
+        }
 
-            gsap.from(".hero-image", {
-                duration: 1.2,
-                x: 30,
-                opacity: 0,
-                ease: "power3.out",
-                delay: 0.3
-            });
+        function nextQuestion() {
+            const radios = document.getElementsByName('quiz_opt');
+            let answered = false;
+            for(let r of radios) {
+                if(r.checked) answered = true;
+            }
+            if(!answered) return;
+            currentQ++;
+            renderQuiz();
+        }
 
-            gsap.utils.toArray(".trust-item").forEach((el, i) => {
-                gsap.from(el, {
-                    scrollTrigger: { trigger: el, start: "top 90%" },
-                    duration: 0.6,
-                    y: 20,
-                    opacity: 0,
-                    delay: i * 0.1
-                });
-            });
-
-            gsap.utils.toArray(".service-card").forEach((el, i) => {
-                gsap.from(el, {
-                    scrollTrigger: { trigger: el, start: "top 85%" },
-                    duration: 0.8,
-                    y: 40,
-                    opacity: 0,
-                    delay: i * 0.15,
-                    ease: "power3.out"
-                });
-            });
-
-            gsap.utils.toArray(".pricing-card").forEach((el, i) => {
-                gsap.from(el, {
-                    scrollTrigger: { trigger: el, start: "top 85%" },
-                    duration: 0.8,
-                    y: 50,
-                    opacity: 0,
-                    delay: i * 0.2,
-                    ease: "power3.out"
-                });
-            });
-        });
+        // Initialize quiz on load
+        window.onload = function() {
+            renderQuiz();
+        };
     </script>
 </body>
 </html>
