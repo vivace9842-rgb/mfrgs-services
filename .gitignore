@@ -1,12 +1,77 @@
-/node_modules
-api/node_modules
-.env
-.env.local
-.env.production
-.vercel
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Pytest
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Logs
 *.log
-.env*
-node_modules
-dist
+
+# =========================
+# Node
+# =========================
+node_modules/
+api/node_modules/
+
+# Build
+dist/
+build/
+.next/
+
+# =========================
+# Environment
+# =========================
 .env
-.vscode
+.env.*
+!.env.example
+
+# =========================
+# Vercel
+# =========================
+.vercel/
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Reports
+# =========================
+reports/*.json
+
+# =========================
+# Diagnostics
+# =========================
+diagnostico_mfrgs.zip
+IMPORTS.txt
+FUNCOES.txt
+CLASSES.txt
+PYTHON_FILES.txt
+PROJETO_COMPLETO.txt
+TAMANHO_ARQUIVOS.txt
+
+__pycache__/
+*.pyc
+reports/*.json
+*.txt
