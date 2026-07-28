@@ -1,52 +1,89 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import * as crypto from 'node:crypto';
+import { env } from './config/env.js';
 import { PKIValidatorService } from './services/pkiValidator.js';
 import { AuditTrailService } from './services/auditTrailService.js';
 
+interface VerifyHashResult {
+  isValid: boolean;
+  hash: string;
+  timestamp: string;
+  issuer: string;
+  auditCode: string;
+  algorithm: string;
+}
+
 const app = express();
-const PORT = 5000;
+
+if (env.TRUST_PROXY) {
+  app.set('trust proxy', 1);
+}
+
+app.disable('x-powered-by');
 
 const pkiValidator = new PKIValidatorService();
 const auditService = new AuditTrailService();
 
 app.use(helmet());
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: env.CORS_ORIGIN }));
 app.use(express.json({ limit: '5mb' }));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
-  message: { error: 'RATE_LIMIT_EXCEEDED' }
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'RATE_LIMIT_EXCEEDED' }
 });
+
 app.use('/api/', limiter);
 
-function verifyHashCore(inputHash: string) {
-  const sanitized = inputHash.trim().toLowerCase();
-  const isValidFormat = /^[a-f0-9]{64}$/i.test(sanitized) || /^[a-f0-9]{16}$/i.test(sanitized);
+function detectHashAlgorithm(hash: string): string | null {
+  if (/^[a-f0-9]{64}$/i.test(hash)) {
+    return 'SHA-256';
+  }
 
-  if (!isValidFormat && sanitized.length < 8) {
+  if (/^[a-f0-9]{16}$/i.test(hash)) {
+    return 'HEX-16';
+  }
+
+  return null;
+}
+
+function buildAuditCode(seed: string): string {
+  return `MFRGS-${crypto
+    .createHash('sha256')
+    .update(`${seed}:${Date.now()}:${crypto.randomUUID()}`)
+    .digest('hex')
+    .substring(0, 8)
+    .toUpperCase()}`;
+}
+
+function verifyHashCore(inputHash: string): VerifyHashResult {
+  const sanitized = inputHash.trim().toLowerCase();
+  const algorithm = detectHashAlgorithm(sanitized);
+
+  if (!algorithm) {
     return {
       isValid: false,
       hash: sanitized,
       timestamp: new Date().toISOString(),
       issuer: 'N/A',
       auditCode: 'ERR_INVALID_FORMAT',
-      algorithm: 'SHA-256'
+      algorithm: 'UNKNOWN'
     };
   }
-
-  const auditCode = 'MFRGS-' + crypto.createHash('sha256').update(sanitized + Date.now()).digest('hex').substring(0, 8).toUpperCase();
 
   return {
     isValid: true,
     hash: sanitized,
     timestamp: new Date().toISOString(),
     issuer: 'MFRGS Qualified Authority CA v2 (ICP-Brasil)',
-    auditCode,
-    algorithm: 'SHA-256'
+    auditCode: buildAuditCode(sanitized),
+    algorithm
   };
 }
 
@@ -55,6 +92,7 @@ app.get('/', (_req: Request, res: Response) => {
     engine: 'MFRGS DIGITAL VERIFICATION API',
     version: '1.2.0',
     status: 'OPERATIONAL',
+    environment: env.NODE_ENV,
     features: [
       'SHA-256 Hash Verifier',
       'Batch Processor',
@@ -65,57 +103,150 @@ app.get('/', (_req: Request, res: Response) => {
 });
 
 app.get('/health', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString() });
+  res.status(200).json({
+    status: 'UP',
+    environment: env.NODE_ENV,
+    uptimeSeconds: Number(process.uptime().toFixed(2)),
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.post('/api/v1/verify', (req: Request, res: Response) => {
-  const { hash } = req.body || {};
-  if (!hash || typeof hash !== 'string') {
-    res.status(400).json({ error: 'Parâmetro "hash" é obrigatório.' });
+  const { hash } = req.body ?? {};
+
+  if (typeof hash !== 'string' || hash.trim() === '') {
+    res.status(400).json({
+      success: false,
+      error: 'Parâmetro "hash" é obrigatório e deve ser string.'
+    });
     return;
   }
+
   const result = verifyHashCore(hash);
-  res.status(200).json({ success: true, data: result });
+
+  res.status(200).json({
+    success: true,
+    data: result
+  });
 });
 
 app.post('/api/v1/verify/batch', (req: Request, res: Response) => {
-  const { hashes } = req.body || {};
-  if (!Array.isArray(hashes) || hashes.length === 0) {
-    res.status(400).json({ error: 'Parâmetro "hashes" deve ser um array com itens.' });
+  const { hashes } = req.body ?? {};
+
+  if (!Array.isArray(hashes) || hashes.length === 0 || hashes.some((item) => typeof item !== 'string')) {
+    res.status(400).json({
+      success: false,
+      error: 'Parâmetro "hashes" deve ser um array não vazio de strings.'
+    });
     return;
   }
-  const results = hashes.map((h: string) => verifyHashCore(h));
-  res.status(200).json({ success: true, processedCount: results.length, data: results });
+
+  const results = hashes.map((hash: string) => verifyHashCore(hash));
+
+  res.status(200).json({
+    success: true,
+    processedCount: results.length,
+    data: results
+  });
 });
 
 app.post('/api/v1/verify/cert', (req: Request, res: Response) => {
-  const { certificatePem } = req.body || {};
-  if (!certificatePem || typeof certificatePem !== 'string') {
-    res.status(400).json({ error: 'Parâmetro "certificatePem" é obrigatório.' });
+  const { certificatePem } = req.body ?? {};
+
+  if (typeof certificatePem !== 'string' || certificatePem.trim() === '') {
+    res.status(400).json({
+      success: false,
+      error: 'Parâmetro "certificatePem" é obrigatório e deve ser string.'
+    });
     return;
   }
+
   try {
     const certDetails = pkiValidator.parseAndValidateCertificate(certificatePem);
-    res.status(200).json({ success: true, data: certDetails });
-  } catch (err: any) {
-    res.status(422).json({ success: false, error: err.message });
+
+    res.status(200).json({
+      success: true,
+      data: certDetails
+    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Falha ao validar certificado.';
+    res.status(422).json({
+      success: false,
+      error: message
+    });
   }
 });
 
 app.post('/api/v1/audit/report', (req: Request, res: Response) => {
-  const { documentHash, requesterId } = req.body || {};
-  if (!documentHash || !requesterId) {
-    res.status(400).json({ error: 'Os parâmetros "documentHash" e "requesterId" são obrigatórios.' });
+  const { documentHash, requesterId, metadata } = req.body ?? {};
+
+  if (typeof documentHash !== 'string' || documentHash.trim() === '') {
+    res.status(400).json({
+      success: false,
+      error: 'Parâmetro "documentHash" é obrigatório e deve ser string.'
+    });
     return;
   }
 
-  const report = auditService.generateAuditReport({ documentHash, requesterId });
-  res.status(200).json({ success: true, auditReport: report });
+  if (typeof requesterId !== 'string' || requesterId.trim() === '') {
+    res.status(400).json({
+      success: false,
+      error: 'Parâmetro "requesterId" é obrigatório e deve ser string.'
+    });
+    return;
+  }
+
+  const report = auditService.generateAuditReport({
+    documentHash,
+    requesterId,
+    metadata: typeof metadata === 'object' && metadata !== null ? metadata : undefined
+  });
+
+  res.status(200).json({
+    success: true,
+    auditReport: report
+  });
 });
 
-app.listen(PORT, () => {
-  console.log(`=================================================`);
-  console.log(`🚀 MFRGS VERIFICATION ENGINE v1.2 ONLINE`);
-  console.log(`📡 URL Base: http://127.0.0.1:${PORT}`);
-  console.log(`=================================================`);
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    error: 'ROUTE_NOT_FOUND'
+  });
 });
+
+app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  console.error('[request-error]', error);
+
+  res.status(500).json({
+    success: false,
+    error: 'INTERNAL_SERVER_ERROR'
+  });
+});
+
+const server = app.listen(env.PORT, '0.0.0.0', () => {
+  console.log('=================================================');
+  console.log('🚀 MFRGS VERIFICATION ENGINE v1.2 ONLINE');
+  console.log(`📡 URL Base: http://0.0.0.0:${env.PORT}`);
+  console.log(`🌎 Environment: ${env.NODE_ENV}`);
+  console.log('=================================================');
+});
+
+function shutdown(signal: NodeJS.Signals): void {
+  console.log(`[shutdown] sinal recebido: ${signal}`);
+
+  server.close(() => {
+    console.log('[shutdown] servidor HTTP encerrado');
+    process.exit(0);
+  });
+
+  setTimeout(() => {
+    console.error('[shutdown] encerramento forçado por timeout');
+    process.exit(1);
+  }, 10000).unref();
+}
+
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+
+export { app };
