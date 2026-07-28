@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "⚡ MFRGS: Iniciar Servidor Dev",
+      "detail": "Sobe a API localmente com TSX watch"
+    },
+    {
+      "type": "npm",
+      "script": "ship",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$tsc"],
+      "label": "🚀 MFRGS: Testar, Compilar e Fazer Deploy Global",
+      "detail": "Executa Type-Check, Build, Commit e Push automático para GitHub/Vercel"
+    }
+  ]
+}
