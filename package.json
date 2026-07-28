@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
-    "ship": "bash scripts/ship.sh"
+    "ship": "bash scripts/ship.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "cors": "^2.8.5",
