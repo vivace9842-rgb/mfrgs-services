@@ -1,17 +1,19 @@
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Content-Type', 'application/json');
-  res.status(200).json({
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  return res.status(200).json({
     engine: "MFRGS GLOBAL DIGITAL VERIFICATION & KYB COMPLIANCE API",
     version: "1.3.0-GLOBAL",
     status: "OPERATIONAL",
     environment: "production",
-    regions: [
-      "US",
-      "EU",
-      "UK",
-      "LATAM"
-    ],
+    regions: ["US", "EU", "UK", "LATAM"],
     complianceStandards: [
       "eIDAS (EU/UK)",
       "ESIGN Act (US)",

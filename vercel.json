@@ -1,9 +1,13 @@
 {
-  "cleanUrls": true,
-  "rewrites": [
+  "version": 2,
+  "routes": [
     {
-      "source": "/api/status",
-      "destination": "/api"
+      "src": "/api(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
