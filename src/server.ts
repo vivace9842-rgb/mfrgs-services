@@ -2,11 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import systemRoutes from './routes/systemRoutes.js';
-import hashRoutes from './routes/hashRoutes.js';
-import certRoutes from './routes/certRoutes.js';
-import auditRoutes from './routes/auditRoutes.js';
-import kybRoutes from './routes/kybRoutes.js';
 import osintRoutes from './routes/osintRoutes.js';
 
 const app = express();
@@ -27,12 +22,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Registro das Rotas da Engine
-app.use(systemRoutes);
-app.use('/api/v1', hashRoutes);
-app.use('/api/v1', certRoutes);
-app.use('/api/v1', auditRoutes);
-app.use('/api/v1', kybRoutes);
+// Apenas a Rota OSINT ativa no momento
 app.use('/api/v1', osintRoutes);
 
 if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
