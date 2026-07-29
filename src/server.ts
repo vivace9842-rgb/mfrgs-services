@@ -31,7 +31,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Registro das Rotas da Engine
+// Rotas do sistema e business logic
 app.use(systemRoutes);
 app.use('/api/v1', hashRoutes);
 app.use('/api/v1', certRoutes);
@@ -44,7 +44,7 @@ app.use(errorHandler);
 
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   app.listen(env.PORT, '0.0.0.0', () => {
-    console.log(`🚀 MFRGS GLOBAL ENGINE v1.4-OSINT ONLINE em http://127.0.0.1:${env.PORT}`);
+    console.log(`Server rodando localmente na porta ${env.PORT}`);
   });
 }
 
