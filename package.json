@@ -3,24 +3,19 @@
   "version": "1.0.0",
   "description": "MFRGS INOVACOES Services Pipeline",
   "type": "module",
-  "main": "index.html",
   "scripts": {
-    "build": "echo 'Static site — no build required'",
+    "build": "tsc --noEmit",
     "dev": "npx serve ."
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "express-rate-limit": "^8.6.1",
-    "helmet": "^8.3.0",
+    "express": "^4.21.2",
     "pdf-lib": "^1.17.1",
     "resend": "^6.18.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/node": "^26.1.2",
-    "typescript": "^7.0.2"
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.5"
   }
 }
