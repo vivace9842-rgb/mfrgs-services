@@ -20,63 +20,69 @@ class ReliabilityEngine:
         }
 
     def check_api(self):
+
         api = ROOT / "api"
+
         if api.exists():
             self.report["status"].append("API OK")
         else:
             self.report["errors"].append("API folder missing")
 
     def check_agents(self):
-        agents = ROOT / "agents"
-        engines = ROOT / "engines"
 
-        required_agents = [
+        agents = ROOT / "agents"
+
+        required = [
             "guardian.py",
+            "verification_engine.py",
+            "delivery_engine.py",
             "health_monitor.py",
             "market_intelligence.py"
         ]
 
-        required_engines = [
-            "verification_engine.py",
-            "delivery_engine.py"
-        ]
+        for file in required:
 
-        for file in required_agents:
             if not (agents / file).exists():
-                self.report["errors"].append(f"agents/{file} missing")
-
-        for file in required_engines:
-            if not (engines / file).exists():
-                self.report["errors"].append(f"engines/{file} missing")
+                self.report["errors"].append(f"{file} missing")
 
     def check_git(self):
+
         try:
+
             result = subprocess.run(
-                ["git", "status", "--porcelain"],
+                ["git","status","--porcelain"],
                 capture_output=True,
-                text=True,
-                cwd=str(ROOT)
+                text=True
             )
 
             if result.stdout.strip():
+
                 self.report["warnings"].append(
                     "Repository has uncommitted changes"
                 )
+
             else:
+
                 self.report["status"].append(
                     "Git clean"
                 )
-        except Exception:
+
+        except:
+
             self.report["warnings"].append(
                 "Git unavailable"
             )
 
     def save(self):
+
         reports = ROOT / "reports"
+
         reports.mkdir(exist_ok=True)
+
         file = reports / "system_health.json"
 
-        with open(file, "w", encoding="utf8") as f:
+        with open(file,"w",encoding="utf8") as f:
+
             json.dump(
                 self.report,
                 f,
@@ -85,25 +91,18 @@ class ReliabilityEngine:
             )
 
     def run(self):
+
         self.check_api()
         self.check_agents()
         self.check_git()
         self.save()
+
         return self.report
 
 
-# Instância exportada e interface padronizada do Framework MFRGS
-engine_instance = ReliabilityEngine()
-
-def executar(evento=None, callback_log=None):
-    """
-    Interface padronizada para execução via Guardian.
-    """
-    if callback_log:
-        callback_log("Reliability Engine", "Iniciando verificação de confiabilidade do sistema...")
-    return engine_instance.run()
-
-
 if __name__ == "__main__":
+
     engine = ReliabilityEngine()
-    print(json.dumps(engine.run(), indent=4, ensure_ascii=False))
+
+    print(engine.run())
+    

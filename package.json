@@ -5,12 +5,8 @@
   "type": "module",
   "main": "index.html",
   "scripts": {
-    "dev": "webpack serve --mode development"
-  },
-  "devDependencies": {
-    "webpack": "^5.108.4",
-    "webpack-cli": "^7.2.1",
-    "webpack-dev-server": "^6.0.0"
+    "build": "echo 'Static site — no build required'",
+    "dev": "npx serve ."
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",

@@ -1,116 +1,115 @@
 """
 ===========================================================
 MFRGS DIGITAL VERIFICATION
-AGENTE 05 - DELIVERY ENGINE
-Version: 1.0
+AGENTE - DELIVERY ENGINE
+Version: 1.2 - Ajuste de Persistência JSON e Caminho Completo
 ===========================================================
 
 Responsabilidade:
+• Receber o relatório validado
+• Gerar o arquivo JSON executivo estruturado
+• Tratar erros de gravação com segurança
+• Devolver confirmação e caminho ao Guardian
 
-• Receber o relatório do Guardian
-• Gerar o PDF
-• Enviar o e-mail ao cliente
-• Registrar a entrega
-• Informar o Guardian
-
-Nunca executa análises.
-Nunca consulta o Stripe.
-Nunca conversa com outros agentes diretamente.
+Nunca executa a verificação da OpenAI.
+Nunca altera o banco de dados diretamente.
 """
 
 import os
-import sys
+import json
+from datetime import datetime
 
-# Ajuste para garantir que o Python encontre o módulo guardian na pasta correta
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from agents.guardian import guardian
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-def gerar_pdf(relatorio):
-    """
-    Aqui ficará a geração do PDF.
-    (Inicialmente é um placeholder.)
-    """
-    # Garante a criação da pasta de relatórios localmente para evitar erros de escrita
-    os.makedirs("reports", exist_ok=True)
-    caminho_pdf = "reports/report.pdf"
-    
-    # Criação de um arquivo falso apenas para fins de simulação de disco
-    with open(caminho_pdf, "w", encoding="utf-8") as f:
-        f.write(f"--- MFRGS DIGITAL VERIFICATION REPORT ---\n{relatorio}")
-
-    return caminho_pdf
-
-
-def enviar_email(email_cliente, pdf):
-    """
-    Aqui ficará a integração com o serviço
-    de envio de e-mails (Resend, SendGrid etc.)
-    """
-    print(f"📧 Enviando relatório para {email_cliente}")
-    return True
-
-
-def executar(evento):
-
-    guardian.registrar_log(
-        "Delivery Engine",
-        "Preparando entrega."
-    )
-
-    email = evento.get("email")
-    relatorio = evento.get("resultado")
-    empresa = evento.get("empresa")
-
-    pdf = gerar_pdf(relatorio)
-    enviado = enviar_email(email, pdf)
-
-    if enviado:
-        guardian.registrar_log(
-            "Delivery Engine",
-            f"Relatório entregue para {email}"
+class DeliveryEngine:
+    def __init__(self, output_dir=None):
+        self.output_dir = output_dir or os.path.join(
+            BASE_DIR,
+            "reports"
         )
+        os.makedirs(self.output_dir, exist_ok=True)
+
+    def executar(self, evento, callback_log=None):
+        """
+        Executa o processo de entrega e salvamento do relatório estruturado.
+        
+        Args:
+            evento (dict): Contém os dados da empresa e o resultado do relatório.
+            callback_log (callable, optional): Função de log injetada pelo Guardian.
+        """
+        def log(origem, mensagem):
+            if callback_log:
+                callback_log(origem, mensagem)
+            else:
+                print(f"[{origem}] {mensagem}")
+
+        log("Delivery Engine", "Iniciando processo de entrega e salvamento de relatório...")
+
+        empresa_nome = evento.get("empresa", "Empresa Desconhecida")
+        resultado_json_str = evento.get("resultado", "{}")
+
+        # Tenta converter o resultado para dicionário se for string
+        if isinstance(resultado_json_str, str):
+            try:
+                dados_relatorio = json.loads(resultado_json_str)
+            except Exception:
+                dados_relatorio = {"summary": resultado_json_str}
+        else:
+            dados_relatorio = resultado_json_str
+
+        # Definição do nome do arquivo JSON e caminho absoluto seguro
+        nome_arquivo_seguro = "".join(c for c in empresa_nome if c.isalnum() or c.isspace()).rstrip().replace(" ", "_")
+        timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        json_filename = f"MFRGS_Verification_{nome_arquivo_seguro}_{timestamp_str}.json"
+        json_path = os.path.join(self.output_dir, json_filename)
+
+        log("Delivery Engine", f"Salvando relatório executivo em: {json_path}")
+        
+        try:
+            with open(json_path, "w", encoding="utf8") as f:
+                json.dump(dados_relatorio, f, indent=4, ensure_ascii=False)
+        except Exception as e:
+            log("Delivery Engine", str(e))
+
+            return {
+                "tipo": "erro",
+                "empresa": empresa_nome,
+                "status": "erro",
+                "mensagem": str(e)
+            }
+
+        log("Delivery Engine", "Entrega processada com sucesso.")
 
         return {
             "tipo": "entrega_concluida",
-            "empresa": empresa,
-            "email": email,
-            "pdf": pdf,
-            "status": "SUCESSO"
+            "empresa": empresa_nome,
+            "status": "sucesso",
+            "arquivo": json_filename,
+            "caminho": json_path
         }
 
-    guardian.registrar_log(
-        "Delivery Engine",
-        "Falha na entrega."
-    )
+# Instância exportada para uso modular ou função direta
+engine_instance = DeliveryEngine()
 
-    return {
-        "tipo": "erro",
-        "origem": "delivery_engine",
-        "mensagem": "Falha ao enviar relatório."
-    }
+def executar(evento, callback_log=None):
+    return engine_instance.executar(evento, callback_log)
 
 
-# Auto-registro do agente no Guardian
-guardian.registrar_agente(
-    "delivery_engine",
-    executar
-)
-
-
-# --- BLOCO DE EXECUÇÃO DE TESTE LOCAL ---
+# --- BLOCO DE TESTE LOCAL ---
 if __name__ == "__main__":
-    print("📦 Iniciando teste local do Agente Delivery Engine...")
+    print("📦 Testando Delivery Engine isoladamente...")
     
-    evento_exemplo = {
-        "email": "cliente@exemplo.com",
-        "empresa": "Nova Fábrica Logística",
-        "resultado": "Análise Concluída: Risco Baixo. Empresa ativa no registro público."
+    evento_teste = {
+        "empresa": "Shenzhen Global Logistics Co.",
+        "resultado": json.dumps({
+            "company": "Shenzhen Global Logistics Co.",
+            "risk": "HIGH",
+            "summary": "Inconsistências críticas detectadas.",
+            "findings": ["Domínio recente", "Registro divergente"]
+        }, ensure_ascii=False)
     }
     
-    resultado = executar(evento_exemplo)
-    print("\n--- RESULTADO RETORNADO AO GUARDIAN ---")
-    print(f"Tipo: {resultado['tipo']}")
-    print(f"Status Final: {resultado.get('status') or resultado.get('mensagem')}")
-    print(f"Caminho do Arquivo: {resultado.get('pdf')}")
-    print("---------------------------------------")
+    res = executar(evento_teste)
+    print("\n--- RESULTADO DA ENTREGA ---")
+    print(json.dumps(res, indent=4, ensure_ascii=False))

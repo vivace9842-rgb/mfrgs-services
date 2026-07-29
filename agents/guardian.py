@@ -230,4 +230,8 @@ class Guardian:
 
 
 # Instância global do Cérebro
+<<<<<<< HEAD
 guardian = Guardian()
+=======
+guardian = Guardian()
+>>>>>>> c3cce21 (fix: stabilize Guardian architecture and agent integration)

@@ -33,8 +33,7 @@ try:
 except Exception:
     client = None
 
-
-def executar(evento):
+def executar(evento, callback_log=None):
 
     guardian.registrar_log(
         "Cientista",

@@ -1,0 +1,9 @@
+{
+    "company": "Shenzhen Global Logistics Co.",
+    "risk": "HIGH",
+    "summary": "Inconsistências críticas detectadas.",
+    "findings": [
+        "Domínio recente",
+        "Registro divergente"
+    ]
+}

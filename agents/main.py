@@ -1,10 +1,10 @@
 import os
 import logging
 import sys
-import importlib
+import time
 from dotenv import load_dotenv
 
-# Ajuste para garantir que o Python mapeie os caminhos corretamente rodando de dentro de /agents
+# Ajuste para garantir que o Python mapeie os caminhos corretamente
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from guardian import guardian
@@ -34,29 +34,6 @@ def validate_environment():
         if "OPENAI_API_KEY" in missing:
             os.environ["OPENAI_API_KEY"] = "mock-key-para-teste-local"
 
-def load_agents():
-    """
-    Importa os scripts dos agentes usando importlib para lidar com nomes com espaços.
-    """
-    logging.info("🔌 Conectando agentes ao ecossistema...")
-    
-    agentes_para_carregar = [
-        "farejador",
-        "cientista",
-        "convertedor",
-        "Delivery Engine",
-        "Health Monitor",
-        "Verification Engine",
-        "Market Intelligence"
-    ]
-    
-    for nome in agentes_para_carregar:
-        try:
-            importlib.import_module(nome)
-            logging.info(f"✅ Agente '{nome}' registrado com sucesso.")
-        except ImportError as e:
-            logging.error(f"❌ Erro ao carregar o agente '{nome}': {e}")
-
 def start_application():
     load_dotenv()
     configure_logging()
@@ -67,12 +44,22 @@ def start_application():
     
     validate_environment()
     
-    # Carrega e registra a inteligência de todos os agentes antes de iniciar
-    load_agents()
-    
     try:
-        guardian.initialize_operation()
+        guardian.start()
+
+        guardian.dispatch({
+            "id": "startup-market",
+            "agent": "market",
+            "payload": {
+                "comando": "startup"
+            }
+        })
+
+        while True:
+            time.sleep(1)
+
     except KeyboardInterrupt:
+        guardian.stop()
         logging.info("System stopped by user.")
     except Exception:
         logging.exception("Unexpected error during execution.")

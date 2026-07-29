@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mfrgs-services.vercel.app/sitemap.xml

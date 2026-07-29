@@ -44,7 +44,7 @@ def verificar_servicos():
     return resultado
 
 
-def executar(evento):
+def executar(evento, callback_log=None):
 
     guardian.registrar_log(
         "Health Monitor",
