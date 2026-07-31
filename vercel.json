@@ -1,30 +1,7 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "landing/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "api/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/landing/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/landing/$1"
-    }
-  ],
-  "buildCommand": null,
   "framework": null,
+  "buildCommand": null,
+  "outputDirectory": null,
   "installCommand": null
 }
