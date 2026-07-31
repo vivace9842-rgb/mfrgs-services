@@ -20,41 +20,39 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "email e empresa são obrigatórios" });
   }
 
-  try {
-    log(`Iniciando verificação real para ${email} (${empresa})`);
+  const service = "essential_verification";
+  const price = 99;
 
-    // 1. Buscar a empresa pelo nome
+  try {
+    log(`Iniciando ${service}: ${email} (${empresa})`);
     const matches = await searchCompany(empresa);
 
     if (!matches.length) {
-      // Empresa não encontrada — isso é um resultado LEGÍTIMO, não erro.
-      // O relatório deve dizer isso explicitamente ao cliente.
       return res.status(200).json({
+        service,
+        price,
         email,
         empresa,
         encontrada: false,
         risco: "Não verificável",
         score: null,
-        flags: ["Nenhuma empresa correspondente encontrada na Companies House"],
+        flags: ["Nenhuma empresa correspondente encontrada"],
         timestamp: new Date().toISOString(),
       });
     }
 
-    // Usa o match mais relevante (primeiro resultado)
-    const best = matches[0];
-    const companyNumber = best.company_number;
-
-    // 2. Buscar dados completos em paralelo
+    const companyNumber = matches[0].company_number;
     const [profile, officers, psc] = await Promise.all([
       getCompanyProfile(companyNumber),
       getCompanyOfficers(companyNumber),
       getPersonsWithSignificantControl(companyNumber),
     ]);
 
-    // 3. Classificar risco com base em dados reais
     const { risco, score, flags } = classifyRisk(profile, officers, psc);
 
-    const resultado = {
+    return res.status(200).json({
+      service,
+      price,
       email,
       empresa: profile.company_name,
       company_number: companyNumber,
@@ -62,24 +60,15 @@ export default async function handler(req, res) {
       status: profile.company_status,
       data_registro: profile.date_of_creation,
       endereco: profile.registered_office_address,
-      diretores: officers
-        .filter((o) => !o.resigned_on)
-        .map((o) => ({ nome: o.name, cargo: o.officer_role })),
+      diretores: officers.filter((o) => !o.resigned_on).map((o) => ({ nome: o.name, cargo: o.officer_role })),
       ubo_declarado: psc.length > 0,
       risco,
       score,
       flags,
-      fonte: "Companies House (UK Government Official Register)",
       timestamp: new Date().toISOString(),
-    };
-
-    log(`Verificação concluída: ${profile.company_name} — risco ${risco}`);
-    return res.status(200).json(resultado);
+    });
   } catch (err) {
     logError(`Falha na verificação: ${err.message}`);
-    return res.status(502).json({
-      error: "Falha ao consultar Companies House",
-      details: err.message,
-    });
+    return res.status(502).json({ error: "Falha ao consultar verificação", details: err.message });
   }
 }
