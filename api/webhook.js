@@ -19,3 +19,36 @@ const { error: orderError } = await supabase
 if (orderError) {
   console.error('❌ Erro orders:', orderError.message);
 }
+// 2. Registra empresa verificada
+const { data: companyData, error: companyError } = await supabase
+  .from('companies')
+  .insert({
+    name: companyQuery,
+    email: customerEmail,
+    status: 'payment_received'
+  })
+  .select()
+  .single();
+
+
+if (companyError) {
+  console.error('❌ Erro companies:', companyError.message);
+}
+
+
+// 3. Cria dossiê pendente
+if (companyData) {
+
+  const { error: dossierError } = await supabase
+    .from('dossiers')
+    .insert({
+      status_emissao: 'aguardando_processamento',
+      parecer_tecnico:
+        `Pagamento confirmado para ${companyQuery}. Relatório em processamento.`
+    });
+
+
+  if (dossierError) {
+    console.error('❌ Erro dossiers:', dossierError.message);
+  }
+}
