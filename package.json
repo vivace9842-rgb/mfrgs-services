@@ -4,7 +4,6 @@
   "description": "MFRGS INOVACOES Services Pipeline",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit",
     "dev": "npx serve ."
   },
   "dependencies": {
