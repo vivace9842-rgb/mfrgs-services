@@ -1,15 +1,10 @@
 {
   "version": 2,
+  "outputDirectory": "landing",
   "builds": [
     {
-      "src": "landing/index.html",
+      "src": "landing/**",
       "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "landing/$1"
     }
   ]
 }
