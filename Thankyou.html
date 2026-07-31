@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Confirmed — MFRGS Digital Verification</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <style>
+    :root {
+      --sage:       #6B8F71;
+      --sage-l:     #8AAF90;
+      --sage-d:     #4A6650;
+      --gold:       #C9A84C;
+      --gold-l:     #E8C97A;
+      --white:      #FFFFFF;
+      --off:        #F7F8F6;
+      --near-black: #0F1511;
+      --ink:        #1C2A1E;
+      --muted:      #6B7C6D;
+      --border:     #E2E8E3;
+      --shadow:     rgba(15,21,17,.08);
+      --font-display: 'Georgia', 'Times New Roman', serif;
+      --font-body:    system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --radius:    14px;
+      --radius-lg: 20px;
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--off);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAV ──────────────────────────────────────────────── */
+    .nav {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+    }
+    .nav__inner {
+      max-width: 1180px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav__logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-size: 1.1rem; color: var(--ink);
+    }
+    .nav__logo-mark { width: 34px; height: 34px; }
+
+    /* ─── MAIN ─────────────────────────────────────────────── */
+    main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 56px 5%;
+    }
+    .confirm { max-width: 660px; width: 100%; }
+
+    /* ─── ICON ─────────────────────────────────────────────── */
+    .confirm__icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(107,143,113,.1);
+      border: 1.5px solid rgba(107,143,113,.25);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 36px;
+      animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .confirm__icon svg { color: var(--sage); }
+
+    /* ─── HEADING ──────────────────────────────────────────── */
+    .confirm__heading {
+      text-align: center; margin-bottom: 36px;
+    }
+    .confirm__eyebrow {
+      font-size: .72rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--sage);
+      display: block; margin-bottom: 10px;
+    }
+    .confirm__heading h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      font-weight: 400; color: var(--ink);
+      margin-bottom: 6px; line-height: 1.2;
+    }
+    .confirm__heading h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 400; color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .confirm__welcome {
+      font-size: .95rem; color: var(--muted);
+      line-height: 1.8; max-width: 52ch; margin: 0 auto;
+      border-top: 1px solid var(--border); padding-top: 20px;
+    }
+
+    /* ─── CASE CARD ────────────────────────────────────────── */
+    .case-card {
+      background: var(--near-black);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin: 32px 0;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .case-card__label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: #9BAAA0; margin-bottom: 8px;
+    }
+    .case-card__id {
+      font-family: 'Courier New', monospace;
+      font-size: 1.45rem; font-weight: 700;
+      color: var(--gold-l); letter-spacing: .08em;
+    }
+    .case-card__copy {
+      flex-shrink: 0;
+      padding: 10px 22px; border-radius: 8px;
+      background: rgba(255,255,255,.07);
+      color: #C8D5CA; font-size: .82rem; font-weight: 600;
+      border: 1px solid rgba(255,255,255,.12);
+      cursor: pointer; transition: var(--transition);
+      font-family: var(--font-body);
+    }
+    .case-card__copy:hover { background: rgba(255,255,255,.13); color: var(--white); }
+
+    /* ─── NEXT STEPS ───────────────────────────────────────── */
+    .next-steps {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .next-steps__header {
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .next-steps__title {
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--sage);
+    }
+    .next-step {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .next-step:last-child { border-bottom: none; }
+    .next-step__num {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(107,143,113,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: var(--sage);
+      margin-top: 2px;
+    }
+    .next-step__title { font-size: .92rem; font-weight: 600; margin-bottom: 4px; }
+    .next-step__desc  { font-size: .85rem; color: var(--muted); line-height: 1.65; }
+
+    /* ─── NOTICE ───────────────────────────────────────────── */
+    .notice {
+      background: rgba(107,143,113,.06);
+      border: 1px solid rgba(107,143,113,.18);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      display: flex; gap: 12px; align-items: flex-start;
+      margin-bottom: 24px;
+      font-size: .86rem; color: var(--ink); line-height: 1.65;
+    }
+    .notice svg { flex-shrink: 0; color: var(--sage); margin-top: 2px; }
+
+    /* ─── CONTACT ──────────────────────────────────────────── */
+    .contact-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 28px;
+      margin-bottom: 20px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .contact-box__icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(107,143,113,.1); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sage);
+    }
+    .contact-box__label {
+      font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+    .contact-box__title { font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+    .contact-box__desc  { font-size: .84rem; color: var(--muted); line-height: 1.6; }
+    .contact-box__email {
+      color: var(--sage); font-weight: 600;
+      transition: color var(--transition);
+    }
+    .contact-box__email:hover { color: var(--sage-d); }
+
+    /* ─── CLOSING NOTE ─────────────────────────────────────── */
+    .closing-note {
+      text-align: center;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: .98rem;
+      color: var(--muted);
+      padding: 4px 0 28px;
+    }
+
+    /* ─── CONFIDENTIALITY NOTICE ───────────────────────────── */
+    .confidentiality {
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+      padding-top: 20px;
+      text-align: center;
+    }
+    .confidentiality__title {
+      font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .confidentiality__text {
+      font-size: .8rem; color: var(--muted); line-height: 1.7;
+      max-width: 54ch; margin: 0 auto;
+    }
+
+    /* ─── BUTTON ───────────────────────────────────────────── */
+    .confirm__action { display: flex; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 32px; border-radius: 8px;
+      font-size: .95rem; font-weight: 600;
+      background: var(--sage); color: var(--white);
+      box-shadow: 0 2px 14px rgba(107,143,113,.3);
+      transition: var(--transition); border: none; cursor: pointer;
+      width: 100%; justify-content: center;
+    }
+    .btn-primary:hover { background: var(--sage-d); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(107,143,113,.4); }
+
+    /* ─── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background: var(--near-black);
+      padding: 24px 5%;
+      text-align: center;
+      font-size: .8rem; color: #9BAAA0;
+    }
+    footer a { transition: color var(--transition); }
+    footer a:hover { color: var(--sage-l); }
+    .footer__links {
+      display: flex; gap: 20px; justify-content: center;
+      flex-wrap: wrap; margin-top: 8px;
+    }
+    .footer__services {
+      font-size: .74rem; color: #6E7C71;
+      margin-top: 12px; letter-spacing: .01em;
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .case-card { flex-direction: column; align-items: flex-start; }
+      .case-card__copy { width: 100%; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .confirm__icon { animation: none; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="MFRGS Digital Verification — Homepage">
+      <svg class="nav__logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="36" height="36" rx="8" fill="#6B8F71"/>
+        <path d="M10 26 L18 10 L26 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M13 21 H23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="26" cy="11" r="3" fill="#C9A84C"/>
+      </svg>
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <div class="confirm">
+
+    <!-- Icon -->
+    <div class="confirm__icon" role="img" aria-label="Payment confirmed">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+    </div>
+
+    <!-- Heading -->
+    <div class="confirm__heading">
+      <span class="confirm__eyebrow">MFRGS</span>
+      <h1>Payment Confirmed</h1>
+      <h2>Thank You for Your Order</h2>
+      <p class="confirm__welcome">
+        Your payment has been successfully received. Your verification request is now ready to begin.<br><br>
+        MFRGS is committed to delivering a professional, confidential, and evidence-based verification service that supports informed business decisions.
+      </p>
+    </div>
+
+    <!-- Case Reference -->
+    <div class="case-card" role="region" aria-label="Your case reference number">
+      <div>
+        <div class="case-card__label">Your Case Reference</div>
+        <div class="case-card__id" id="case-id-value" aria-live="polite">MFRGS-XXXXXXXX</div>
+      </div>
+      <button class="case-card__copy" id="copy-case-id" aria-label="Copy case reference to clipboard">Copy</button>
+    </div>
+
+    <!-- What Happens Next -->
+    <div class="next-steps" role="region" aria-labelledby="next-steps-title">
+      <div class="next-steps__header">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="next-steps__title" id="next-steps-title">What Happens Next</div>
+      </div>
+      <div class="next-step">
+        <div class="next-step__num" aria-hidden="true">1</div>
+        <div>
+          <div class="next-step__title">Complete Your Verification Request</div>
+          <div class="next-step__desc">Complete your Verification Request so our analysts can begin your case immediately.</div>
+        </div>
+      </div>
+      <div class="next-step">
+        <div class="next-step__num" aria-hidden="true">2</div>
+        <div>
+          <div class="next-step__title">Verification &amp; Investigation</div>
+          <div class="next-step__desc">Our verification specialists will review your submission and conduct a professional verification using public records, official registries, open-source intelligence (OSINT), and other reliable sources.</div>
+        </div>
+      </div>
+      <div class="next-step">
+        <div class="next-step__num" aria-hidden="true">3</div>
+        <div>
+          <div class="next-step__title">Quality Assurance</div>
+          <div class="next-step__desc">Every report is independently reviewed before delivery to ensure accuracy, consistency, and compliance with MFRGS quality standards.</div>
+        </div>
+      </div>
+      <div class="next-step">
+        <div class="next-step__num" aria-hidden="true">4</div>
+        <div>
+          <div class="next-step__title">Report Delivery</div>
+          <div class="next-step__desc">Your completed report will be delivered to the email address provided during your order.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Important Notice -->
+    <div class="notice" role="note" aria-label="Important information">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>The delivery timeframe depends on the verification service selected during checkout. You will receive email notifications as your case progresses through each stage of the verification process.</span>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact-box" role="region" aria-label="Contact support">
+      <div class="contact-box__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div class="contact-box__label">Support</div>
+        <div class="contact-box__title">Need Assistance?</div>
+        <div class="contact-box__desc">
+          Our support team is available to assist you.<br>
+          <a href="mailto:contact@mfrgs.com" class="contact-box__email">contact@mfrgs.com</a><br>
+          <span style="font-size:.82rem;color:var(--muted);margin-top:4px;display:block;">Please include your Case Reference in all communications.</span>
+          <span style="font-size:.82rem;color:var(--muted);margin-top:10px;display:block;"><strong style="color:var(--ink);">Business Hours:</strong> Monday–Friday, 09:00–18:00 UTC</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Closing note -->
+    <p class="closing-note">Independent Verification. Trusted Decisions.</p>
+
+    <!-- Primary Action -->
+    <div class="confirm__action">
+      <a href="/verification-request" class="btn-primary" aria-label="Continue to verification request form">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        Continue to Verification Request
+      </a>
+    </div>
+
+  </div>
+
+  <div class="confidentiality">
+    <div class="confidentiality__title">Confidentiality Notice</div>
+    <p class="confidentiality__text">All information submitted through this platform is treated as strictly confidential and processed solely for the purpose of completing your verification request, in accordance with applicable data protection and privacy regulations.</p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div>&copy; 2026 MFRGS Inovações. All rights reserved.</div>
+  <div class="footer__links">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="mailto:contact@mfrgs.com">Contact</a>
+  </div>
+  <div class="footer__services">MFRGS Verification Services — Professional Business Intelligence · Corporate Due Diligence · Supplier Verification · Risk Assessment</div>
+</footer>
+
+<script>
+  // Case ID — reads from sessionStorage (set after Stripe checkout) or generates one
+  var caseIdEl = document.getElementById('case-id-value');
+  if (caseIdEl) {
+    var stored = null;
+    try { stored = sessionStorage.getItem('mfrgs_case_id'); } catch(e) {}
+    if (!stored) {
+      stored = 'MFRGS-' + Math.random().toString(36).slice(2,10).toUpperCase();
+      try { sessionStorage.setItem('mfrgs_case_id', stored); } catch(e) {}
+    }
+    caseIdEl.textContent = stored;
+  }
+
+  // Copy button
+  var copyBtn = document.getElementById('copy-case-id');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var text = document.getElementById('case-id-value').textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () {
+          copyBtn.textContent = 'Copied ✓';
+          copyBtn.style.color = '#8AAF90';
+          setTimeout(function () {
+            copyBtn.textContent = 'Copy';
+            copyBtn.style.color = '';
+          }, 2000);
+        });
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
