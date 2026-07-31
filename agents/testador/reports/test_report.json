@@ -1,0 +1,20 @@
+{
+  "date": "2026-07-30 15:54:25.121143",
+  "results": [
+    {
+      "id": "TEST-001",
+      "name": "Sentinela autorizado",
+      "status": "PASS"
+    },
+    {
+      "id": "TEST-002",
+      "name": "Bloqueio de intruso",
+      "status": "PASS"
+    },
+    {
+      "id": "TEST-003",
+      "name": "Integridade de estrutura",
+      "status": "PASS"
+    }
+  ]
+}

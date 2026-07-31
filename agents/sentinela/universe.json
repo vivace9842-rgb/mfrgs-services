@@ -1,0 +1,28 @@
+{
+  "core_project": "mfrgs-services",
+
+  "known_projects": [
+    "mfrgs-services",
+    "mfrgs-sovereign-system",
+    "mfrgs-dossies",
+    "mfrgs-dashboard",
+    "mfrgs-mvp",
+    "site-mfrgs"
+  ],
+
+  "external_memory": [
+    ".gemini/history",
+    ".claude/projects"
+  ],
+
+  "protected_documents": [
+    "MFRGS_PROMPT_MASTER.md",
+    "SKILL MASTER — MFRGS DIGITAL VERIFI.txt",
+    "MFRGS_AUDITORIA_CLAUDE_CODE.md"
+  ],
+
+  "rule": {
+    "automatic_import": false,
+    "cross_project_copy": "requires_approval"
+  }
+}

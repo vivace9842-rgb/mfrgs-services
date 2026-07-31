@@ -1,0 +1,34 @@
+{
+  "project": "mfrgs-services",
+
+  "allowed_paths": [
+    "src",
+    "api",
+    "agents",
+    "core",
+    "components",
+    "reports",
+    "docs",
+    "tools"
+  ],
+
+  "protected_files": [
+    "package.json",
+    "tsconfig.json",
+    "vercel.json",
+    "README.md"
+  ],
+
+  "blocked_project_names": [
+    "zapflow",
+    "leadflow",
+    "empathia",
+    "sovereign-system"
+  ],
+
+  "validation": {
+    "require_reason": true,
+    "require_log": true,
+    "require_project_match": true
+  }
+}

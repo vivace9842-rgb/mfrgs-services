@@ -1,0 +1,20 @@
+{
+  "agent": "MFRGS_SENTINELA",
+  "version": "1.0.0",
+  "protected_project": {
+    "repository": "mfrgs-services",
+    "product": "MFRGS Digital Verification",
+    "owner": "MFRGS INOVACOES",
+    "branch": "main"
+  },
+  "mission": {
+    "primary": "Proteger integridade do projeto",
+    "secondary": [
+      "Impedir mistura entre projetos",
+      "Auditar alterações",
+      "Registrar evolução",
+      "Preservar arquitetura"
+    ]
+  },
+  "security_level": "HIGH"
+}

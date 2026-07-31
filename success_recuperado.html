@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating Document — MFRGS Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800 py-6 px-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wider text-teal-400">MFRGS INOVAÇÕES</h1>
+            <span class="text-xs bg-emerald-950/50 text-emerald-400 px-3 py-1 rounded-full border border-emerald-800/60 font-semibold">Secure Payment Confirmed</span>
+        </div>
+    </header>
+
+    <!-- UI State Box -->
+    <main class="max-w-md mx-auto w-full px-4 py-12 flex-grow flex flex-col justify-center">
+        <div id="statusCard" class="bg-slate-850 p-8 rounded-2xl border border-slate-800 shadow-xl bg-slate-800/50 backdrop-blur-sm text-center space-y-6">
+            
+            <!-- Animated Loader Icon -->
+            <div id="statusIcon" class="mx-auto w-16 h-16 border-4 border-t-teal-500 border-slate-700 rounded-full animate-spin"></div>
+            
+            <div class="space-y-2">
+                <h2 id="statusTitle" class="text-xl font-bold text-white">Generating Official Compliance Report</h2>
+                <p id="statusMessage" class="text-slate-400 text-sm">Please hold on. We are pooling public registries and building your secure analytical PDF document...</p>
+            </div>
+
+            <!-- Dynamic Data Preview Badge -->
+            <div id="dataBadge" class="hidden text-xs bg-slate-900 border border-slate-700 rounded-lg p-3 text-left font-mono space-y-1 text-slate-400">
+                <p>⚡ <span class="text-slate-300">Target:</span> <span id="badgeCompany" class="text-teal-400"></span></p>
+                <p>⚡ <span class="text-slate-300">File Reference:</span> <span id="badgeNumber"></span></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 MFRGS INOVAÇÕES. Automated Verification Pipeline Hub.</p>
+    </footer>
+
+    <!-- Core Automated Download Engine Pipeline -->
+    <script>
+        async function runAutoDownloadPipeline() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            const company = urlParams.get('company');
+            const number = urlParams.get('number');
+            const country = urlParams.get('country');
+
+            // Exibe badge de dados caso os parâmetros existam
+            if (company && number) {
+                document.getElementById('badgeCompany').innerText = company;
+                document.getElementById('badgeNumber').innerText = number;
+                document.getElementById('dataBadge').classList.remove('hidden');
+            }
+
+            try {
+                // Dispara a requisição contendo os parâmetros capturados da URL para o nosso endpoint serverless
+                const response = await fetch(`/api/success?email=${encodeURIComponent(email || '')}&company=${encodeURIComponent(company || '')}&number=${encodeURIComponent(number || '')}&country=${encodeURIComponent(country || '')}`, {
+                    method: 'GET'
+                });
+
+                if (!response.ok) throw new Error('Backend failed to generate binary PDF report.');
+
+                // Transforma a resposta em um arquivo binário bruto (blob)
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                
+                // Cria uma âncora fantasma no DOM e força o download nativo do relatório
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `MFRGS-Verification-${(company || 'Report').replace(/\s+/g, '-')}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                // Transiciona a interface para o estado de Concluído com Sucesso
+                document.getElementById('statusIcon').className = "mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 border-2 border-emerald-500 text-2xl font-bold font-sans animate-bounce";
+                document.getElementById('statusIcon').innerHTML = "✓";
+                document.getElementById('statusTitle').innerText = "Download Started Automatically";
+                document.getElementById('statusMessage').innerText = "Your verification statement has been compiled and downloaded. If it didn't start, please refresh this page.";
+
+            } catch (error) {
+                console.error("Pipeline failure:", error);
+                // Transiciona a interface para o estado de Alerta/Erro operacional
+                document.getElementById('statusIcon').className = "mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 text-red-400 border-2 border-red-500 text-2xl font-bold font-sans";
+                document.getElementById('statusIcon').innerHTML = "✕";
+                document.getElementById('statusTitle').innerText = "Generation Engine Error";
+                document.getElementById('statusMessage').innerText = "An error occurred during verification compilation. Please verify your connection or retry your form inquiry inputs.";
+            }
+        }
+
+        // Inicializa o fluxo assim que a janela carregar completamente no navegador do cliente
+        window.onload = runAutoDownloadPipeline;
+    </script>
+</body>
+</html>

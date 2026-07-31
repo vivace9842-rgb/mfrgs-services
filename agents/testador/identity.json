@@ -1,0 +1,35 @@
+{
+  "agent": "MFRGS_TESTADOR",
+  "version": "1.0.0",
+
+  "protected_project": {
+    "repository": "mfrgs-services",
+    "branch": "main"
+  },
+
+  "mission": {
+    "primary": "Validar funcionamento e integridade do sistema",
+    "secondary": [
+      "Executar testes automatizados",
+      "Detectar falhas",
+      "Gerar relatórios",
+      "Verificar agentes"
+    ]
+  },
+
+  "permissions": {
+    "allowed": [
+      "read_files",
+      "execute_tests",
+      "generate_reports"
+    ],
+
+    "blocked": [
+      "modify_files",
+      "delete_files",
+      "move_files"
+    ]
+  },
+
+  "security_level": "READ_ONLY"
+}

@@ -1,0 +1,55 @@
+{
+  "project": "mfrgs-services",
+  "product": "MFRGS Digital Verification",
+
+  "agent_registry": [
+    {
+      "name": "guardian",
+      "status": "existing",
+      "role": "coordenacao_operacional",
+      "permission": "manage_agents"
+    },
+    {
+      "name": "cientista",
+      "status": "existing",
+      "role": "analise_inteligencia",
+      "permission": "research"
+    },
+    {
+      "name": "farejador",
+      "status": "existing",
+      "role": "descoberta_osint",
+      "permission": "collect_data"
+    },
+    {
+      "name": "market_intelligence",
+      "status": "existing",
+      "role": "inteligencia_mercado",
+      "permission": "market_analysis"
+    },
+    {
+      "name": "health_monitor",
+      "status": "existing",
+      "role": "monitoramento_sistema",
+      "permission": "system_check"
+    },
+    {
+      "name": "convertedor",
+      "status": "existing",
+      "role": "processamento_dados",
+      "permission": "data_transform"
+    },
+    {
+      "name": "sentinela",
+      "status": "active",
+      "role": "seguranca_integridade",
+      "permission": "protect_project"
+    }
+  ],
+
+  "policy": {
+    "unknown_agents": "block",
+    "external_files": "review_required",
+    "project_mixing": "forbidden"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "project": "mfrgs-services",
+
+  "tests": [
+    {
+      "id": "TEST-001",
+      "name": "Sentinela autorizado",
+      "target": "agents/sentinela/guardian.py",
+      "expected": "APPROVED"
+    },
+
+    {
+      "id": "TEST-002",
+      "name": "Bloqueio de intruso",
+      "target": "agents/sentinela/guardian.py",
+      "expected": "BLOCKED"
+    },
+
+    {
+      "id": "TEST-003",
+      "name": "Integridade de estrutura",
+      "target": "agents/",
+      "expected": "PASS"
+    }
+  ]
+}
