@@ -43,13 +43,11 @@ export default async function handler(req, res) {
       req.on('error', reject);
     });
 
-
     event = stripe.webhooks.constructEvent(
       rawBody,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
-
 
   } catch (error) {
 
@@ -63,119 +61,83 @@ export default async function handler(req, res) {
     );
   }
 
-
   if (event.type === 'checkout.session.completed') {
 
     const session = event.data.object;
-
 
     const customerEmail =
       session.customer_details?.email ||
       'sem-email';
 
-
     const customerName =
       session.customer_details?.name ||
       'Cliente';
-
 
     const amountTotal =
       session.amount_total
         ? session.amount_total / 100
         : 0;
 
-
     const companyQuery =
       session.metadata?.company ||
       session.metadata?.companyName ||
       'Empresa Consultada';
 
-
-
     console.log(
       `💰 Pagamento confirmado: ${customerEmail} - ${companyQuery}`
     );
 
-
-
     // ORDERS
-
     const { error: orderError } =
       await supabase
         .from('orders')
         .insert({
 
           email: customerEmail,
-
           amount: amountTotal,
-
           status: 'approved',
-
           session_id: session.id,
-
           gateway: 'stripe',
-
           stripe_id: session.id,
-
-          currency:
-            session.currency || 'usd',
+          currency: session.currency || 'usd',
 
           metadata: {
-
             company: companyQuery,
-
             customer_name: customerName,
-
             stripe_session: session.id
-
           }
 
         });
 
-
     if (orderError) {
-
       console.error(
         '❌ Erro orders:',
         orderError.message
       );
-
     }
 
-
-
     // COMPANIES
-
     const { data: companyData, error: companyError } =
       await supabase
         .from('companies')
         .insert({
 
           name: companyQuery,
-
           email: customerEmail,
-
           status: 'payment_received'
 
         })
         .select()
         .single();
 
-
-
     if (companyError) {
-
       console.error(
         '❌ Erro companies:',
         companyError.message
       );
-
     }
 
-
-
     // DOSSIERS
-
     if (companyData) {
 
       const { error: dossierError } =
@@ -191,22 +153,15 @@ export default async function handler(req, res) {
 
           });
 
-
       if (dossierError) {
-
         console.error(
           '❌ Erro dossiers:',
           dossierError.message
         );
-
       }
-
     }
 
-
-
     // EMAIL
-
     if (sendgridKey) {
 
       try {
@@ -223,29 +178,23 @@ export default async function handler(req, res) {
             `[MFRGS] Verificação recebida - ${companyQuery}`,
 
           html: `
-
-          <h2>MFRGS INOVAÇÕES</h2>
-
-          <p>Olá ${customerName},</p>
-
-          <p>
-          Seu pagamento foi confirmado.
-          O dossiê da empresa ${companyQuery}
-          entrou em processamento.
-          </p>
-
+            <h2>MFRGS INOVAÇÕES</h2>
+            <p>Olá ${customerName},</p>
+            <p>
+              Seu pagamento foi confirmado.
+              O dossiê da empresa <strong>${companyQuery}</strong>
+              entrou em processamento.
+            </p>
           `
 
         });
-
 
         console.log(
           '📧 Email enviado:',
           customerEmail
         );
 
-
-      } catch(emailError) {
+      } catch (emailError) {
 
         console.error(
           '❌ Erro email:',
@@ -253,16 +202,10 @@ export default async function handler(req, res) {
         );
 
       }
-
     }
-
   }
 
-
   return res.status(200).json({
-
     received: true
-
   });
-
 }
