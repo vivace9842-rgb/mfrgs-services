@@ -1,0 +1,9 @@
+import { STATUS } from "./status.js";
+
+export const pipeline = [
+  STATUS.RECEIVED,
+  STATUS.PAYMENT_CONFIRMED,
+  STATUS.ANALYZING,
+  STATUS.REPORT_READY,
+  STATUS.DELIVERED
+];

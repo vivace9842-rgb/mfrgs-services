@@ -1,5 +1,6 @@
 // api/verify.js
 import { sanitize, log, error as logError } from "./utils/index.js";
+import { ESSENTIAL_VERIFICATION } from "../services/essential/config.js";
 import {
   searchCompany,
   getCompanyProfile,
@@ -20,8 +21,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "email e empresa são obrigatórios" });
   }
 
-  const service = "essential_verification";
-  const price = 99;
+  const service = ESSENTIAL_VERIFICATION.id;
+  const price = ESSENTIAL_VERIFICATION.price;
 
   try {
     log(`Iniciando ${service}: ${email} (${empresa})`);
