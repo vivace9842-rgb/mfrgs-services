@@ -1,7 +1,15 @@
 {
-  "outputDirectory": "landing",
-  "buildCommand": null,
-  "framework": null,
-  "cleanUrls": true,
-  "trailingSlash": false
+  "version": 2,
+  "builds": [
+    {
+      "src": "landing/index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "landing/$1"
+    }
+  ]
 }
