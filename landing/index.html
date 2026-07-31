@@ -175,6 +175,7 @@
       min-height: 100vh;
       display: flex; align-items: center;
       padding-top: 100px;
+      overflow: hidden;
       background:
         radial-gradient(ellipse 70% 50% at 80% 40%, rgba(107,143,113,.07) 0%, transparent 70%),
         radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.06) 0%, transparent 60%),
@@ -188,8 +189,9 @@
       pointer-events: none;
     }
     .hero__inner {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
       position: relative; z-index: 1;
+      overflow: hidden;
     }
     .hero__eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
@@ -218,14 +220,19 @@
     .hero__stat-label { font-size: .78rem; color: var(--muted); margin-top: 2px; }
     .hero__visual {
       position: relative;
+      z-index: 0;
+      overflow: visible;
+      max-width: 100%;
     }
     .hero__card {
       background: var(--glass);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       backdrop-filter: blur(12px);
-      padding: 28px;
+      padding: 24px;
       box-shadow: 0 8px 48px var(--shadow);
+      position: relative;
+      z-index: 1;
     }
     .hero__card-header {
       display: flex; align-items: center; justify-content: space-between;
@@ -279,9 +286,2110 @@
       box-shadow: 0 4px 24px var(--shadow);
       font-size: .8rem;
       white-space: nowrap;
+      z-index: 2;
     }
-    .hero__float--tl { top: -18px; left: -32px; }
-    .hero__float--br { bottom: -18px; right: -28px; }
+    .hero__float--tl { top: -60px; left: -140px; }
+    .hero__float--br { bottom: -100px; right: 0; }
+    .hero__float-icon { font-size: 1rem; margin-bottom: 2px; }
+    .hero__float-val { font-weight: 700; color: var(--ink); }
+    .hero__float-sub { color: var(--muted); }
+
+    /* ─── WHY CHOOSE ─────────────────────────────────────── */
+    .why__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 52px;
+    }
+    .why__card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: var(--transition);
+    }
+    .why__card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--shadow); }
+    .why__icon {
+      width: 48px; height: 48px; margin-bottom: 16px;
+      background: rgba(107,143,113,.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .why__card h3 { margin-bottom: 8px; }
+    .why__card p { font-size: .9rem; color: var(--muted); line-height: 1.65; }
+
+    /* ─── HOW IT WORKS ───────────────────────────────────── */
+    .how__steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 56px;
+      position: relative;
+    }
+    .how__steps::before {
+      content: '';
+      position: absolute; top: 28px; left: 12.5%; right: 12.5%;
+      height: 1px; background: linear-gradient(90deg, transparent, var(--sage-l), transparent);
+    }
+    .how__step { text-align: center; padding: 0 16px; position: relative; }
+    .how__step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--sage);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-family: var(--font-display); font-size: 1.3rem; color: var(--sage);
+      position: relative; z-index: 1;
+    }
+    .section--dark .how__step-num { background: var(--near-black); }
+    .how__step h3 { font-size: 1rem; margin-bottom: 8px; }
+    .how__step p { font-size: .85rem; color: var(--muted); }
+    .section--dark .how__step p { color: #9BAAA0; }
+
+    /* ─── SERVICES ───────────────────────────────────────── */
+    .services__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 52px;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px 28px;
+      position: relative;
+      transition: var(--transition);
+      display: flex; flex-direction: column;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(107,143,113,.15);
+      border-color: var(--sage-l);
+    }
+    .service-card--popular {
+      border-color: var(--gold);
+      box-shadow: 0 4px 32px rgba(201,168,76,.15);
+    }
+    .service-card__badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--near-black);
+      font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .service-card__num {
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 12px;
+    }
+    .service-card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+    .service-card__price {
+      font-family: var(--font-display); font-size: 2.4rem; color: var(--ink);
+      line-height: 1; margin: 14px 0;
+    }
+    .service-card__price sup { font-size: 1rem; vertical-align: top; margin-top: .5rem; }
+    .service-card__ideal {
+      font-size: .82rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5;
+    }
+    .service-card__divider { border: none; border-top: 1px solid var(--border); margin-bottom: 20px; }
+    .service-card__features { margin-bottom: 24px; flex: 1; }
+    .service-card__feature {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: .86rem; color: var(--ink); padding: 5px 0;
+    }
+    .service-card__feature-icon {
+      flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px;
+      color: var(--sage);
+    }
+    .service-card__turnaround {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .78rem; color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .service-card__turnaround svg { flex-shrink: 0; }
+    .service-card .btn { width: 100%; justify-content: center; }
+
+    /* ─── COMPARISON ─────────────────────────────────────── */
+    .comparison { overflow-x: auto; }
+    .comparison__table {
+      width: 100%; min-width: 860px; border-collapse: collapse; margin-top: 52px;
+    }
+    .comparison__table th, .comparison__table td {
+      padding: 14px 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .comparison__table th:first-child, .comparison__table td:first-child {
+      text-align: left; white-space: nowrap;
+    }
+    .comparison__table thead th {
+      font-size: .8rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      color: #9BAAA0; padding-bottom: 20px;
+    }
+    .comparison__table thead th.popular-col { color: var(--gold); }
+    .comparison__table .price-row td {
+      font-family: var(--font-display); font-size: 1.4rem; color: var(--white);
+      padding-bottom: 20px;
+    }
+    .comparison__table .price-row .popular-col { color: var(--gold); }
+    .comparison__table .feature-row td { font-size: .88rem; color: #9BAAA0; }
+    .comparison__table .feature-row td:first-child { color: #C8D5CA; font-weight: 500; }
+    .comparison__table tr:last-child td { border-bottom: none; }
+    .check { color: var(--sage-l); }
+    .check-gold { color: var(--gold); }
+    .dash { color: #444; }
+
+    /* ─── TRUST ──────────────────────────────────────────── */
+    .trust__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 52px;
+    }
+    .trust__card {
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 28px;
+      background: rgba(255,255,255,.03);
+    }
+    .trust__quote {
+      font-size: .95rem; line-height: 1.7; color: #C8D5CA;
+      margin-bottom: 20px; font-style: italic;
+    }
+    .trust__author { font-size: .82rem; font-weight: 600; color: var(--white); }
+    .trust__role   { font-size: .78rem; color: #9BAAA0; }
+    .trust__stars  { color: var(--gold); font-size: .9rem; margin-bottom: 14px; letter-spacing: 2px; }
+
+    /* ─── REPORT PREVIEW ─────────────────────────────────── */
+    .report__inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 52px;
+    }
+    .report__doc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 16px 64px rgba(0,0,0,.1);
+    }
+    .report__doc-header {
+      background: var(--near-black); padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .report__doc-title { font-size: .85rem; font-weight: 700; color: var(--white); }
+    .report__doc-badge {
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(107,143,113,.3); color: var(--sage-l);
+      padding: 3px 10px; border-radius: 12px;
+    }
+    .report__doc-body { padding: 24px; }
+    .report__section { margin-bottom: 20px; }
+    .report__section-title {
+      font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 10px;
+    }
+    .report__row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid var(--border); font-size: .83rem;
+    }
+    .report__row:last-child { border-bottom: none; }
+    .report__row-label { color: var(--muted); }
+    .report__row-val { font-weight: 600; }
+    .report__row-val.green { color: #3D8C4A; }
+    .report__row-val.amber { color: #C9A84C; }
+    .report__matrix {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px;
+    }
+    .report__matrix-item {
+      background: var(--off); border-radius: 8px; padding: 10px 12px;
+    }
+    .report__matrix-label { font-size: .7rem; color: var(--muted); margin-bottom: 2px; }
+    .report__matrix-score { font-size: 1.1rem; font-weight: 700; }
+    .report__matrix-score.low    { color: #3D8C4A; }
+    .report__matrix-score.medium { color: #C9A84C; }
+    .report__matrix-score.high   { color: #B94A48; }
+    .report__list { }
+    .report__point {
+      display: flex; gap: 8px; font-size: .83rem; color: var(--ink);
+      padding: 4px 0;
+    }
+    .report__point svg { flex-shrink: 0; margin-top: 2px; color: var(--sage); }
+    .report__text h3 { margin-bottom: 12px; }
+    .report__text p { font-size: .95rem; color: var(--muted); margin-bottom: 16px; line-height: 1.7; }
+    .report__feature {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 14px;
+    }
+    .report__feature-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: rgba(107,143,113,.1); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sage);
+    }
+    .report__feature-label { font-size: .88rem; font-weight: 600; margin-bottom: 2px; }
+    .report__feature-desc  { font-size: .82rem; color: var(--muted); }
+
+    /* ─── FAQ ────────────────────────────────────────────── */
+    .faq__list { margin-top: 52px; max-width: 780px; margin-left: auto; margin-right: auto; }
+    .faq__item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq__q {
+      width: 100%; text-align: left;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 22px 0;
+      font-size: 1rem; font-weight: 600; color: var(--ink);
+      transition: color var(--transition);
+    }
+    .faq__q:hover { color: var(--sage); }
+    .faq__q-icon { flex-shrink: 0; transition: transform var(--transition); color: var(--sage); }
+    .faq__item.open .faq__q-icon { transform: rotate(45deg); }
+    .faq__a {
+      display: none; padding-bottom: 20px;
+      font-size: .9rem; color: var(--muted); line-height: 1.75;
+    }
+    .faq__item.open .faq__a { display: block; }
+
+    /* ─── FINAL CTA ──────────────────────────────────────── */
+    .cta {
+      background: linear-gradient(135deg, var(--sage-d) 0%, var(--near-black) 100%);
+      text-align: center; padding: 96px 0;
+    }
+    .cta h2 { color: var(--white); margin-bottom: 16px; }
+    .cta p  { color: #9BAAA0; max-width: 52ch; margin: 0 auto 36px; }
+    .cta__actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    .footer {
+      background: var(--near-black); padding: 64px 0 32px; color: #9BAAA0;
+    }
+    .footer__top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px;
+    }
+    .footer__brand-name {
+      font-family: var(--font-display); font-size: 1.2rem; color: var(--white);
+      margin-bottom: 12px;
+    }
+    .footer__brand-desc { font-size: .86rem; line-height: 1.65; }
+    .footer__col-title {
+      font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .footer__links a { font-size: .86rem; transition: color var(--transition); }
+    .footer__links a:hover { color: var(--sage-l); }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,.08); padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+      font-size: .82rem;
+    }
+    .footer__social { display: flex; gap: 16px; }
+    .footer__social a {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      transition: var(--transition); color: #9BAAA0;
+    }
+    .footer__social a:hover { border-color: var(--sage); color: var(--sage-l); }
+    .footer__legal { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer__legal a { transition: color var(--transition); }
+    .footer__legal a:hover { color: var(--white); }
+
+    /* ─── MOBILE NAV ──────────────────────────────────────── */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(255,255,255,.98); backdrop-filter: blur(16px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.3rem; font-weight: 600; color: var(--ink);
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--sage); }
+    .mobile-menu__close {
+      position: absolute; top: 20px; right: 20px;
+      font-size: 1.5rem; color: var(--ink); background: none; border: none; cursor: pointer;
+    }
+
+    /* ─── SCROLL REVEAL ───────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .why__grid      { grid-template-columns: repeat(2, 1fr); }
+      .services__grid { grid-template-columns: repeat(2, 1fr); }
+      .trust__grid    { grid-template-columns: repeat(2, 1fr); }
+      .report__inner  { grid-template-columns: 1fr; }
+      .footer__top    { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .hero__inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero__visual { display: none; }
+      .how__steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .how__steps::before { display: none; }
+      .services__grid { grid-template-columns: 1fr; }
+      .why__grid      { grid-template-columns: 1fr; }
+      .trust__grid    { grid-template-columns: 1fr; }
+      .footer__top    { grid-template-columns: 1fr; }
+      .footer__bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .nav__links, .nav__cta { display: none; }
+      .nav__hamburger { display: flex; }
+    }
+    @media (max-width: 480px) {
+      .how__steps { grid-template-columns: 1fr; }
+      .hero__trust { gap: 20px; }
+      .cta__actions { flex-direction: column; align-items: center; }
+    }
+    @media (min-width: 1600px) {
+      .container { max-width: 1400px; }
+    }
+
+
+    /* ─── WHO WE SERVE ───────────────────────────────────── */
+    .who__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 52px;
+    }
+    .who__card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 24px;
+      transition: var(--transition);
+    }
+    .who__card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--shadow); border-color: var(--sage-l); }
+    .who__card-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(107,143,113,.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sage); margin-bottom: 16px;
+    }
+    .who__card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .who__card p  { font-size: .86rem; color: var(--muted); line-height: 1.65; }
+
+    /* ─── GLOBAL COVERAGE ────────────────────────────────── */
+    .coverage__grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 52px;
+    }
+    .coverage__region {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 24px 18px; text-align: center;
+      transition: var(--transition);
+    }
+    .coverage__region:hover { background: rgba(255,255,255,.08); border-color: var(--sage-l); }
+    .coverage__region-icon { color: var(--sage-l); margin-bottom: 12px; display: flex; justify-content: center; }
+    .coverage__region-name { font-weight: 700; font-size: .95rem; color: var(--white); margin-bottom: 6px; }
+    .coverage__region-desc { font-size: .78rem; color: #9BAAA0; line-height: 1.5; }
+    .coverage__note {
+      text-align: center; font-size: .84rem; color: #9BAAA0;
+      max-width: 64ch; margin: 32px auto 0; line-height: 1.7;
+      border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px;
+    }
+
+    /* ─── METHODOLOGY ────────────────────────────────────── */
+    .method__grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin-top: 52px;
+    }
+    .method__step {
+      display: flex; gap: 20px; padding: 28px 24px;
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .method__step:nth-child(odd)  { border-right: 1px solid var(--border); }
+    .method__step:nth-last-child(-n+2) { border-bottom: none; }
+    .method__step:hover { background: var(--off); }
+    .method__num {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 400;
+      color: var(--border); line-height: 1; flex-shrink: 0; width: 48px;
+      transition: color var(--transition);
+    }
+    .method__step:hover .method__num { color: var(--sage-l); }
+    .method__content h3 { font-size: 1rem; margin-bottom: 6px; }
+    .method__content p  { font-size: .86rem; color: var(--muted); line-height: 1.65; }
+
+    /* ─── TRUST BADGES ───────────────────────────────────── */
+    .badges {
+      background: var(--near-black);
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 20px 0;
+    }
+    .badges__inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; flex-wrap: wrap;
+    }
+    .badges__item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .82rem; font-weight: 600; color: #9BAAA0;
+      padding: 10px 24px;
+      transition: color var(--transition);
+    }
+    .badges__item:hover { color: var(--sage-l); }
+    .badges__item svg { color: var(--sage); flex-shrink: 0; }
+    .badges__sep {
+      width: 1px; height: 28px; background: rgba(255,255,255,.08);
+    }
+
+    @media (max-width: 1024px) {
+      .coverage__grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .who__grid      { grid-template-columns: 1fr; }
+      .coverage__grid { grid-template-columns: repeat(2, 1fr); }
+      .method__grid   { grid-template-columns: 1fr; }
+      .method__step:nth-child(odd) { border-right: none; }
+      .method__step:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .method__step:last-child { border-bottom: none; }
+      .badges__sep    { display: none; }
+      .badges__inner  { gap: 4px; }
+    }
+
+    /* ─── DISCLAIMER ─────────────────────────────────────── */
+    .disclaimer {
+      background: #F0F4F1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0;
+    }
+    .disclaimer__inner {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .disclaimer__icon {
+      flex-shrink: 0; margin-top: 2px;
+      color: var(--sage);
+    }
+    .disclaimer__title {
+      font-size: .72rem; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--sage-d); margin-bottom: 6px;
+    }
+    .disclaimer__body p {
+      font-size: .82rem; color: var(--muted); line-height: 1.7;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ══════════════════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo" aria-label="MFRGS Digital Verification">
+        <svg class="nav__logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="36" height="36" rx="8" fill="#6B8F71"/>
+          <path d="M10 26 L18 10 L26 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13 21 H23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="26" cy="11" r="3" fill="#C9A84C"/>
+        </svg>
+        <span class="nav__logo-text">MFRGS</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="#who">Who We Serve</a></li>
+        <li><a href="#why">Why MFRGS</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#compare">Compare</a></li>
+        <li><a href="#methodology">Methodology</a></li>
+        <li><a href="#report">Reports</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a href="#services" class="btn btn-outline">Explore Services</a>
+        <a href="#services" class="btn btn-primary">Start Verification</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" id="menuBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button class="mobile-menu__close" id="menuClose" aria-label="Close menu">✕</button>
+  <a href="#why" onclick="closeMobileMenu()">Why MFRGS</a>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#compare" onclick="closeMobileMenu()">Compare</a>
+  <a href="#report" onclick="closeMobileMenu()">Reports</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#services" class="btn btn-primary" onclick="closeMobileMenu()">Start Verification</a>
+</div>
+
+
+<!-- ═══ HERO ═════════════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero__inner">
+      <div class="hero__content">
+        <div class="hero__eyebrow" aria-hidden="true">Verified. Trusted. Reliable.</div>
+        <h1 class="h1" id="hero-heading">
+          Professional Digital<br>
+          <span class="sage">Due Diligence</span> &amp;<br>
+          Business Intelligence
+        </h1>
+        <p class="hero__sub">
+          Trusted verification services for businesses, suppliers, investors and professionals worldwide.
+        </p>
+        <div class="hero__actions">
+          <a href="#services" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            Start Verification
+          </a>
+          <a href="#services" class="btn btn-outline">Explore Services</a>
+        </div>
+        <div class="hero__trust" role="list" aria-label="Key figures">
+          <div class="hero__stat" role="listitem">
+            <div class="hero__stat-num">12 k+</div>
+            <div class="hero__stat-label">Reports delivered</div>
+          </div>
+          <div class="hero__stat" role="listitem">
+            <div class="hero__stat-num">98%</div>
+            <div class="hero__stat-label">Client satisfaction</div>
+          </div>
+          <div class="hero__stat" role="listitem">
+            <div class="hero__stat-num">48 h</div>
+            <div class="hero__stat-label">Avg. turnaround</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__float hero__float--tl">
+          <div class="hero__float-icon">🛡️</div>
+          <div class="hero__float-val">Verified</div>
+          <div class="hero__float-sub">Entity confirmed</div>
+        </div>
+        <div class="hero__card">
+          <div class="hero__card-header">
+            <div class="hero__card-badge">Due Diligence Report</div>
+            <div class="hero__card-status">Completed</div>
+          </div>
+          <div class="hero__report-row">
+            <span class="hero__report-label">Subject</span>
+            <span class="hero__report-value">Tech Solutions Ltd.</span>
+          </div>
+          <div class="hero__report-row">
+            <span class="hero__report-label">Registration</span>
+            <span class="hero__report-value green">✓ Confirmed</span>
+          </div>
+          <div class="hero__report-row">
+            <span class="hero__report-label">Litigation</span>
+            <span class="hero__report-value green">✓ None found</span>
+          </div>
+          <div class="hero__report-row">
+            <span class="hero__report-label">Financial Health</span>
+            <span class="hero__report-value gold">Stable</span>
+          </div>
+          <div class="risk-meter">
+            <div class="risk-meter__label">
+              <span>Risk Score</span>
+              <span style="color:#3D8C4A;font-weight:700">Low — 18/100</span>
+            </div>
+            <div class="risk-meter__bar"><div class="risk-meter__fill"></div></div>
+          </div>
+          <div class="hero__report-row" style="margin-top:12px">
+            <span class="hero__report-label">Analyst recommendation</span>
+            <span class="hero__report-value green">Proceed</span>
+          </div>
+        </div>
+        <div class="hero__float hero__float--br">
+          <div class="hero__float-icon">📄</div>
+          <div class="hero__float-val">Report ready</div>
+          <div class="hero__float-sub">PDF delivered · 42 pages</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ WHY CHOOSE ════════════════════════════════════════ -->
+<section class="section section--off" id="why" aria-labelledby="why-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag" aria-hidden="true">Why MFRGS</div>
+      <h2 class="h2 reveal" id="why-heading">Built for decisions that matter</h2>
+      <p class="lead reveal">Every verification we deliver is backed by human analysts, structured methodology, and transparent evidence — not automated guesswork.</p>
+    </div>
+    <div class="why__grid">
+      <div class="why__card reveal">
+        <div class="why__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Human-Verified Intelligence</h3>
+        <p>Every report is reviewed by certified analysts, not just algorithms. You receive findings you can trust and cite.</p>
+      </div>
+      <div class="why__card reveal">
+        <div class="why__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Fast, Predictable Turnaround</h3>
+        <p>Essential reports in 24–48 hours. Enterprise portfolios within 10 business days. No surprises, no delays.</p>
+      </div>
+      <div class="why__card reveal">
+        <div class="why__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3>Global Coverage</h3>
+        <p>Verification across 90+ jurisdictions. Whether your counterpart is in São Paulo, Singapore or Frankfurt — we can verify.</p>
+      </div>
+      <div class="why__card reveal">
+        <div class="why__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Structured, Actionable Reports</h3>
+        <p>Clear executive summaries, risk matrices, evidence appendices and analyst recommendations in every report.</p>
+      </div>
+      <div class="why__card reveal">
+        <div class="why__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>Strict Confidentiality</h3>
+        <p>All subjects and clients are handled with absolute discretion. Your investigation stays private from start to finish.</p>
+      </div>
+      <div class="why__card reveal">
+        <div class="why__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B8F71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Risk-Graded Findings</h3>
+        <p>Every finding is scored and classified — Low, Medium, High — so you know exactly where to focus your attention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ HOW IT WORKS ══════════════════════════════════════ -->
+<section class="section section--dark" id="how" aria-labelledby="how-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Process</div>
+      <h2 class="h2 reveal" id="how-heading">From order to report in four steps</h2>
+      <p class="lead reveal">A transparent, disciplined process built for professional-grade due diligence.</p>
+    </div>
+    <div class="how__steps">
+      <div class="how__step reveal">
+        <div class="how__step-num" aria-hidden="true">1</div>
+        <h3>Select &amp; Order</h3>
+        <p>Choose the verification tier that fits your need. Secure checkout via Stripe — no account required.</p>
+      </div>
+      <div class="how__step reveal">
+        <div class="how__step-num" aria-hidden="true">2</div>
+        <h3>Submit Subject Details</h3>
+        <p>Provide the company name, individual, or website you need verified. We'll confirm receipt within 2 hours.</p>
+      </div>
+      <div class="how__step reveal">
+        <div class="how__step-num" aria-hidden="true">3</div>
+        <h3>Analysts Go to Work</h3>
+        <p>Our team searches public records, registries, litigation databases, and digital footprints across global sources.</p>
+      </div>
+      <div class="how__step reveal">
+        <div class="how__step-num" aria-hidden="true">4</div>
+        <h3>Receive Your Report</h3>
+        <p>A structured PDF report lands in your inbox. Findings, risk score, evidence, and clear recommendations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SERVICES ══════════════════════════════════════════ -->
+<section class="section" id="services" aria-labelledby="services-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Services</div>
+      <h2 class="h2 reveal" id="services-heading">Six verification tiers</h2>
+      <p class="lead reveal">From a quick entity check to a comprehensive enterprise portfolio review — choose the depth your decision demands.</p>
+    </div>
+    <div class="services__grid">
+
+      <!-- 1 -->
+      <article class="service-card reveal" aria-label="Essential Verification, $99">
+        <div class="service-card__num">01</div>
+        <h3>Essential Verification</h3>
+        <div class="service-card__price"><sup>$</sup>99</div>
+        <p class="service-card__ideal">Ideal for: Small businesses, freelancers, and individuals needing a baseline check before engaging a new partner.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Corporate registration check
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Basic digital footprint review
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Risk score (Low / Medium / High)
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Executive summary PDF
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>24–48 hours</strong>
+        </div>
+        <a href="https://buy.stripe.com/14AaEZ50j4xEczqbQ3fMA0h" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order Essential Verification for $99">Order Now</a>
+      </article>
+
+      <!-- 2 -->
+      <article class="service-card reveal" aria-label="Individual Verification, $149">
+        <div class="service-card__num">02</div>
+        <h3>Individual Verification</h3>
+        <div class="service-card__price"><sup>$</sup>149</div>
+        <p class="service-card__ideal">Ideal for: HR teams, investors, and professionals verifying the identity and background of key individuals.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Identity &amp; credential confirmation
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Professional history check
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Litigation &amp; public record search
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Social media &amp; digital presence
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Structured PDF report
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>48–72 hours</strong>
+        </div>
+        <a href="https://buy.stripe.com/14A7sNdwP0ho2YQaLZfMA0k" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order Individual Verification for $149">Order Now</a>
+      </article>
+
+      <!-- 3 -->
+      <article class="service-card reveal" aria-label="Website Trust Audit, $179">
+        <div class="service-card__num">03</div>
+        <h3>Website Trust Audit</h3>
+        <div class="service-card__price"><sup>$</sup>179</div>
+        <p class="service-card__ideal">Ideal for: Buyers, partners and investors who need to verify the legitimacy of an online business before transacting.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Domain age &amp; ownership history
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            SSL, hosting &amp; technical audit
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Scam &amp; fraud indicator review
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Blacklist database check
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Trust score with recommendations
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>24–48 hours</strong>
+        </div>
+        <a href="https://buy.stripe.com/6oU00lfEXd4a56Y2ftfMA0l" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order Website Trust Audit for $179">Order Now</a>
+      </article>
+
+      <!-- 4 — MOST POPULAR -->
+      <article class="service-card service-card--popular reveal" aria-label="Professional Due Diligence, $299 — Most Popular">
+        <div class="service-card__badge">Most Popular</div>
+        <div class="service-card__num">04</div>
+        <h3>Professional Due Diligence</h3>
+        <div class="service-card__price" style="color:var(--gold-d)"><sup>$</sup>299</div>
+        <p class="service-card__ideal">Ideal for: Companies evaluating new business partners, suppliers, or investment targets before signing agreements.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Full corporate verification
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Litigation &amp; legal history
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Key persons background check
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Digital &amp; online reputation audit
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Risk matrix &amp; analyst recommendation
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Evidence-backed PDF report
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>3–5 business days</strong>
+        </div>
+        <a href="https://buy.stripe.com/14A14p2Sbd4a7f63jxfMA0m" class="btn btn-gold" target="_blank" rel="noopener noreferrer" aria-label="Order Professional Due Diligence for $299">Order Now</a>
+      </article>
+
+      <!-- 5 -->
+      <article class="service-card reveal" aria-label="Supplier Verification, $349">
+        <div class="service-card__num">05</div>
+        <h3>Supplier Verification</h3>
+        <div class="service-card__price"><sup>$</sup>349</div>
+        <p class="service-card__ideal">Ideal for: Procurement teams and supply chain managers needing confidence in new vendor relationships.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Supplier registration &amp; legal status
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Ownership &amp; beneficial interest
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Sanctions &amp; watchlist screening
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Operational capability assessment
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Compliance &amp; reputation check
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Risk-scored report with evidence
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>5–7 business days</strong>
+        </div>
+        <a href="https://buy.stripe.com/6oU28t64n3tA1UMf2ffMA0n" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order Supplier Verification for $349">Order Now</a>
+      </article>
+
+      <!-- 6 -->
+      <article class="service-card reveal" aria-label="Enterprise Portfolio Review, $699">
+        <div class="service-card__num">06</div>
+        <h3>Enterprise Portfolio Review</h3>
+        <div class="service-card__price"><sup>$</sup>699</div>
+        <p class="service-card__ideal">Ideal for: Investment firms, M&amp;A advisors, and enterprises reviewing multiple entities or a full counterpart portfolio.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Multi-entity verification (up to 5)
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Cross-entity risk correlation
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Full litigation &amp; regulatory history
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Financial stability indicators
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Senior analyst call (30 min)
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Consolidated portfolio report
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>7–10 business days</strong>
+        </div>
+        <a href="https://buy.stripe.com/fZu6oJ3WfaW28jaf2ffMA0o" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order Enterprise Portfolio Review for $699">Order Now</a>
+      </article>
+
+      <!-- 7 -->
+      <article class="service-card reveal" aria-label="Corporate Monitoring, $999">
+        <div class="service-card__num">07</div>
+        <h3>Corporate Monitoring</h3>
+        <div class="service-card__price"><sup>$</sup>999</div>
+        <p class="service-card__ideal">Ideal for: Companies requiring ongoing, structured monitoring of their supplier, vendor and partner base over time.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Multi-entity verification (up to 10)
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Recurring supplier &amp; vendor monitoring
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Cross-entity risk correlation
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Full litigation &amp; sanctions screening
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Consolidated risk dashboard report
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Senior analyst call (60 min)
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>10–15 business days</strong>
+        </div>
+        <a href="https://buy.stripe.com/aFaeVf0K38NU6b2bQ3fMA0r" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order Corporate Monitoring for $999">Order Now</a>
+      </article>
+
+      <!-- 8 -->
+      <article class="service-card reveal" aria-label="International Due Diligence, $1,499">
+        <div class="service-card__num">08</div>
+        <h3>International Due Diligence</h3>
+        <div class="service-card__price"><sup>$</sup>1,499</div>
+        <p class="service-card__ideal">Ideal for: International acquisitions, investments, import/export operations, and global expansion.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Multi-jurisdiction corporate verification
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            International sanctions &amp; PEP screening
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Cross-border litigation &amp; legal history
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Beneficial ownership mapping
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Country risk &amp; regulatory assessment
+          </li>
+          <li class="service-card__feature">
+            <svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Senior analyst briefing included
+          </li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>10–15 business days</strong>
+        </div>
+        <a href="https://buy.stripe.com/8x2eVf2Sb8NUgPG8DRfMA0q" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order International Due Diligence for $1,499">Order Now</a>
+      </article>
+
+      <!-- 9 — Custom -->
+      <article class="service-card service-card--custom reveal" aria-label="Custom Investigations — Contact Sales">
+        <div class="service-card__num">09</div>
+        <h3>Custom Investigations</h3>
+        <div class="service-card__price" style="font-size:1.4rem;margin:14px 0;color:var(--sage-d)">Contact Sales</div>
+        <p class="service-card__ideal">Ideal for: Organizations requiring complex, highly customized investigations that fall outside standard verification packages.</p>
+        <hr class="service-card__divider" />
+        <ul class="service-card__features" aria-label="Included services">
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Corporate Intelligence Investigations</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Complex Fraud Investigations</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Asset Tracing</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Executive &amp; Shareholder Background Investigations</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Strategic OSINT Research</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Digital Footprint Intelligence</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>International Investigations</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Tailor-made Intelligence Reports</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Dedicated Senior Analyst</li>
+          <li class="service-card__feature"><svg class="service-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Confidential Handling</li>
+        </ul>
+        <div class="service-card__turnaround">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Turnaround: <strong>Defined per project scope</strong>
+        </div>
+        <a href="mailto:contact@mfrgs.com" class="btn btn-primary" aria-label="Request a custom investigation quote">Request a Quote</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ COMPARISON TABLE ══════════════════════════════════ -->
+<section class="section section--dark" id="compare" aria-labelledby="compare-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Compare</div>
+      <h2 class="h2 reveal" id="compare-heading">Find the right tier</h2>
+      <p class="lead reveal">All nine plans side by side — so you can match your need to the right scope.</p>
+    </div>
+    <div class="comparison" role="region" aria-label="Service comparison table">
+      <table class="comparison__table">
+        <caption class="visually-hidden">Comparison of MFRGS verification service plans</caption>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Essential</th>
+            <th scope="col">Individual</th>
+            <th scope="col">Website Audit</th>
+            <th scope="col" class="popular-col">Due Diligence</th>
+            <th scope="col">Supplier</th>
+            <th scope="col">Enterprise</th>
+            <th scope="col">Enterprise Plus</th>
+            <th scope="col">Intl. Due Diligence</th>
+            <th scope="col">Custom</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="price-row">
+            <td>Price</td>
+            <td>$99</td>
+            <td>$149</td>
+            <td>$179</td>
+            <td class="popular-col">$299</td>
+            <td>$349</td>
+            <td>$699</td>
+            <td>$999</td>
+            <td>$1,499</td>
+            <td>Custom</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Turnaround</td>
+            <td>24–48 h</td>
+            <td>48–72 h</td>
+            <td>24–48 h</td>
+            <td class="popular-col">3–5 days</td>
+            <td>5–7 days</td>
+            <td>7–10 days</td>
+            <td>10–15 days</td>
+            <td>10–15 days</td>
+            <td>Per scope</td>
+          </tr>
+          <tr class="feature-row">
+            <td>PDF Report</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check-gold">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">Custom</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Risk Analysis</td>
+            <td class="check">Basic</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check-gold">Full Matrix</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">Full Matrix</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Corporate Verification</td>
+            <td class="check">✓</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check-gold">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">Multi-jurisdiction</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Litigation Search</td>
+            <td class="dash">—</td>
+            <td class="check">✓</td>
+            <td class="dash">—</td>
+            <td class="check-gold">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">Cross-border</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Website Audit</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">✓</td>
+            <td class="check-gold">✓</td>
+            <td class="dash">—</td>
+            <td class="check">✓</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">If applicable</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Supplier Analysis</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓ Recurring</td>
+            <td class="dash">—</td>
+            <td class="check">If applicable</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Portfolio Review</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">Up to 5</td>
+            <td class="check">Up to 10</td>
+            <td class="dash">—</td>
+            <td class="check">Unlimited</td>
+          </tr>
+          <tr class="feature-row">
+            <td>Analyst Call</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">30 min</td>
+            <td class="check">60 min</td>
+            <td class="check">Included</td>
+            <td class="check">Dedicated</td>
+          </tr>
+          <tr class="feature-row">
+            <td>International Scope</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">✓ Multi-jurisdiction</td>
+            <td class="check">✓ Global</td>
+          </tr>
+          <tr class="feature-row">
+            <td>OSINT / Intelligence</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="dash">—</td>
+            <td class="check">✓ Strategic</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ TRUST ═════════════════════════════════════════════ -->
+<section class="section section--dark" id="trust" aria-labelledby="trust-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Client Testimonials</div>
+      <h2 class="h2 reveal" id="trust-heading">Why clients trust us</h2>
+      <p class="lead reveal">Professionals and businesses across industries rely on MFRGS before making decisions that matter.</p>
+    </div>
+    <div class="trust__grid">
+      <article class="trust__card reveal" aria-label="Testimonial from Procurement Director">
+        <div class="trust__stars" aria-label="5 stars">★★★★★</div>
+        <p class="trust__quote">"We used MFRGS before onboarding a new logistics supplier in Southeast Asia. The report was thorough, well-structured, and flagged issues we would have missed. Exactly what due diligence should look like."</p>
+        <div class="trust__author">M. Oliveira</div>
+        <div class="trust__role">Procurement Director, Brazil</div>
+      </article>
+      <article class="trust__card reveal" aria-label="Testimonial from Investment Analyst">
+        <div class="trust__stars" aria-label="5 stars">★★★★★</div>
+        <p class="trust__quote">"The Professional Due Diligence report gave our team a clear picture of a potential investment target. The risk matrix was particularly useful. We ordered two more reports for the same portfolio."</p>
+        <div class="trust__author">R. Andersen</div>
+        <div class="trust__role">Investment Analyst, Denmark</div>
+      </article>
+      <article class="trust__card reveal" aria-label="Testimonial from Independent Consultant">
+        <div class="trust__stars" aria-label="5 stars">★★★★★</div>
+        <p class="trust__quote">"I needed a quick verification on a potential business partner before a contract signing. The Essential Verification came back within 24 hours with everything I needed. Clean, professional, reliable."</p>
+        <div class="trust__author">A. Mensah</div>
+        <div class="trust__role">Independent Consultant, Ghana</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ REPORT PREVIEW ════════════════════════════════════ -->
+<section class="section" id="report" aria-labelledby="report-heading">
+  <div class="container">
+    <div class="report__inner">
+      <div class="report__doc reveal" aria-label="Sample report preview">
+        <div class="report__doc-header">
+          <div class="report__doc-title">MFRGS Due Diligence Report</div>
+          <div class="report__doc-badge">Confidential</div>
+        </div>
+        <div class="report__doc-body">
+          <div class="report__section">
+            <div class="report__section-title">Executive Summary</div>
+            <div class="report__row"><span class="report__row-label">Subject</span><span class="report__row-val">Global Tech Ventures Ltd.</span></div>
+            <div class="report__row"><span class="report__row-label">Jurisdiction</span><span class="report__row-val">United Kingdom</span></div>
+            <div class="report__row"><span class="report__row-label">Verification Date</span><span class="report__row-val">July 2026</span></div>
+            <div class="report__row"><span class="report__row-label">Overall Status</span><span class="report__row-val green">Verified ✓</span></div>
+          </div>
+          <div class="report__section">
+            <div class="report__section-title">Risk Matrix</div>
+            <div class="report__matrix" role="list">
+              <div class="report__matrix-item" role="listitem">
+                <div class="report__matrix-label">Financial Risk</div>
+                <div class="report__matrix-score low">Low</div>
+              </div>
+              <div class="report__matrix-item" role="listitem">
+                <div class="report__matrix-label">Legal Risk</div>
+                <div class="report__matrix-score low">Low</div>
+              </div>
+              <div class="report__matrix-item" role="listitem">
+                <div class="report__matrix-label">Reputational</div>
+                <div class="report__matrix-score medium">Medium</div>
+              </div>
+              <div class="report__matrix-item" role="listitem">
+                <div class="report__matrix-label">Operational</div>
+                <div class="report__matrix-score low">Low</div>
+              </div>
+            </div>
+          </div>
+          <div class="report__section">
+            <div class="report__section-title">Key Findings &amp; Recommendations</div>
+            <div class="report__point">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Company legally registered since 2018 — no gaps found
+            </div>
+            <div class="report__point">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              No active or historical litigation identified
+            </div>
+            <div class="report__point">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Director backgrounds verified and clear
+            </div>
+            <div class="report__point">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span style="color:var(--gold-d)">Recommend requesting 2023 audited financials before proceeding</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="report__text reveal">
+        <div class="tag" aria-hidden="true">Report Preview</div>
+        <h2 class="h2" id="report-heading">What your report looks like</h2>
+        <p>Every MFRGS report is a structured, evidence-backed document built for professional use — clear enough to share with a board, detailed enough to withstand scrutiny.</p>
+        <div class="report__feature">
+          <div class="report__feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <div class="report__feature-label">Executive Summary</div>
+            <div class="report__feature-desc">A concise overview of findings, verification status, and analyst conclusion — on the first page.</div>
+          </div>
+        </div>
+        <div class="report__feature">
+          <div class="report__feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="report__feature-label">Risk Matrix</div>
+            <div class="report__feature-desc">Every risk dimension graded Low / Medium / High with supporting evidence for each score.</div>
+          </div>
+        </div>
+        <div class="report__feature">
+          <div class="report__feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
+          </div>
+          <div>
+            <div class="report__feature-label">Evidence Appendix</div>
+            <div class="report__feature-desc">Source citations, screenshots, and registry data backing every finding in the report.</div>
+          </div>
+        </div>
+        <div class="report__feature">
+          <div class="report__feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="report__feature-label">Analyst Recommendation</div>
+            <div class="report__feature-desc">A clear final assessment — Proceed, Proceed with Caution, or Do Not Proceed.</div>
+          </div>
+        </div>
+        <a href="#services" class="btn btn-primary">Order Your Report</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ WHO WE SERVE ══════════════════════════════════════ -->
+<section class="section" id="who" aria-labelledby="who-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Who We Serve</div>
+      <h2 class="h2 reveal" id="who-heading">Built for professionals who need certainty</h2>
+      <p class="lead reveal">MFRGS delivers verification intelligence across industries where the cost of a wrong decision is too high to accept.</p>
+    </div>
+    <div class="who__grid">
+      <div class="who__card reveal">
+        <div class="who__card-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        </div>
+        <h3>Companies</h3>
+        <p>Vet partners, suppliers and counterparts before signing contracts or initiating commercial relationships.</p>
+      </div>
+      <div class="who__card reveal">
+        <div class="who__card-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Investors</h3>
+        <p>Validate investment targets, assess founders and key executives, and confirm company legitimacy before committing capital.</p>
+      </div>
+      <div class="who__card reveal">
+        <div class="who__card-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <h3>Procurement Teams</h3>
+        <p>Screen new vendors and suppliers against fraud, sanctions and compliance risks before onboarding them into your supply chain.</p>
+      </div>
+      <div class="who__card reveal">
+        <div class="who__card-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        </div>
+        <h3>Financial Institutions</h3>
+        <p>Support KYC, AML, and onboarding compliance with structured third-party verification reports on clients and counterparts.</p>
+      </div>
+      <div class="who__card reveal">
+        <div class="who__card-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg>
+        </div>
+        <h3>Law Firms</h3>
+        <p>Supplement legal due diligence with structured business intelligence on opposing parties, clients, or counterparties.</p>
+      </div>
+      <div class="who__card reveal">
+        <div class="who__card-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Government &amp; NGOs</h3>
+        <p>Verify vendors, grantees, and implementing partners as part of procurement, compliance, and risk management processes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ GLOBAL COVERAGE ═══════════════════════════════════ -->
+<section class="section section--dark" id="coverage" aria-labelledby="coverage-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Global Coverage</div>
+      <h2 class="h2 reveal" id="coverage-heading">Verification across 90+ jurisdictions</h2>
+      <p class="lead reveal">Our analysts access public registries, official databases and licensed commercial sources tailored to each jurisdiction — coverage depth varies by country based on available records.</p>
+    </div>
+    <div class="coverage__grid reveal">
+      <div class="coverage__region">
+        <div class="coverage__region-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="coverage__region-name">Americas</div>
+        <div class="coverage__region-desc">Brazil, USA, Canada, Mexico, Argentina, Colombia and more</div>
+      </div>
+      <div class="coverage__region">
+        <div class="coverage__region-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="coverage__region-name">Europe</div>
+        <div class="coverage__region-desc">UK, Germany, France, Netherlands, Portugal, Spain and 30+ countries</div>
+      </div>
+      <div class="coverage__region">
+        <div class="coverage__region-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="coverage__region-name">Middle East</div>
+        <div class="coverage__region-desc">UAE, Saudi Arabia, Qatar, Kuwait, Israel, Jordan and more</div>
+      </div>
+      <div class="coverage__region">
+        <div class="coverage__region-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="coverage__region-name">Africa</div>
+        <div class="coverage__region-desc">South Africa, Nigeria, Kenya, Ghana, Egypt, Morocco and more</div>
+      </div>
+      <div class="coverage__region">
+        <div class="coverage__region-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="coverage__region-name">Asia-Pacific</div>
+        <div class="coverage__region-desc">Singapore, Hong Kong, Japan, Australia, India, China and more</div>
+      </div>
+    </div>
+    <p class="coverage__note reveal">Verifications utilize public registries, official government databases, and licensed commercial sources according to each jurisdiction. Coverage depth and source availability vary by country.</p>
+  </div>
+</section>
+
+
+<!-- ═══ METHODOLOGY ═══════════════════════════════════════ -->
+<section class="section" id="methodology" aria-labelledby="methodology-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Our Methodology</div>
+      <h2 class="h2 reveal" id="methodology-heading">A structured process, not a database query</h2>
+      <p class="lead reveal">Every MFRGS report follows a disciplined eight-step methodology — combining automated data retrieval with human analyst judgment at every stage.</p>
+    </div>
+    <div class="method__grid">
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">01</div>
+        <div class="method__content">
+          <h3>Identity Verification</h3>
+          <p>We confirm the legal identity of the subject — name, registration, jurisdiction, and ownership structure — against official sources.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">02</div>
+        <div class="method__content">
+          <h3>Registry Validation</h3>
+          <p>Corporate status, filing history, and registered addresses are validated directly against national business registries and official databases.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">03</div>
+        <div class="method__content">
+          <h3>Litigation Research</h3>
+          <p>We search court records, regulatory filings, and legal databases for active or historical litigation, judgments, and regulatory actions.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">04</div>
+        <div class="method__content">
+          <h3>Reputation Analysis</h3>
+          <p>Media monitoring, adverse news screening, and digital reputation analysis are conducted across multiple languages and jurisdictions.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">05</div>
+        <div class="method__content">
+          <h3>OSINT Intelligence</h3>
+          <p>Open-source intelligence techniques are applied to map digital presence, social profiles, domain history, and publicly available network connections.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">06</div>
+        <div class="method__content">
+          <h3>Risk Assessment</h3>
+          <p>All findings are scored across financial, legal, reputational, and operational risk dimensions using our structured risk matrix framework.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">07</div>
+        <div class="method__content">
+          <h3>Human Analyst Review</h3>
+          <p>A certified analyst reviews all data, resolves ambiguities, cross-references sources, and applies professional judgment before the report is finalized.</p>
+        </div>
+      </div>
+      <div class="method__step reveal">
+        <div class="method__num" aria-hidden="true">08</div>
+        <div class="method__content">
+          <h3>Final Executive Report</h3>
+          <p>A structured PDF is produced — executive summary, risk matrix, evidence appendix, and a clear analyst recommendation — ready for professional use.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FAQ ═══════════════════════════════════════════════ -->
+<section class="section section--off" id="faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="center">
+      <div class="tag">FAQ</div>
+      <h2 class="h2 reveal" id="faq-heading">Common questions</h2>
+      <p class="lead reveal">Everything you need to know about ordering, delivery, and what to expect from your report.</p>
+    </div>
+    <div class="faq__list" role="list">
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          What information do I need to provide to start a verification?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">After checkout, you'll receive a secure intake form. For corporate verifications, we need the company name, country of registration, and any known registration numbers. For individuals, a full name and country of residence is sufficient to begin. The more detail you provide, the faster and more thorough your report will be.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          How is the report delivered?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">Reports are delivered as a secure PDF to the email address used at checkout. You will receive a notification when the report is ready, along with a download link. No login or account is required to access your report.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          Is the subject of the verification notified?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">No. Verifications are conducted discreetly using publicly available information, open-source intelligence, and licensed databases. The subject is never contacted or notified as part of our process.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          What countries do you cover?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">We provide verification services across 90+ jurisdictions globally, including the Americas, Europe, Asia-Pacific, Middle East, and Africa. Coverage depth varies by jurisdiction based on available public records. If you have a specific country in mind, contact us before ordering and we can advise on expected scope.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          Can I request a verification for multiple entities?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">Yes. The Enterprise Portfolio Review covers up to five entities in a single consolidated report with cross-entity risk analysis. For larger portfolios or custom projects, contact us directly — we offer bespoke solutions for institutional clients.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          Are your reports legally admissible?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">MFRGS reports are structured research documents intended for decision support, due diligence, and risk assessment. They include source citations and evidence appendices. Whether a report is admissible in a specific legal context depends on the jurisdiction and purpose. We recommend consulting legal counsel for litigation-related use cases.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          What is your refund policy?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">If we are unable to complete your verification due to insufficient public information or coverage limitations in the requested jurisdiction, we will issue a full refund. Completed reports are non-refundable, as research work is conducted on commission. If you have concerns about your report, contact our team within 7 days of delivery.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          How do you protect my personal information?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">All client data is handled with strict confidentiality. We do not share, sell, or disclose your identity or order details to any third party. Payment is processed exclusively through Stripe, which is PCI DSS Level 1 certified. Your data is retained only as long as necessary to fulfill your order and comply with applicable legal obligations.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          What makes MFRGS different from automated background check tools?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">Automated tools run database lookups in seconds — and stop there. MFRGS reports combine automated screening with human analyst review. Our analysts interpret findings in context, cross-reference across multiple sources, and apply professional judgment to produce recommendations you can act on with confidence. The result is a document built for real decisions, not just data exports.</div>
+      </div>
+
+      <div class="faq__item" role="listitem">
+        <button class="faq__q" aria-expanded="false">
+          Can I speak to an analyst before ordering?
+          <svg class="faq__q-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq__a">Yes. If you have questions about which tier is right for your situation, or if your case has specific complexities, you are welcome to contact us before placing an order. The Enterprise Portfolio Review also includes a 30-minute analyst call as part of the service.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FINAL CTA ══════════════════════════════════════════ -->
+<section class="cta" aria-labelledby="cta-heading">
+  <div class="container">
+    <div class="tag" style="color:var(--gold-l)" aria-hidden="true">Get Started</div>
+    <h2 class="h2" id="cta-heading">Make your next decision<br>with confidence</h2>
+    <p>Order your verification report today. Secure checkout, fast delivery, professional results.</p>
+    <div class="cta__actions">
+      <a href="#services" class="btn btn-gold">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        Start Verification
+      </a>
+      <a href="#compare" class="btn btn-outline" style="border-color:rgba(255,255,255,.25);color:var(--white)">Compare Plans</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ TRUST BADGES ════════════════════════════════════ -->
+<div class="badges" aria-label="Service quality pillars">
+  <div class="container">
+    <div class="badges__inner">
+      <div class="badges__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Human Reviewed</span>
+      </div>
+      <div class="badges__sep" aria-hidden="true"></div>
+      <div class="badges__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>Evidence Based</span>
+      </div>
+      <div class="badges__sep" aria-hidden="true"></div>
+      <div class="badges__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>Global Coverage</span>
+      </div>
+      <div class="badges__sep" aria-hidden="true"></div>
+      <div class="badges__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Confidential</span>
+      </div>
+      <div class="badges__sep" aria-hidden="true"></div>
+      <div class="badges__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Risk Intelligence</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DISCLAIMER ══════════════════════════════════════ -->
+<section class="disclaimer" aria-label="Legal disclaimer">
+  <div class="container">
+    <div class="disclaimer__inner">
+      <div class="disclaimer__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="disclaimer__body">
+        <div class="disclaimer__title">Important Disclaimer</div>
+        <p>MFRGS Digital Verification provides analytical reports based on publicly available information, commercial databases and structured verification methodologies. Our reports are designed to support decision-making and risk assessment. The final decision to engage in any transaction, partnership, investment, hiring process or commercial relationship remains solely the responsibility of the client. MFRGS does not guarantee future events, financial performance, business continuity, legal outcomes or the absence of undiscovered information. Clients should consider professional legal, financial or compliance advice when required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">MFRGS Digital Verification</div>
+        <p class="footer__brand-desc">Professional due diligence and business intelligence for companies, investors and professionals worldwide. Trusted analysis. Transparent reports. Actionable results.</p>
+      </div>
+      <div>
+        <div class="footer__col-title">Services</div>
+        <ul class="footer__links" role="list">
+          <li><a href="https://buy.stripe.com/14AaEZ50j4xEczqbQ3fMA0h" target="_blank" rel="noopener noreferrer">Essential Verification</a></li>
+          <li><a href="https://buy.stripe.com/14A7sNdwP0ho2YQaLZfMA0k" target="_blank" rel="noopener noreferrer">Individual Verification</a></li>
+          <li><a href="https://buy.stripe.com/6oU00lfEXd4a56Y2ftfMA0l" target="_blank" rel="noopener noreferrer">Website Trust Audit</a></li>
+          <li><a href="https://buy.stripe.com/14A14p2Sbd4a7f63jxfMA0m" target="_blank" rel="noopener noreferrer">Professional Due Diligence</a></li>
+          <li><a href="https://buy.stripe.com/6oU28t64n3tA1UMf2ffMA0n" target="_blank" rel="noopener noreferrer">Supplier Verification</a></li>
+          <li><a href="https://buy.stripe.com/fZu6oJ3WfaW28jaf2ffMA0o" target="_blank" rel="noopener noreferrer">Enterprise Portfolio Review</a></li>
+          <li><a href="https://buy.stripe.com/aFaeVf0K38NU6b2bQ3fMA0r" target="_blank" rel="noopener noreferrer">Corporate Monitoring</a></li>
+          <li><a href="https://buy.stripe.com/8x2eVf2Sb8NUgPG8DRfMA0q" target="_blank" rel="noopener noreferrer">International Due Diligence</a></li>
+          <li><a href="mailto:contact@mfrgs.com">Custom Investigations</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links" role="list">
+          <li><a href="#why">About MFRGS</a></li>
+          <li><a href="#report">Sample Reports</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="mailto:contact@mfrgs.com">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Legal</div>
+        <ul class="footer__links" role="list">
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/cookies">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div>&copy; 2026 MFRGS Inovações. All rights reserved.</div>
+      <div class="footer__social" aria-label="Social media links">
+        <a href="#" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" aria-label="Twitter / X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16M4 20 20 4"/></svg>
+        </a>
+      </div>
+      <div class="footer__legal" aria-label="Legal links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/cookies">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // ── Mobile Menu ─────────────────────────────────────────
+  const menuBtn   = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuClose  = document.getElementById('menuClose');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  menuClose.addEventListener('click', closeMobileMenu);
+
+  mobileMenu.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
+
+  // ── FAQ Accordion ────────────────────────────────────────
+  document.querySelectorAll('.faq__q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq__item');
+      const open = item.classList.contains('open');
+
+      document.querySelectorAll('.faq__item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq__q').setAttribute('aria-expanded', 'false');
+      });
+
+      if (!open) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ── Scroll Reveal ────────────────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Nav scroll style ────────────────────────────────────
+  const nav = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 40
+      ? '0 2px 24px rgba(0,0,0,.08)'
+      : 'none';
+  }, { passive: true });
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MFRGS Digital Verification — Professional Due Diligence & Business Intelligence</title>
+  <meta name="description" content="MFRGS delivers trusted digital verification services for businesses, suppliers, investors and professionals worldwide. Transparent reports, expert analysis, global reach." />
+  <link rel="canonical" href="https://mfrgs.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MFRGS Digital Verification — Professional Due Diligence" />
+  <meta property="og:description" content="Trusted verification services for businesses, suppliers, investors and professionals worldwide." />
+  <meta property="og:url" content="https://mfrgs.com/" />
+  <meta property="og:image" content="https://mfrgs.com/assets/images/og-image.webp" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MFRGS Digital Verification" />
+  <meta name="twitter:description" content="Trusted verification services for businesses, suppliers, investors and professionals worldwide." />
+  <meta name="twitter:image" content="https://mfrgs.com/assets/images/og-image.webp" />
+
+  <!-- Robots -->
+  <meta name="robots" content="index, follow" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MFRGS Digital Verification",
+    "url": "https://mfrgs.com",
+    "description": "Professional digital due diligence and business intelligence services worldwide.",
+    "offers": [
+      {"@type":"Offer","name":"Essential Verification","price":"99","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Individual Verification","price":"149","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Website Trust Audit","price":"179","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Professional Due Diligence","price":"299","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Supplier Verification","price":"349","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Enterprise Portfolio Review","price":"699","priceCurrency":"USD"}
+    ]
+  }
+  </script>
+
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --sage:    #6B8F71;
+      --sage-l:  #8AAF90;
+      --sage-d:  #4A6650;
+      --gold:    #C9A84C;
+      --gold-l:  #E8C97A;
+      --gold-d:  #A07C2A;
+      --white:   #FFFFFF;
+      --off:     #F7F8F6;
+      --near-black: #0F1511;
+      --ink:     #1C2A1E;
+      --muted:   #6B7C6D;
+      --border:  #E2E8E3;
+      --shadow:  rgba(15,21,17,.08);
+      --glass:   rgba(255,255,255,.72);
+
+      --font-display: 'Georgia', 'Times New Roman', serif;
+      --font-body:    system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --font-mono:    'Courier New', monospace;
+
+      --radius: 14px;
+      --radius-lg: 20px;
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ─── UTILITY ────────────────────────────────────────── */
+    .container { width: 90%; max-width: 1180px; margin: 0 auto; }
+    .section { padding: 96px 0; }
+    .section--dark { background: var(--near-black); color: var(--white); }
+    .section--off  { background: var(--off); }
+    .tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 12px;
+    }
+    .section--dark .tag { color: var(--gold-l); }
+    .h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 400; line-height: 1.15; letter-spacing: -.01em; }
+    .h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 400; line-height: 1.2; }
+    .h3 { font-size: 1.15rem; font-weight: 700; }
+    .lead { font-size: 1.1rem; color: var(--muted); line-height: 1.75; max-width: 56ch; }
+    .section--dark .lead { color: #9BAAA0; }
+    .center { text-align: center; }
+    .center .lead { margin: 0 auto; }
+    .gold { color: var(--gold); }
+    .sage { color: var(--sage); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 8px;
+      font-size: .95rem; font-weight: 600;
+      transition: var(--transition);
+    }
+    .btn-primary {
+      background: var(--sage); color: var(--white);
+      box-shadow: 0 2px 12px rgba(107,143,113,.3);
+    }
+    .btn-primary:hover { background: var(--sage-d); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(107,143,113,.4); }
+    .btn-outline {
+      border: 1.5px solid var(--border); color: var(--ink);
+      background: var(--glass); backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover { border-color: var(--sage); color: var(--sage); }
+    .btn-gold {
+      background: var(--gold); color: var(--near-black);
+      box-shadow: 0 2px 12px rgba(201,168,76,.35);
+    }
+    .btn-gold:hover { background: var(--gold-d); transform: translateY(-1px); }
+
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav__logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav__logo-mark {
+      width: 36px; height: 36px;
+    }
+    .nav__logo-text {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--ink);
+      letter-spacing: .02em;
+    }
+    .nav__links {
+      display: flex; align-items: center; gap: 32px;
+    }
+    .nav__links a {
+      font-size: .88rem; font-weight: 500; color: var(--muted);
+      transition: color var(--transition);
+    }
+    .nav__links a:hover { color: var(--sage); }
+    .nav__cta { display: flex; gap: 10px; }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav__hamburger span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: var(--transition); }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 100px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 50% at 80% 40%, rgba(107,143,113,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.06) 0%, transparent 60%),
+        var(--white);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236B8F71' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero__inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+      position: relative; z-index: 1;
+      overflow: hidden;
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 20px;
+    }
+    .hero__eyebrow::before {
+      content: ''; display: block;
+      width: 24px; height: 1.5px; background: var(--sage);
+    }
+    .hero h1 { margin-bottom: 22px; }
+    .hero__sub {
+      font-size: 1.15rem; color: var(--muted);
+      line-height: 1.75; margin-bottom: 36px; max-width: 50ch;
+    }
+    .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero__trust {
+      margin-top: 48px; display: flex; gap: 28px; flex-wrap: wrap;
+    }
+    .hero__stat { }
+    .hero__stat-num {
+      font-family: var(--font-display);
+      font-size: 1.7rem; font-weight: 400; color: var(--sage);
+      line-height: 1;
+    }
+    .hero__stat-label { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+    .hero__visual {
+      position: relative;
+      z-index: 0;
+      overflow: visible;
+      max-width: 100%;
+    }
+    .hero__card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+      padding: 24px;
+      box-shadow: 0 8px 48px var(--shadow);
+      position: relative;
+      z-index: 1;
+    }
+    .hero__card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .hero__card-badge {
+      font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(107,143,113,.12); color: var(--sage-d);
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .hero__card-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .78rem; color: #3D8C4A; font-weight: 600;
+    }
+    .hero__card-status::before {
+      content: ''; display: block;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #3D8C4A;
+      box-shadow: 0 0 0 3px rgba(61,140,74,.2);
+    }
+    .hero__report-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .hero__report-row:last-child { border-bottom: none; }
+    .hero__report-label { font-size: .82rem; color: var(--muted); }
+    .hero__report-value { font-size: .85rem; font-weight: 600; }
+    .hero__report-value.green { color: #3D8C4A; }
+    .hero__report-value.gold  { color: var(--gold-d); }
+    .risk-meter {
+      margin: 16px 0 4px;
+    }
+    .risk-meter__label {
+      display: flex; justify-content: space-between;
+      font-size: .75rem; color: var(--muted); margin-bottom: 6px;
+    }
+    .risk-meter__bar {
+      height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+    }
+    .risk-meter__fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #3D8C4A, #6B8F71);
+      width: 18%;
+    }
+    .hero__float {
+      position: absolute;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      box-shadow: 0 4px 24px var(--shadow);
+      font-size: .8rem;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    .hero__float--tl { top: -60px; left: -140px; }
+    .hero__float--br { bottom: -100px; right: 0; }
     .hero__float-icon { font-size: 1rem; margin-bottom: 2px; }
     .hero__float-val { font-weight: 700; color: var(--ink); }
     .hero__float-sub { color: var(--muted); }
