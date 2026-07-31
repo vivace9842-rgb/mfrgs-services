@@ -277,6 +277,19 @@
       background: linear-gradient(90deg, #3D8C4A, #6B8F71);
       width: 18%;
     }
+    .hero__float-inline {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(107,143,113,.08);
+      border: 1px solid rgba(107,143,113,.2);
+      border-radius: 8px;
+      padding: 8px 14px;
+      margin-bottom: 14px;
+      font-size: .82rem;
+    }
+    .hero__float-inline-icon { font-size: 1rem; }
+    .hero__float-inline-val  { font-weight: 700; color: var(--sage-d); }
+    .hero__float-inline-sub  { color: var(--muted); }
+
     .hero__float {
       position: absolute;
       background: var(--white);
@@ -839,12 +852,12 @@
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
-        <div class="hero__float hero__float--tl">
-          <div class="hero__float-icon">🛡️</div>
-          <div class="hero__float-val">Verified</div>
-          <div class="hero__float-sub">Entity confirmed</div>
-        </div>
         <div class="hero__card">
+          <div class="hero__float-inline">
+            <span class="hero__float-inline-icon">🛡️</span>
+            <span class="hero__float-inline-val">Verified</span>
+            <span class="hero__float-inline-sub">Entity confirmed</span>
+          </div>
           <div class="hero__card-header">
             <div class="hero__card-badge">Due Diligence Report</div>
             <div class="hero__card-status">Completed</div>
