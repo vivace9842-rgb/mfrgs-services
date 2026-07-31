@@ -19,6 +19,10 @@ const { error: orderError } = await supabase
 if (orderError) {
   console.error('❌ Erro orders:', orderError.message);
 }
+
+console.log(`✅ ORDER REGISTRADO: ${customerEmail} | Empresa: ${companyQuery}`);
+
+
 // 2. Registra empresa verificada
 const { data: companyData, error: companyError } = await supabase
   .from('companies')
@@ -51,4 +55,5 @@ if (companyData) {
   if (dossierError) {
     console.error('❌ Erro dossiers:', dossierError.message);
   }
+
 }
