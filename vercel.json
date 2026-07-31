@@ -1,9 +1,7 @@
 {
-  "version": 2,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api"
-    }
-  ]
+  "outputDirectory": "landing",
+  "buildCommand": null,
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false
 }
