@@ -1,59 +1,268 @@
-// 1. Registra pedido pago corretamente
-const { error: orderError } = await supabase
-  .from('orders')
-  .insert({
-    email: customerEmail,
-    amount: amountTotal,
-    status: 'approved',
-    session_id: session.id,
-    gateway: 'stripe',
-    stripe_id: session.id,
-    currency: session.currency || 'usd',
-    metadata: {
-      company: companyQuery,
-      customer_name: customerName,
-      stripe_session: session.id
-    }
-  });
+import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
+import sgMail from '@sendgrid/mail';
 
-if (orderError) {
-  console.error('❌ Erro orders:', orderError.message);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
+const sendgridKey =
+  process.env.ENDGRID_API_KEY ||
+  process.env.SENDGRID_API_KEY;
+
+if (sendgridKey) {
+  sgMail.setApiKey(sendgridKey);
 }
 
-console.log(`✅ ORDER REGISTRADO: ${customerEmail} | Empresa: ${companyQuery}`);
+export default async function handler(req, res) {
 
+  if (req.method !== 'POST') {
+    return res.status(405).json({
+      error: 'Method Not Allowed'
+    });
+  }
 
-// 2. Registra empresa verificada
-const { data: companyData, error: companyError } = await supabase
-  .from('companies')
-  .insert({
-    name: companyQuery,
-    email: customerEmail,
-    status: 'payment_received'
-  })
-  .select()
-  .single();
+  const signature = req.headers['stripe-signature'];
 
+  let event;
 
-if (companyError) {
-  console.error('❌ Erro companies:', companyError.message);
-}
+  try {
 
+    const rawBody = await new Promise((resolve, reject) => {
+      let data = '';
 
-// 3. Cria dossiê pendente
-if (companyData) {
+      req.on('data', chunk => {
+        data += chunk;
+      });
 
-  const { error: dossierError } = await supabase
-    .from('dossiers')
-    .insert({
-      status_emissao: 'aguardando_processamento',
-      parecer_tecnico:
-        `Pagamento confirmado para ${companyQuery}. Relatório em processamento.`
+      req.on('end', () => resolve(data));
+
+      req.on('error', reject);
     });
 
 
-  if (dossierError) {
-    console.error('❌ Erro dossiers:', dossierError.message);
+    event = stripe.webhooks.constructEvent(
+      rawBody,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      '❌ Stripe webhook signature error:',
+      error.message
+    );
+
+    return res.status(400).send(
+      `Webhook Error: ${error.message}`
+    );
   }
+
+
+  if (event.type === 'checkout.session.completed') {
+
+    const session = event.data.object;
+
+
+    const customerEmail =
+      session.customer_details?.email ||
+      'sem-email';
+
+
+    const customerName =
+      session.customer_details?.name ||
+      'Cliente';
+
+
+    const amountTotal =
+      session.amount_total
+        ? session.amount_total / 100
+        : 0;
+
+
+    const companyQuery =
+      session.metadata?.company ||
+      session.metadata?.companyName ||
+      'Empresa Consultada';
+
+
+
+    console.log(
+      `💰 Pagamento confirmado: ${customerEmail} - ${companyQuery}`
+    );
+
+
+
+    // ORDERS
+
+    const { error: orderError } =
+      await supabase
+        .from('orders')
+        .insert({
+
+          email: customerEmail,
+
+          amount: amountTotal,
+
+          status: 'approved',
+
+          session_id: session.id,
+
+          gateway: 'stripe',
+
+          stripe_id: session.id,
+
+          currency:
+            session.currency || 'usd',
+
+          metadata: {
+
+            company: companyQuery,
+
+            customer_name: customerName,
+
+            stripe_session: session.id
+
+          }
+
+        });
+
+
+    if (orderError) {
+
+      console.error(
+        '❌ Erro orders:',
+        orderError.message
+      );
+
+    }
+
+
+
+    // COMPANIES
+
+    const { data: companyData, error: companyError } =
+      await supabase
+        .from('companies')
+        .insert({
+
+          name: companyQuery,
+
+          email: customerEmail,
+
+          status: 'payment_received'
+
+        })
+        .select()
+        .single();
+
+
+
+    if (companyError) {
+
+      console.error(
+        '❌ Erro companies:',
+        companyError.message
+      );
+
+    }
+
+
+
+    // DOSSIERS
+
+    if (companyData) {
+
+      const { error: dossierError } =
+        await supabase
+          .from('dossiers')
+          .insert({
+
+            status_emissao:
+              'aguardando_processamento',
+
+            parecer_tecnico:
+              `Pagamento confirmado para ${companyQuery}. Relatório em processamento.`
+
+          });
+
+
+      if (dossierError) {
+
+        console.error(
+          '❌ Erro dossiers:',
+          dossierError.message
+        );
+
+      }
+
+    }
+
+
+
+    // EMAIL
+
+    if (sendgridKey) {
+
+      try {
+
+        await sgMail.send({
+
+          to: customerEmail,
+
+          from:
+            process.env.SENDGRID_FROM ||
+            'noreply@mfrgs.com.br',
+
+          subject:
+            `[MFRGS] Verificação recebida - ${companyQuery}`,
+
+          html: `
+
+          <h2>MFRGS INOVAÇÕES</h2>
+
+          <p>Olá ${customerName},</p>
+
+          <p>
+          Seu pagamento foi confirmado.
+          O dossiê da empresa ${companyQuery}
+          entrou em processamento.
+          </p>
+
+          `
+
+        });
+
+
+        console.log(
+          '📧 Email enviado:',
+          customerEmail
+        );
+
+
+      } catch(emailError) {
+
+        console.error(
+          '❌ Erro email:',
+          emailError.message
+        );
+
+      }
+
+    }
+
+  }
+
+
+  return res.status(200).json({
+
+    received: true
+
+  });
 
 }
