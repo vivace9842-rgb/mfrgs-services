@@ -1,13 +1,37 @@
 {
   "project": "mfrgs-services",
   "product": "MFRGS Digital Verification",
+  "service": "Essential Verification",
+  "price": "USD 99",
+
+  "agent_flow": [
+    "sentinela",
+    "chefe_orquestrador",
+    "farejador",
+    "cientista",
+    "market_intelligence",
+    "convertedor",
+    "vendedor",
+    "stripe_webhook",
+    "verificador",
+    "entregador",
+    "pos_venda"
+  ],
 
   "agent_registry": [
     {
       "name": "guardian",
       "status": "existing",
-      "role": "coordenacao_operacional",
-      "permission": "manage_agents"
+      "role": "executor_operacional_interno",
+      "permission": "execute_internal_tasks",
+      "protected": true
+    },
+    {
+      "name": "chefe_orquestrador",
+      "status": "new",
+      "role": "orquestracao_fluxo_comercial",
+      "permission": "coordinate_agents",
+      "position": "above_guardian"
     },
     {
       "name": "cientista",
@@ -28,28 +52,61 @@
       "permission": "market_analysis"
     },
     {
+      "name": "convertedor",
+      "status": "existing",
+      "role": "qualificacao_e_transformacao_leads",
+      "permission": "data_transform"
+    },
+    {
+      "name": "vendedor",
+      "status": "new",
+      "role": "conversao_comercial",
+      "permission": "sales_assistance"
+    },
+    {
+      "name": "stripe_webhook",
+      "status": "new",
+      "role": "pagamento_confirmacao_eventos",
+      "permission": "payment_events"
+    },
+    {
+      "name": "verificador",
+      "status": "new",
+      "role": "execucao_verificacao_digital",
+      "permission": "verification_process"
+    },
+    {
+      "name": "entregador",
+      "status": "new",
+      "role": "entrega_relatorio_cliente",
+      "permission": "deliver_reports"
+    },
+    {
+      "name": "pos_venda",
+      "status": "new",
+      "role": "acompanhamento_cliente",
+      "permission": "customer_success"
+    },
+    {
       "name": "health_monitor",
       "status": "existing",
       "role": "monitoramento_sistema",
       "permission": "system_check"
     },
     {
-      "name": "convertedor",
-      "status": "existing",
-      "role": "processamento_dados",
-      "permission": "data_transform"
-    },
-    {
       "name": "sentinela",
       "status": "active",
       "role": "seguranca_integridade",
-      "permission": "protect_project"
+      "permission": "protect_project",
+      "protected": true
     }
   ],
 
   "policy": {
     "unknown_agents": "block",
     "external_files": "review_required",
-    "project_mixing": "forbidden"
+    "project_mixing": "forbidden",
+    "sentinela_override": "forbidden",
+    "guardian_replacement": "forbidden"
   }
 }
