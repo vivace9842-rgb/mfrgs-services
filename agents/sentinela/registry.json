@@ -1,9 +1,13 @@
 {
   "project": "mfrgs-services",
   "product": "MFRGS Digital Verification",
-  "service": "Essential Verification",
-  "price": "USD 99",
-
+  "active_services": [
+    "Essential Verification",
+    "Individual Verification",
+    "Website Trust Audit",
+    "Professional Due Diligence",
+    "Supplier Verification"
+  ],
   "agent_flow": [
     "sentinela",
     "chefe_orquestrador",
@@ -17,96 +21,21 @@
     "entregador",
     "pos_venda"
   ],
-
-  "agent_registry": [
-    {
-      "name": "guardian",
-      "status": "existing",
-      "role": "executor_operacional_interno",
-      "permission": "execute_internal_tasks",
-      "protected": true
-    },
-    {
-      "name": "chefe_orquestrador",
-      "status": "new",
-      "role": "orquestracao_fluxo_comercial",
-      "permission": "coordinate_agents",
-      "position": "above_guardian"
-    },
-    {
-      "name": "cientista",
-      "status": "existing",
-      "role": "analise_inteligencia",
-      "permission": "research"
-    },
-    {
-      "name": "farejador",
-      "status": "existing",
-      "role": "descoberta_osint",
-      "permission": "collect_data"
-    },
-    {
-      "name": "market_intelligence",
-      "status": "existing",
-      "role": "inteligencia_mercado",
-      "permission": "market_analysis"
-    },
-    {
-      "name": "convertedor",
-      "status": "existing",
-      "role": "qualificacao_e_transformacao_leads",
-      "permission": "data_transform"
-    },
-    {
-      "name": "vendedor",
-      "status": "new",
-      "role": "conversao_comercial",
-      "permission": "sales_assistance"
-    },
-    {
-      "name": "stripe_webhook",
-      "status": "new",
-      "role": "pagamento_confirmacao_eventos",
-      "permission": "payment_events"
-    },
-    {
-      "name": "verificador",
-      "status": "new",
-      "role": "execucao_verificacao_digital",
-      "permission": "verification_process"
-    },
-    {
-      "name": "entregador",
-      "status": "new",
-      "role": "entrega_relatorio_cliente",
-      "permission": "deliver_reports"
-    },
-    {
-      "name": "pos_venda",
-      "status": "new",
-      "role": "acompanhamento_cliente",
-      "permission": "customer_success"
-    },
-    {
-      "name": "health_monitor",
-      "status": "existing",
-      "role": "monitoramento_sistema",
-      "permission": "system_check"
-    },
-    {
-      "name": "sentinela",
-      "status": "active",
-      "role": "seguranca_integridade",
-      "permission": "protect_project",
-      "protected": true
-    }
-  ],
-
-  "policy": {
-    "unknown_agents": "block",
-    "external_files": "review_required",
-    "project_mixing": "forbidden",
+  "service_pipelines": {
+    "essential_verification": ["corporate_verification", "digital_footprint", "risk_analysis", "report_generator"],
+    "individual_verification": ["identity_verification", "professional_history", "digital_footprint", "risk_analysis", "report_generator"],
+    "website_trust_audit": ["website_audit", "domain_analysis", "fraud_check", "risk_analysis", "report_generator"],
+    "professional_due_diligence": ["corporate_verification", "identity_verification", "legal_check", "digital_footprint", "risk_analysis", "report_generator"],
+    "supplier_verification": ["corporate_verification", "ownership_check", "compliance_check", "reputation_analysis", "risk_analysis", "report_generator"]
+  },
+  "protected_agents": {
+    "sentinela": true,
+    "guardian": true
+  },
+  "rules": {
+    "guardian_role": "executor_operacional_interno",
     "sentinela_override": "forbidden",
-    "guardian_replacement": "forbidden"
+    "project_mixing": "forbidden",
+    "duplicate_agents": "blocked"
   }
 }
