@@ -2,13 +2,6 @@ import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import sgMail from '@sendgrid/mail';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-
-};
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const supabase = createClient(
@@ -25,7 +18,6 @@ if (sendgridKey) {
 }
 
 export default async function handler(req, res) {
-
   if (req.method !== 'POST') {
     return res.status(405).json({
       error: 'Method Not Allowed'
@@ -37,27 +29,14 @@ export default async function handler(req, res) {
   let event;
 
   try {
+    const rawBody = req.body;
 
-    const rawBody = await new Promise((resolve, reject) => {
-      let data = '';
-
-      req.on('data', chunk => {
-        data += chunk;
-      });
-
-      req.on('end', () => resolve(data));
-
-      req.on('error', reject);
-    });
-
-event = stripe.webhooks.constructEvent(
-  rawBody,
-  signature,
-  process.env.STRIPE_WEBHOOK_SECRET
-);
-
+    event = stripe.webhooks.constructEvent(
+      rawBody,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
   } catch (error) {
-
     console.error(
       '❌ Stripe webhook signature error:',
       error.message
@@ -69,21 +48,16 @@ event = stripe.webhooks.constructEvent(
   }
 
   if (event.type === 'checkout.session.completed') {
-
     const session = event.data.object;
 
     const customerEmail =
-      session.customer_details?.email ||
-      'sem-email';
+      session.customer_details?.email || 'sem-email';
 
     const customerName =
-      session.customer_details?.name ||
-      'Cliente';
+      session.customer_details?.name || 'Cliente';
 
     const amountTotal =
-      session.amount_total
-        ? session.amount_total / 100
-        : 0;
+      session.amount_total ? session.amount_total / 100 : 0;
 
     const companyQuery =
       session.metadata?.company ||
@@ -94,120 +68,69 @@ event = stripe.webhooks.constructEvent(
       `💰 Pagamento confirmado: ${customerEmail} - ${companyQuery}`
     );
 
-    // ORDERS
-    const { error: orderError } =
-      await supabase
-        .from('orders')
-        .insert({
-
-          email: customerEmail,
-          amount: amountTotal,
-          status: 'approved',
-          session_id: session.id,
-          gateway: 'stripe',
-          stripe_id: session.id,
-          currency: session.currency || 'usd',
-
-          metadata: {
-            company: companyQuery,
-            customer_name: customerName,
-            stripe_session: session.id
-          }
-
-        });
+    const { error: orderError } = await supabase
+      .from('orders')
+      .insert({
+        email: customerEmail,
+        amount: amountTotal,
+        status: 'approved',
+        session_id: session.id,
+        gateway: 'stripe',
+        stripe_id: session.id,
+        currency: session.currency || 'usd',
+        metadata: {
+          company: companyQuery,
+          customer_name: customerName,
+          stripe_session: session.id
+        }
+      });
 
     if (orderError) {
-      console.error(
-        '❌ Erro orders:',
-        orderError.message
-      );
+      console.error('❌ Erro orders:', orderError.message);
     }
 
-    // COMPANIES
-    const { data: companyData, error: companyError } =
-      await supabase
-        .from('companies')
-        .insert({
-
-          name: companyQuery,
-          email: customerEmail,
-          status: 'payment_received'
-
-        })
-        .select()
-        .single();
+    const { data: companyData, error: companyError } = await supabase
+      .from('companies')
+      .insert({
+        name: companyQuery,
+        email: customerEmail,
+        status: 'payment_received'
+      })
+      .select()
+      .single();
 
     if (companyError) {
-      console.error(
-        '❌ Erro companies:',
-        companyError.message
-      );
+      console.error('❌ Erro companies:', companyError.message);
     }
 
-    // DOSSIERS
     if (companyData) {
-
-      const { error: dossierError } =
-        await supabase
-          .from('dossiers')
-          .insert({
-
-            status_emissao:
-              'aguardando_processamento',
-
-            parecer_tecnico:
-              `Pagamento confirmado para ${companyQuery}. Relatório em processamento.`
-
-          });
+      const { error: dossierError } = await supabase
+        .from('dossiers')
+        .insert({
+          status_emissao: 'aguardando_processamento',
+          parecer_tecnico:
+            `Pagamento confirmado para ${companyQuery}. Relatório em processamento.`
+        });
 
       if (dossierError) {
-        console.error(
-          '❌ Erro dossiers:',
-          dossierError.message
-        );
+        console.error('❌ Erro dossiers:', dossierError.message);
       }
     }
 
-    // EMAIL
     if (sendgridKey) {
-
       try {
-
         await sgMail.send({
-
           to: customerEmail,
-
-          from:
-            process.env.SENDGRID_FROM ||
-            'noreply@mfrgs.com.br',
-
-          subject:
-            `[MFRGS] Verificação recebida - ${companyQuery}`,
-
+          from: process.env.SENDGRID_FROM || 'noreply@mfrgs.com.br',
+          subject: `[MFRGS] Verificação recebida - ${companyQuery}`,
           html: `
             <h2>MFRGS INOVAÇÕES</h2>
             <p>Olá ${customerName},</p>
-            <p>
-              Seu pagamento foi confirmado.
-              O dossiê da empresa <strong>${companyQuery}</strong>
-              entrou em processamento.
-            </p>
+            <p>Seu pagamento foi confirmado.</p>
           `
-
         });
-
-        console.log(
-          '📧 Email enviado:',
-          customerEmail
-        );
-
       } catch (emailError) {
-
-        console.error(
-          '❌ Erro email:',
-          emailError.message
-        );
-
+        console.error('❌ Erro email:', emailError.message);
       }
     }
   }
