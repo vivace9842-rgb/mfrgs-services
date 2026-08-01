@@ -6,7 +6,7 @@ export const config = {
   api: {
     bodyParser: false,
   },
-  
+
 };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -50,11 +50,11 @@ export default async function handler(req, res) {
       req.on('error', reject);
     });
 
-    event = stripe.webhooks.constructEvent(
-      rawBody,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
+event = stripe.webhooks.constructEvent(
+  rawBody,
+  signature,
+  process.env.STRIPE_WEBHOOK_SECRET
+);
 
   } catch (error) {
 
