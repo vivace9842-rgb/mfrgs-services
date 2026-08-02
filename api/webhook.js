@@ -10,8 +10,8 @@ const supabase = createClient(
 );
 
 const sendgridKey =
-  process.env.ENDGRID_API_KEY ||
-  process.env.SENDGRID_API_KEY;
+  process.env.SENDGRID_API_KEY ||
+  process.env.ENDGRID_API_KEY;
 
 if (sendgridKey) {
   sgMail.setApiKey(sendgridKey);
@@ -37,85 +37,29 @@ export default async function handler(req, res) {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
-    console.error(
-      '❌ Stripe webhook signature error:',
-      error.message
-    );
-
-    return res.status(400).send(
-      `Webhook Error: ${error.message}`
-    );
+    console.error('❌ Stripe webhook signature error:', error.message);
+    return res.status(400).send(`Webhook Error: ${error.message}`);
   }
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
+    const customerEmail = session.customer_details?.email || 'sem-email';
+    const customerName = session.customer_details?.name || 'Cliente';
+    const amountTotal = session.amount_total ? session.amount_total / 100 : 0;
+    const companyQuery = session.metadata?.company || session.metadata?.companyName || 'Empresa Consultada';
 
-    const customerEmail =
-      session.customer_details?.email || 'sem-email';
+    const { error: orderError } = await supabase.from('orders').insert({
+      email: customerEmail,
+      amount: amountTotal,
+      status: 'approved',
+      session_id: session.id,
+      gateway: 'stripe',
+      stripe_id: session.id,
+      currency: session.currency || 'usd',
+      metadata: { company: companyQuery, customer_name: customerName, stripe_session: session.id }
+    });
 
-    const customerName =
-      session.customer_details?.name || 'Cliente';
-
-    const amountTotal =
-      session.amount_total ? session.amount_total / 100 : 0;
-
-    const companyQuery =
-      session.metadata?.company ||
-      session.metadata?.companyName ||
-      'Empresa Consultada';
-
-    console.log(
-      `💰 Pagamento confirmado: ${customerEmail} - ${companyQuery}`
-    );
-
-    const { error: orderError } = await supabase
-      .from('orders')
-      .insert({
-        email: customerEmail,
-        amount: amountTotal,
-        status: 'approved',
-        session_id: session.id,
-        gateway: 'stripe',
-        stripe_id: session.id,
-        currency: session.currency || 'usd',
-        metadata: {
-          company: companyQuery,
-          customer_name: customerName,
-          stripe_session: session.id
-        }
-      });
-
-    if (orderError) {
-      console.error('❌ Erro orders:', orderError.message);
-    }
-
-    const { data: companyData, error: companyError } = await supabase
-      .from('companies')
-      .insert({
-        name: companyQuery,
-        email: customerEmail,
-        status: 'payment_received'
-      })
-      .select()
-      .single();
-
-    if (companyError) {
-      console.error('❌ Erro companies:', companyError.message);
-    }
-
-    if (companyData) {
-      const { error: dossierError } = await supabase
-        .from('dossiers')
-        .insert({
-          status_emissao: 'aguardando_processamento',
-          parecer_tecnico:
-            `Pagamento confirmado para ${companyQuery}. Relatório em processamento.`
-        });
-
-      if (dossierError) {
-        console.error('❌ Erro dossiers:', dossierError.message);
-      }
-    }
+    if (orderError) console.error('❌ Erro orders:', orderError.message);
 
     if (sendgridKey) {
       try {
@@ -123,11 +67,7 @@ export default async function handler(req, res) {
           to: customerEmail,
           from: process.env.SENDGRID_FROM || 'noreply@mfrgs.com.br',
           subject: `[MFRGS] Verificação recebida - ${companyQuery}`,
-          html: `
-            <h2>MFRGS INOVAÇÕES</h2>
-            <p>Olá ${customerName},</p>
-            <p>Seu pagamento foi confirmado.</p>
-          `
+          html: `<h2>MFRGS INOVAÇÕES</h2><p>Olá ${customerName},</p><p>Seu pagamento foi confirmado.</p>`
         });
       } catch (emailError) {
         console.error('❌ Erro email:', emailError.message);
@@ -135,7 +75,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(200).json({
-    received: true
-  });
+  return res.status(200).json({ received: true });
 }
