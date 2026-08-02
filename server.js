@@ -7,17 +7,12 @@ import checkout from "./api/checkout.js";
 
 const app = express();
 
-/*
-  Stripe webhook precisa receber o corpo RAW
-  antes do express.json() consumir o payload.
-*/
 app.post(
   "/api/webhook",
   express.raw({ type: "application/json" }),
   webhook
 );
 
-// Demais rotas usam JSON normal
 app.use(express.json());
 
 app.post("/api/verify", verify);
