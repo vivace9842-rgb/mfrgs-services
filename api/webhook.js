@@ -2,12 +2,6 @@ import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import sgMail from "@sendgrid/mail";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 const required = [
   "STRIPE_SECRET_KEY",
   "STRIPE_WEBHOOK_SECRET",
@@ -36,23 +30,7 @@ if (sendgridKey) {
   sgMail.setApiKey(sendgridKey);
 }
 
-function getRawBody(req) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-
-    req.on("data", (chunk) => {
-      chunks.push(chunk);
-    });
-
-    req.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-
-    req.on("error", reject);
-  });
-}
-
-export default async function handler(req, res) {
+export default async function webhook(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method Not Allowed",
@@ -64,20 +42,23 @@ export default async function handler(req, res) {
   let event;
 
   try {
-    const rawBody = await getRawBody(req);
-
     event = stripe.webhooks.constructEvent(
-      rawBody,
+      req.body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
-    console.error("[WEBHOOK] Signature Error:", error.message);
+    console.error(
+      "[WEBHOOK] Signature Error:",
+      error.message
+    );
 
     return res.status(400).send(
       `Webhook Error: ${error.message}`
     );
   }
+
+  console.log("[WEBHOOK] Event:", event.type);
 
   if (event.type !== "checkout.session.completed") {
     return res.status(200).json({
@@ -156,15 +137,10 @@ export default async function handler(req, res) {
           subject: `[MFRGS] Verificação recebida - ${company}`,
           html: `
             <h2>MFRGS INOVAÇÕES</h2>
-
             <p>Olá ${customerName},</p>
-
             <p>Seu pagamento foi confirmado.</p>
-
             <p>Sua solicitação entrou na fila de processamento.</p>
-
             <p>Empresa:</p>
-
             <strong>${company}</strong>
           `,
         }),
