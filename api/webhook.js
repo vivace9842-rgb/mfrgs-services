@@ -48,10 +48,7 @@ export default async function webhook(req, res) {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
-    console.error(
-      "[WEBHOOK] Signature Error:",
-      error.message
-    );
+    console.error("[WEBHOOK SIGNATURE ERROR]", error.message);
 
     return res.status(400).send(
       `Webhook Error: ${error.message}`
@@ -70,66 +67,85 @@ export default async function webhook(req, res) {
 
   const session = event.data.object;
 
-  const { data: existing } = await supabase
-    .from("orders")
-    .select("id")
-    .eq("session_id", session.id)
-    .maybeSingle();
+  console.log("[WEBHOOK] Checkout session:", session.id);
 
-  if (existing) {
-    return res.status(200).json({
-      received: true,
-      duplicated: true,
-      session: session.id,
-    });
-  }
+  try {
+    const { data: existing, error: existingError } = await supabase
+      .from("orders")
+      .select("id")
+      .eq("session_id", session.id)
+      .maybeSingle();
 
-  const customerEmail =
-    session.customer_details?.email ||
-    session.customer_email ||
-    "sem-email";
+    if (existingError) {
+      console.error(
+        "[SUPABASE CHECK ERROR]",
+        JSON.stringify(existingError, null, 2)
+      );
+    }
 
-  const customerName =
-    session.customer_details?.name ||
-    "Cliente";
+    if (existing) {
+      console.log("[WEBHOOK] Duplicate order:", session.id);
 
-  const amountTotal =
-    (session.amount_total || 0) / 100;
+      return res.status(200).json({
+        received: true,
+        duplicated: true,
+        session: session.id,
+      });
+    }
 
-  const company =
-    session.metadata?.company ||
-    session.metadata?.companyName ||
-    "Empresa Consultada";
+    const customerEmail =
+      session.customer_details?.email ||
+      session.customer_email ||
+      "sem-email";
 
-  const { error: orderError } = await supabase
-    .from("orders")
-    .insert({
-      email: customerEmail,
-      amount: amountTotal,
-      status: "approved",
-      session_id: session.id,
-      stripe_id: session.id,
-      gateway: "stripe",
-      currency: session.currency || "usd",
-      metadata: {
-        company,
-        customer_name: customerName,
-        stripe_session: session.id,
-      },
-    });
+    const customerName =
+      session.customer_details?.name ||
+      "Cliente";
 
-  if (orderError) {
-    console.error("[SUPABASE]", orderError);
+    const amountTotal =
+      (session.amount_total || 0) / 100;
 
-    return res.status(500).json({
-      error: "Failed to save order",
-    });
-  }
+    const company =
+      session.metadata?.company ||
+      session.metadata?.companyName ||
+      "Empresa Consultada";
 
-  if (sendgridKey) {
-    try {
-      await Promise.race([
-        sgMail.send({
+    console.log("[SUPABASE] Creating order:", session.id);
+
+    const { error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        email: customerEmail,
+        amount: amountTotal,
+        status: "approved",
+        session_id: session.id,
+        stripe_id: session.id,
+        gateway: "stripe",
+        currency: session.currency || "usd",
+        metadata: {
+          company,
+          customer_name: customerName,
+          stripe_session: session.id,
+        },
+      });
+
+    if (orderError) {
+      console.error(
+        "[SUPABASE INSERT ERROR]",
+        JSON.stringify(orderError, null, 2)
+      );
+
+      return res.status(500).json({
+        error: "Failed to save order",
+        details: orderError.message,
+      });
+    }
+
+    console.log("[SUPABASE] Order created:", session.id);
+
+    if (sendgridKey) {
+      try {
+        await sgMail.send({
           to: customerEmail,
           from:
             process.env.SENDGRID_FROM ||
@@ -143,22 +159,28 @@ export default async function webhook(req, res) {
             <p>Empresa:</p>
             <strong>${company}</strong>
           `,
-        }),
-        new Promise((_, reject) =>
-          setTimeout(
-            () => reject(new Error("Email timeout")),
-            5000
-          )
-        ),
-      ]);
-    } catch (error) {
-      console.error("[SENDGRID]", error);
-    }
-  }
+        });
 
-  return res.status(200).json({
-    received: true,
-    event: event.type,
-    session: session.id,
-  });
+        console.log("[EMAIL] Sent:", customerEmail);
+      } catch (error) {
+        console.error("[SENDGRID ERROR]", error.message);
+      }
+    }
+
+    return res.status(200).json({
+      received: true,
+      event: event.type,
+      session: session.id,
+    });
+
+  } catch (error) {
+    console.error(
+      "[WEBHOOK INTERNAL ERROR]",
+      error
+    );
+
+    return res.status(500).json({
+      error: "Internal webhook error",
+    });
+  }
 }
