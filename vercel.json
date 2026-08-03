@@ -1,8 +1,395 @@
-{
-  "version": 2,
-  "functions": {
-    "api/*.js": {
-      "includeFiles": []
+import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
+
+/**
+ * Tipos de Documentos Suportados no Ecossistema MFRGS
+ */
+export type DocumentType = 'CPF' | 'CNPJ' | 'GENERIC';
+
+/**
+ * Níveis de Risco Classificados pelo MFRGS Guardian Engine
+ */
+export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+
+/**
+ * Status Final do Processo de Verificação Digital
+ */
+export type VerificationStatus = 'VERIFIED' | 'SUSPICIOUS' | 'REJECTED' | 'PENDING';
+
+/**
+ * Estrutura de Detalhamento de Checagem Individual
+ */
+export interface ICheckDetail {
+  checkId: string;
+  name: string;
+  passed: boolean;
+  riskWeight: number; // Peso de 0 a 100
+  message: string;
+  timestamp: string;
+  metadata?: Record<string, unknown>;
+}
+
+/**
+ * Payload de Entrada para Requisição de Verificação Digital
+ */
+export interface IVerificationRequest {
+  requestId: string;
+  targetIdentifier: string;
+  documentType: DocumentType;
+  payload: string;
+  expectedHash?: string;
+  signature?: string;
+  clientIp?: string;
+  metadata?: Record<string, unknown>;
+}
+
+/**
+ * Resposta Consolidada do Serviço de Verificação
+ */
+export interface IVerificationResult {
+  verificationId: string;
+  requestId: string;
+  status: VerificationStatus;
+  riskScore: number; // 0 a 100 (quanto maior, maior o risco)
+  riskLevel: RiskLevel;
+  isValidSignature: boolean;
+  isValidHash: boolean;
+  isValidDocument: boolean;
+  checks: ICheckDetail[];
+  digitalSignature: string;
+  verifiedAt: string;
+}
+
+/**
+ * Opções de Configuração do MfrgsVerificationService
+ */
+export interface IMfrgsVerificationServiceOptions {
+  secretKey: string;
+  enableStrictMode?: boolean;
+  maxAllowedRiskScore?: number;
+}
+
+/**
+ * Erro Customizado do MFRGS Verification Service
+ */
+export class MfrgsVerificationError extends Error {
+  public readonly code: string;
+
+  constructor(message: string, code = 'MFRGS_VERIFICATION_ERROR') {
+    super(message);
+    this.name = 'MfrgsVerificationError';
+    this.code = code;
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
+
+/**
+ * MfrgsVerificationService
+ * Serviço principal responsável por validações de segurança, auditoria de integridade,
+ * checagem criptográfica e scoring de risco digital do projeto MFRGS Services.
+ */
+export class MfrgsVerificationService {
+  private readonly secretKey: string;
+  private readonly strictMode: boolean;
+  private readonly maxAllowedRiskScore: number;
+
+  constructor(options: IMfrgsVerificationServiceOptions) {
+    if (!options.secretKey || options.secretKey.trim().length < 16) {
+      throw new MfrgsVerificationError(
+        'A chave secreta (secretKey) é obrigatória e deve ter pelo menos 16 caracteres.',
+        'INVALID_CONFIGURATION'
+      );
     }
+    this.secretKey = options.secretKey;
+    this.strictMode = options.enableStrictMode ?? true;
+    this.maxAllowedRiskScore = options.maxAllowedRiskScore ?? 65;
+  }
+
+  /**
+   * Executa a verificação completa de uma requisição digital
+   */
+  public async verifyDigitalIdentity(
+    request: IVerificationRequest
+  ): Promise<IVerificationResult> {
+    const verifiedAt = new Date().toISOString();
+    const checks: ICheckDetail[] = [];
+
+    // 1. Sanitização de Entrada
+    const sanitizedTarget = this.sanitizeInput(request.targetIdentifier);
+    const sanitizedPayload = request.payload ?? '';
+
+    // 2. Validação de Documento (CPF / CNPJ)
+    const isValidDocument = this.validateDocument(sanitizedTarget, request.documentType);
+    checks.push({
+      checkId: 'CHK_DOC_VALIDATION',
+      name: 'Validação Formatual e Matemático do Documento',
+      passed: isValidDocument,
+      riskWeight: isValidDocument ? 0 : 40,
+      message: isValidDocument
+        ? 'Documento válido e aprovado nos testes de digito verificador.'
+        : 'Documento malformatado ou com dígitos verificadores inválidos.',
+      timestamp: new Date().toISOString(),
+    });
+
+    // 3. Validação de Hash de Integridade
+    let isValidHash = true;
+    if (request.expectedHash) {
+      isValidHash = this.verifyPayloadHash(sanitizedPayload, request.expectedHash);
+      checks.push({
+        checkId: 'CHK_INTEGRITY_HASH',
+        name: 'Verificação de Integridade SHA-256 da Carga Útil',
+        passed: isValidHash,
+        riskWeight: isValidHash ? 0 : 50,
+        message: isValidHash
+          ? 'Hash SHA-256 validado com sucesso.'
+          : 'O Hash informado não corresponde ao conteúdo da carga útil.',
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // 4. Validação de Assinatura HMAC
+    let isValidSignature = true;
+    if (request.signature) {
+      isValidSignature = this.verifyHmacSignature(
+        sanitizedPayload,
+        request.signature,
+        this.secretKey
+      );
+      checks.push({
+        checkId: 'CHK_HMAC_SIGNATURE',
+        name: 'Autenticidade de Assinatura Criptográfica HMAC-SHA256',
+        passed: isValidSignature,
+        riskWeight: isValidSignature ? 0 : 60,
+        message: isValidSignature
+          ? 'Assinatura HMAC válida e autêntica.'
+          : 'Assinatura HMAC inválida ou adulterada.',
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // 5. Análise de IP (Simulada para prevenção de fraude)
+    if (request.clientIp) {
+      const isIpSuspicious = this.checkIpReputation(request.clientIp);
+      checks.push({
+        checkId: 'CHK_IP_REPUTATION',
+        name: 'Análise de Reputação e Origem de IP',
+        passed: !isIpSuspicious,
+        riskWeight: isIpSuspicious ? 25 : 0,
+        message: isIpSuspicious
+          ? 'IP associado a padrões suspeitos de rede.'
+          : 'IP de origem limpo.',
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // 6. Cálculo Final de Score de Risco
+    const riskScore = this.calculateRiskScore(checks);
+    const riskLevel = this.determineRiskLevel(riskScore);
+    const status = this.determineStatus(riskScore, checks);
+
+    // 7. Gerar Assinatura Digital do Laudo MFRGS
+    const verificationId = `VER-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+    const resultToSign = `${verificationId}|${request.requestId}|${status}|${riskScore}|${verifiedAt}`;
+    const digitalSignature = this.generateHmacSignature(resultToSign, this.secretKey);
+
+    return {
+      verificationId,
+      requestId: request.requestId,
+      status,
+      riskScore,
+      riskLevel,
+      isValidSignature,
+      isValidHash,
+      isValidDocument,
+      checks,
+      digitalSignature,
+      verifiedAt,
+    };
+  }
+
+  /**
+   * Calcula o hash SHA-256 de uma string
+   */
+  public generatePayloadHash(payload: string): string {
+    return createHash('sha256').update(payload, 'utf8').digest('hex');
+  }
+
+  /**
+   * Valida se o hash SHA-256 bate com o payload de forma comparativa e imutável
+   */
+  public verifyPayloadHash(payload: string, expectedHash: string): boolean {
+    const computedHash = this.generatePayloadHash(payload);
+    return this.safeCompareStrings(computedHash.toLowerCase(), expectedHash.toLowerCase());
+  }
+
+  /**
+   * Gera assinatura HMAC-SHA256
+   */
+  public generateHmacSignature(payload: string, secret: string): string {
+    return createHmac('sha256', secret).update(payload, 'utf8').digest('hex');
+  }
+
+  /**
+   * Valida assinatura HMAC usando comparação protegida contra Timing Attacks
+   */
+  public verifyHmacSignature(payload: string, signature: string, secret: string): boolean {
+    const computedSignature = this.generateHmacSignature(payload, secret);
+    return this.safeCompareStrings(computedSignature.toLowerCase(), signature.toLowerCase());
+  }
+
+  /**
+   * Validação matemática oficial de CPF e CNPJ
+   */
+  public validateDocument(document: string, type: DocumentType): boolean {
+    const cleanDoc = document.replace(/\D/g, '');
+
+    if (type === 'CPF') {
+      return this.validateCPF(cleanDoc);
+    }
+    if (type === 'CNPJ') {
+      return this.validateCNPJ(cleanDoc);
+    }
+    if (type === 'GENERIC') {
+      return cleanDoc.length >= 5 && cleanDoc.length <= 20;
+    }
+
+    return false;
+  }
+
+  /**
+   * Sanitização rigorosa de dados de entrada contra injection
+   */
+  public sanitizeInput(input: string): string {
+    if (!input) return '';
+    return input.trim().replace(/[<>'"\\]/g, '');
+  }
+
+  /**
+   * Comparação segura contra Timing Attacks usando node:crypto
+   */
+  private safeCompareStrings(a: string, b: string): boolean {
+    if (a.length !== b.length) {
+      return false;
+    }
+    const bufA = Buffer.from(a, 'utf8');
+    const bufB = Buffer.from(b, 'utf8');
+
+    return timingSafeEqual(bufA, bufB);
+  }
+
+  /**
+   * Validação de Algoritmo de CPF (Módulo 11)
+   */
+  private validateCPF(cpf: string): boolean {
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+      return false;
+    }
+
+    let sum = 0;
+    let remainder: number;
+
+    for (let i = 1; i <= 9; i++) {
+      sum += parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
+    }
+
+    remainder = (sum * 10) % 11;
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    if (remainder !== parseInt(cpf.substring(9, 10), 10)) return false;
+
+    sum = 0;
+    for (let i = 1; i <= 10; i++) {
+      sum += parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
+    }
+
+    remainder = (sum * 10) % 11;
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    if (remainder !== parseInt(cpf.substring(10, 11), 10)) return false;
+
+    return true;
+  }
+
+  /**
+   * Validação de Algoritmo de CNPJ (Módulo 11)
+   */
+  private validateCNPJ(cnpj: string): boolean {
+    if (cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) {
+      return false;
+    }
+
+    let size = cnpj.length - 2;
+    let numbers = cnpj.substring(0, size);
+    const digits = cnpj.substring(size);
+    let sum = 0;
+    let pos = size - 7;
+
+    for (let i = size; i >= 1; i--) {
+      sum += parseInt(numbers.charAt(size - i), 10) * pos--;
+      if (pos < 2) pos = 9;
+    }
+
+    let result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+    if (result !== parseInt(digits.charAt(0), 10)) return false;
+
+    size = size + 1;
+    numbers = cnpj.substring(0, size);
+    sum = 0;
+    pos = size - 7;
+
+    for (let i = size; i >= 1; i--) {
+      sum += parseInt(numbers.charAt(size - i), 10) * pos--;
+      if (pos < 2) pos = 9;
+    }
+
+    result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+    if (result !== parseInt(digits.charAt(1), 10)) return false;
+
+    return true;
+  }
+
+  /**
+   * Checagem heurística básica de reputação de IP
+   */
+  private checkIpReputation(ip: string): boolean {
+    const suspiciousRanges = ['0.0.0.0', '127.0.0.1', '255.255.255.255'];
+    return suspiciousRanges.includes(ip);
+  }
+
+  /**
+   * Agrega o peso dos riscos das checagens que falharam
+   */
+  private calculateRiskScore(checks: ICheckDetail[]): number {
+    const rawScore = checks.reduce((accum, check) => {
+      return accum + (check.passed ? 0 : check.riskWeight);
+    }, 0);
+
+    return Math.min(100, Math.max(0, rawScore));
+  }
+
+  /**
+   * Classifica a pontuação em níveis de risco
+   */
+  private determineRiskLevel(score: number): RiskLevel {
+    if (score < 20) return 'LOW';
+    if (score < 50) return 'MEDIUM';
+    if (score < 75) return 'HIGH';
+    return 'CRITICAL';
+  }
+
+  /**
+   * Determina o status conclusivo da verificação
+   */
+  private determineStatus(score: number, checks: ICheckDetail[]): VerificationStatus {
+    const hasCriticalFailure = checks.some(
+      (c) => !c.passed && (c.checkId === 'CHK_HMAC_SIGNATURE' || c.checkId === 'CHK_INTEGRITY_HASH')
+    );
+
+    if (hasCriticalFailure || score >= 80) {
+      return 'REJECTED';
+    }
+
+    if (score > this.maxAllowedRiskScore) {
+      return 'SUSPICIOUS';
+    }
+
+    return 'VERIFIED';
   }
 }

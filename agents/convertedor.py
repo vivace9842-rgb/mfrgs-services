@@ -1,47 +1,64 @@
-"""
-===========================================================
-MFRGS DIGITAL VERIFICATION
-AGENTE 02 - CONVERTEDOR
-Version: 2.0
-===========================================================
+/**
+ * ===========================================================
+ * MFRGS DIGITAL VERIFICATION
+ * AGENTE 02 - CONVERTEDOR
+ * Version: 2.0 (TypeScript Production-Ready)
+ * ===========================================================
+ *
+ * Responsabilidade:
+ * • Receber tarefas do Guardian
+ * • Gerar respostas humanizadas via OpenAI (gpt-4o-mini)
+ * • Nunca publicar diretamente
+ * • Sempre devolver o resultado estruturado ao Guardian
+ */
 
-Responsabilidade:
+import OpenAI from 'openai';
 
-• Receber tarefas do Guardian
-• Gerar respostas humanizadas
-• Nunca publicar diretamente
-• Sempre devolver o resultado ao Guardian
+/**
+ * Interface que define o evento recebido do Guardian
+ */
+export interface EventoGuardian {
+  texto: string;
+  metadata?: Record<string, unknown>;
+}
 
-"""
+/**
+ * Interface do retorno padronizado para o Guardian
+ */
+export interface ResultadoConvertedor {
+  tipo: 'resposta_pronta' | 'erro';
+  texto: string;
+}
 
-import os
-import sys
-from openai import OpenAI
+// Configuração da Landing Page via variável de ambiente
+const LANDING_PAGE: string =
+  process.env.MFRGS_LANDING_PAGE || 'https://mfrgs-services.vercel.app/';
 
-# Inicialização do cliente OpenAI
-# Se a chave não existir, o mock tratará a execução no bloco de teste
-try:
-    client = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY", "mock-key-para-teste-local")
-    )
-except Exception:
-    client = None
+/**
+ * Obtém ou inicializa o cliente da OpenAI de forma segura
+ */
+function getOpenAIClient(): OpenAI | null {
+  const apiKey = process.env.OPENAI_API_KEY;
 
-LANDING_PAGE = os.getenv("MFRGS_LANDING_PAGE", "https://mfrgs-services.vercel.app/")
+  if (!apiKey || apiKey === 'mock-key-para-teste-local') {
+    return null;
+  }
 
+  return new OpenAI({
+    apiKey: apiKey,
+  });
+}
 
-def executar(evento):
-    texto_post = evento["texto"]
-
-    prompt = f"""
-You are the Elite Conversion Agent of MFRGS Digital Verification.
+/**
+ * Constrói o Prompt do Sistema garantindo as regras invioláveis da persona
+ */
+function construirSystemPrompt(): string {
+  return `You are the Elite Conversion Agent of MFRGS Digital Verification.
 
 MISSION
-
 Help entrepreneurs worried about supplier fraud.
 
 RULES
-
 - Detect the language automatically.
 - Reply in the same language.
 - Never sound like spam.
@@ -54,49 +71,92 @@ RULES
 - Mention accessibility.
 - Finish with:
 
-{LANDING_PAGE}
+${LANDING_PAGE}`;
+}
 
-"""
+/**
+ * Processa um evento recebido do Guardian e gera uma resposta padronizada.
+ *
+ * @param evento Objeto contendo o texto a ser analisado
+ * @returns Promessa com o resultado formatado
+ */
+export async function executar(evento: EventoGuardian): Promise<ResultadoConvertedor> {
+  // Validação estrita de entrada
+  if (!evento || typeof evento.texto !== 'string' || evento.texto.trim() === '') {
+    return {
+      tipo: 'erro',
+      texto: 'Erro: O evento fornecido não contém um texto válido para processamento.',
+    };
+  }
 
-    # Desvio para teste local caso a chave da API real não esteja configurada
-    if os.getenv("OPENAI_API_KEY") is None or os.getenv("OPENAI_API_KEY") == "mock-key-para-teste-local":
-        print("💡 [MOCK INTERNO] Simulando chamada da OpenAI API...")
-        texto_mockado = f"[Mock Response] Hello! I understand you are worried about supplier fraud. Tip: Always check public corporate records. You can verify options at MFRGS naturally. Accessibility is key. Visit: {LANDING_PAGE}"
-        return {
-            "tipo": "resposta_pronta",
-            "texto": texto_mockado
-        }
+  const client = getOpenAIClient();
 
-    resposta = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": prompt
-            },
-            {
-                "role": "user",
-                "content": texto_post
-            }
-        ],
-        temperature=0.7
-    )
+  // Desvio para Teste Local / Mock caso a chave não esteja presente ou seja o valor mock
+  if (!client) {
+    console.log('💡 [MOCK INTERNO] Simulando chamada da OpenAI API...');
+    const textoMockado = `[Mock Response] Hello! I understand you are worried about supplier fraud. Tip: Always check public corporate records. You can verify options at MFRGS naturally. Accessibility is key. Visit: ${LANDING_PAGE}`;
 
     return {
-        "tipo": "resposta_pronta",
-        "texto": resposta.choices[0].message.content
+      tipo: 'resposta_pronta',
+      texto: textoMockado,
+    };
+  }
+
+  try {
+    const response = await client.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: construirSystemPrompt(),
+        },
+        {
+          role: 'user',
+          content: evento.texto,
+        },
+      ],
+      temperature: 0.7,
+    });
+
+    const conteudoGerado = response.choices[0]?.message?.content;
+
+    if (!conteudoGerado) {
+      throw new Error('Retorno vazio da API OpenAI.');
     }
 
+    return {
+      tipo: 'resposta_pronta',
+      texto: conteudoGerado,
+    };
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    console.error(`❌ [MfrgsVerificationService] Erro ao chamar OpenAI API: ${errorMessage}`);
 
-# --- BLOCO DE EXECUÇÃO DE TESTE LOCAL ---
-if __name__ == "__main__":
-    print("🤖 Iniciando teste local do Agente Convertedor...")
-    
-    evento_exemplo = {
-        "texto": "i am about to wire $5000 to a new factory but their address looks fake. can anyone help me verify business?"
-    }
-    
-    resultado = executar(evento_exemplo)
-    print("\n--- RESULTADO RETORNADO AO GUARDIAN ---")
-    print(f"Tipo: {resultado['tipo']}")
-    print(f"Texto Gerado:\n{resultado['texto']}\n---------------------------------------")
+    return {
+      tipo: 'erro',
+      texto: `Falha ao processar solicitação no Agente Convertedor: ${errorMessage}`,
+    };
+  }
+}
+
+/**
+ * --- BLOCO DE EXECUÇÃO E TESTE LOCAL ---
+ * Permite rodar diretamente via node / ts-node / npx tsx
+ */
+if (require.main === module) {
+  (async () => {
+    console.log('🤖 Iniciando teste local do Agente Convertedor...');
+
+    const eventoExemplo: EventoGuardian = {
+      texto:
+        'i am about to wire $5000 to a new factory but their address looks fake. can anyone help me verify business?',
+    };
+
+    const resultado = await executar(eventoExemplo);
+
+    console.log('\n--- RESULTADO RETORNADO AO GUARDIAN ---');
+    console.log(`Tipo: ${resultado.tipo}`);
+    console.log(`Texto Gerado:\n${resultado.texto}`);
+    console.log('---------------------------------------');
+  })();
+}

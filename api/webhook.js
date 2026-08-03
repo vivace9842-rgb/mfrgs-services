@@ -1,186 +1,233 @@
+import { Request, Response } from "express";
 import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import sgMail from "@sendgrid/mail";
 
-const required = [
-  "STRIPE_SECRET_KEY",
-  "STRIPE_WEBHOOK_SECRET",
-  "SUPABASE_URL",
-  "SUPABASE_SERVICE_ROLE_KEY",
-];
+// --- INTERFACES & TIPAGENS ---
 
-for (const key of required) {
-  if (!process.env[key]) {
-    throw new Error(`Missing environment variable: ${key}`);
+export interface WebhookConfig {
+  stripeSecretKey: string;
+  stripeWebhookSecret: string;
+  supabaseUrl: string;
+  supabaseServiceKey: string;
+  sendgridApiKey?: string;
+  sendgridFromEmail: string;
+}
+
+export interface OrderMetadata {
+  company: string;
+  customer_name: string;
+  stripe_session: string;
+}
+
+export interface StripeWebhookRequest extends Request {
+  rawBody?: Buffer | string;
+}
+
+// --- CONFIGURAÇÃO E CARREGAMENTO DE AMBIENTE ---
+
+function getEnvConfig(): WebhookConfig {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!stripeSecretKey || !stripeWebhookSecret || !supabaseUrl || !supabaseServiceKey) {
+    throw new Error("[MFRGS_CONFIG_ERROR] Variáveis de ambiente obrigatórias não foram configuradas.");
   }
+
+  return {
+    stripeSecretKey,
+    stripeWebhookSecret,
+    supabaseUrl,
+    supabaseServiceKey,
+    sendgridApiKey: process.env.SENDGRID_API_KEY,
+    sendgridFromEmail: process.env.SENDGRID_FROM || "noreply@mfrgs.com.br",
+  };
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// --- SINGLETONS DE SERVIÇO ---
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+let stripeInstance: Stripe | null = null;
+let supabaseInstance: SupabaseClient | null = null;
+let sendgridInitialized = false;
 
-const sendgridKey =
-  process.env.SENDGRID_API_KEY ||
-  process.env.ENDGRID_API_KEY;
-
-if (sendgridKey) {
-  sgMail.setApiKey(sendgridKey);
-}
-
-export default async function webhook(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method Not Allowed",
+function getStripeClient(secretKey: string): Stripe {
+  if (!stripeInstance) {
+    stripeInstance = new Stripe(secretKey, {
+      apiVersion: "2023-10-16",
     });
   }
+  return stripeInstance;
+}
+
+function getSupabaseClient(url: string, key: string): SupabaseClient {
+  if (!supabaseInstance) {
+    supabaseInstance = createClient(url, key, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
+  }
+  return supabaseInstance;
+}
+
+function setupSendGrid(apiKey?: string): boolean {
+  if (apiKey && !sendgridInitialized) {
+    sgMail.setApiKey(apiKey);
+    sendgridInitialized = true;
+  }
+  return sendgridInitialized;
+}
+
+// --- HANDLER PRINCIPAL ---
+
+export async function handleStripeWebhook(
+  req: StripeWebhookRequest,
+  res: Response
+): Promise<Response> {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Método Não Permitido" });
+  }
+
+  let config: WebhookConfig;
+  try {
+    config = getEnvConfig();
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Erro de configuração interna";
+    console.error("[WEBHOOK_INIT_ERROR]", message);
+    return res.status(500).json({ error: "Erro de configuração no servidor." });
+  }
+
+  const stripe = getStripeClient(config.stripeSecretKey);
+  const supabase = getSupabaseClient(config.supabaseUrl, config.supabaseServiceKey);
+  const isSendGridActive = setupSendGrid(config.sendgridApiKey);
 
   const signature = req.headers["stripe-signature"];
 
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-  } catch (error) {
-    console.error("[WEBHOOK SIGNATURE ERROR]", error.message);
-
-    return res.status(400).send(
-      `Webhook Error: ${error.message}`
-    );
+  if (!signature) {
+    console.error("[WEBHOOK_MISSING_HEADER] Cabeçalho stripe-signature ausente.");
+    return res.status(400).json({ error: "Requisição inválida: assinatura ausente." });
   }
 
-  console.log("[WEBHOOK] Event:", event.type);
+  let event: Stripe.Event;
+
+  try {
+    // Nota: O corpo da requisição deve ser o buffer bruto (rawBody)
+    const payload = req.rawBody || req.body;
+    event = stripe.webhooks.constructEvent(payload, signature, config.stripeWebhookSecret);
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : "Assinatura inválida";
+    console.error("[WEBHOOK_SIGNATURE_ERROR]", errorMessage);
+    return res.status(400).json({ error: "Falha na validação da assinatura do webhook." });
+  }
+
+  console.log(`[WEBHOOK_EVENT_RECEIVED] Tipo: ${event.type} | ID: ${event.id}`);
 
   if (event.type !== "checkout.session.completed") {
     return res.status(200).json({
       received: true,
       ignored: true,
-      event: event.type,
+      eventType: event.type,
     });
   }
 
-  const session = event.data.object;
-
-  console.log("[WEBHOOK] Checkout session:", session.id);
+  const session = event.data.object as Stripe.Checkout.Session;
 
   try {
-    const { data: existing, error: existingError } = await supabase
+    // 1. Verificação de Idempotência
+    const { data: existingOrder, error: checkError } = await supabase
       .from("orders")
       .select("id")
       .eq("session_id", session.id)
       .maybeSingle();
 
-    if (existingError) {
-      console.error(
-        "[SUPABASE CHECK ERROR]",
-        JSON.stringify(existingError, null, 2)
-      );
+    if (checkError) {
+      console.error("[SUPABASE_CHECK_ERROR]", JSON.stringify(checkError, null, 2));
     }
 
-    if (existing) {
-      console.log("[WEBHOOK] Duplicate order:", session.id);
-
+    if (existingOrder) {
+      console.log(`[WEBHOOK_DUPLICATE] Pedido já processado para a sessão: ${session.id}`);
       return res.status(200).json({
         received: true,
         duplicated: true,
-        session: session.id,
+        sessionId: session.id,
       });
     }
 
-    const customerEmail =
-      session.customer_details?.email ||
-      session.customer_email ||
-      "sem-email";
+    // 2. Extração e Sanitização de Dados
+    const customerEmail = session.customer_details?.email || session.customer_email || "sem-email@mfrgs.com.br";
+    const customerName = session.customer_details?.name || "Cliente";
+    const amountTotal = (session.amount_total || 0) / 100;
+    const company = session.metadata?.company || session.metadata?.companyName || "Empresa Consultada";
 
-    const customerName =
-      session.customer_details?.name ||
-      "Cliente";
+    // 3. Persistência no Banco de Dados
+    const metadataPayload: OrderMetadata = {
+      company,
+      customer_name: customerName,
+      stripe_session: session.id,
+    };
 
-    const amountTotal =
-      (session.amount_total || 0) / 100;
+    const { error: insertError } = await supabase.from("orders").insert({
+      email: customerEmail,
+      amount: amountTotal,
+      status: "approved",
+      session_id: session.id,
+      stripe_id: session.id,
+      gateway: "stripe",
+      currency: session.currency || "usd",
+      metadata: metadataPayload,
+    });
 
-    const company =
-      session.metadata?.company ||
-      session.metadata?.companyName ||
-      "Empresa Consultada";
-
-    console.log("[SUPABASE] Creating order:", session.id);
-
-    const { error: orderError } = await supabase
-      .from("orders")
-      .insert({
-        email: customerEmail,
-        amount: amountTotal,
-        status: "approved",
-        session_id: session.id,
-        stripe_id: session.id,
-        gateway: "stripe",
-        currency: session.currency || "usd",
-        metadata: {
-          company,
-          customer_name: customerName,
-          stripe_session: session.id,
-        },
-      });
-
-    if (orderError) {
-      console.error(
-        "[SUPABASE INSERT ERROR]",
-        JSON.stringify(orderError, null, 2)
-      );
-
+    if (insertError) {
+      console.error("[SUPABASE_INSERT_ERROR]", JSON.stringify(insertError, null, 2));
       return res.status(500).json({
-        error: "Failed to save order",
-        details: orderError.message,
+        error: "Falha ao salvar a ordem no banco de dados.",
       });
     }
 
-    console.log("[SUPABASE] Order created:", session.id);
+    console.log(`[SUPABASE_INSERT_SUCCESS] Pedido salvo com sucesso para a sessão: ${session.id}`);
 
-    if (sendgridKey) {
+    // 4. Disparo do E-mail via SendGrid (Fail-Soft)
+    if (isSendGridActive) {
       try {
         await sgMail.send({
           to: customerEmail,
-          from:
-            process.env.SENDGRID_FROM ||
-            "noreply@mfrgs.com.br",
+          from: config.sendgridFromEmail,
           subject: `[MFRGS] Verificação recebida - ${company}`,
           html: `
-            <h2>MFRGS INOVAÇÕES</h2>
-            <p>Olá ${customerName},</p>
-            <p>Seu pagamento foi confirmado.</p>
-            <p>Sua solicitação entrou na fila de processamento.</p>
-            <p>Empresa:</p>
-            <strong>${company}</strong>
+            <div style="font-family: Arial, sans-serif; color: #333;">
+              <h2>MFRGS INOVAÇÕES DIGITAL VERIFICATION</h2>
+              <p>Olá <strong>${customerName}</strong>,</p>
+              <p>Seu pagamento foi confirmado com sucesso.</p>
+              <p>Sua solicitação de verificação entrou na fila de processamento.</p>
+              <hr />
+              <p><strong>Empresa Solicitada:</strong> ${company}</p>
+              <p><strong>ID da Sessão:</strong> ${session.id}</p>
+            </div>
           `,
         });
 
-        console.log("[EMAIL] Sent:", customerEmail);
-      } catch (error) {
-        console.error("[SENDGRID ERROR]", error.message);
+        console.log(`[EMAIL_SENT_SUCCESS] Notificação enviada para: ${customerEmail}`);
+      } catch (emailErr: unknown) {
+        const emailMsg = emailErr instanceof Error ? emailErr.message : "Erro desconhecido";
+        console.error("[SENDGRID_EXECUTION_ERROR]", emailMsg);
       }
     }
 
     return res.status(200).json({
       received: true,
       event: event.type,
-      session: session.id,
+      sessionId: session.id,
     });
-
-  } catch (error) {
-    console.error(
-      "[WEBHOOK INTERNAL ERROR]",
-      error
-    );
-
+  } catch (internalErr: unknown) {
+    console.error("[WEBHOOK_INTERNAL_ERROR]", internalErr);
     return res.status(500).json({
-      error: "Internal webhook error",
+      error: "Erro interno no processamento do webhook.",
     });
   }
 }
+
+export default handleStripeWebhook;
