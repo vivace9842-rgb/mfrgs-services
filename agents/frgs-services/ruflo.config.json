@@ -1,0 +1,78 @@
+{
+  "$schema": "https://ruflo.dev/schema.json",
+  "name": "mfrgs-services",
+  "version": "1.0.0",
+  "environment": "node20",
+  "entrypoint": "dist/server.js",
+  "agents": {
+    "core": "src/agents/core.ts",
+    "checkout": "src/agents/checkoutAgent.ts",
+    "webhook": "src/agents/webhookAgent.ts",
+    "verification": "src/agents/verificationAgent.ts",
+    "pdf": "src/agents/pdfAgent.ts",
+    "email": "src/agents/emailAgent.ts",
+    "companiesHouse": "src/agents/companiesHouseAgent.ts",
+    "openai": "src/agents/openaiAgent.ts",
+    "supabase": "src/agents/supabaseAgent.ts",
+    "audit": "src/agents/auditAgent.ts",
+    "sentinel": "src/agents/sentinelAgent.ts"
+  },
+  "workflows": {
+    "verificationPipeline": {
+      "name": "Pipeline Completa de Verificação Digital",
+      "steps": [
+        {
+          "agent": "sentinel",
+          "action": "isDuplicate",
+          "onFailure": "abort"
+        },
+        {
+          "agent": "checkout",
+          "action": "createSession",
+          "onFailure": "abort"
+        },
+        {
+          "agent": "webhook",
+          "action": "handleEvent",
+          "onFailure": "retry"
+        },
+        {
+          "agent": "companiesHouse",
+          "action": "getCompanyProfile",
+          "onFailure": "continue"
+        },
+        {
+          "agent": "verification",
+          "action": "processVerification",
+          "onFailure": "abort"
+        },
+        {
+          "agent": "pdf",
+          "action": "generateDocument",
+          "onFailure": "retry"
+        },
+        {
+          "agent": "email",
+          "action": "sendEmail",
+          "onFailure": "retry"
+        },
+        {
+          "agent": "supabase",
+          "action": "saveVerification",
+          "onFailure": "retry"
+        },
+        {
+          "agent": "audit",
+          "action": "log",
+          "onFailure": "ignore"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "healthcheck": "tsx src/scripts/healthcheck.ts"
+  }
+}

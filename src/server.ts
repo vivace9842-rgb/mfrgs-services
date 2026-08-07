@@ -1,42 +1,169 @@
-import express from 'express';
-import osintRoutes from './routes/osintRoutes.js';
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+
+import osintRoutes from "./routes/osintRoutes.js";
+import handleStripeWebhook from "./webhooks/stripeWebhook.js";
+
 
 const app = express();
 
-app.set('trust proxy', 1);
-app.disable('x-powered-by');
+app.set("trust proxy", 1);
+app.disable("x-powered-by");
 
-// Middleware CORS Nativo
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-    return;
+
+// =============================
+// SECURITY
+// =============================
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
+
+// =============================
+// CORS
+// =============================
+
+const allowedOrigin =
+  process.env.FRONTEND_URL || "http://localhost:5173";
+
+
+app.use(
+  cors({
+    origin: allowedOrigin,
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "DELETE",
+      "OPTIONS",
+    ],
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+    ],
+  })
+);
+
+
+// =============================
+// STRIPE WEBHOOK
+// MUST BE BEFORE JSON
+// =============================
+
+app.post(
+  "/api/webhook",
+  express.raw({
+    type: "application/json",
+  }),
+  handleStripeWebhook
+);
+
+
+// =============================
+// JSON BODY
+// =============================
+
+app.use(
+  express.json({
+    limit: "5mb",
+  })
+);
+
+
+// =============================
+// ROUTES
+// =============================
+
+app.use(
+  "/api/v1",
+  osintRoutes
+);
+
+
+// =============================
+// HEALTH CHECK
+// =============================
+
+app.get(
+  "/health",
+  (_req, res) => {
+
+    res.status(200).json({
+      success: true,
+      service: "MFRGS Digital Verification",
+      status: "online",
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || "development",
+    });
+
   }
-  next();
-});
+);
 
-// Middleware de Segurança Nativo
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  next();
-});
 
-app.use(express.json({ limit: '5mb' }));
+// =============================
+// GLOBAL ERROR HANDLER
+// =============================
 
-// Rotas OSINT ativas
-app.use('/api/v1', osintRoutes);
+app.use(
+  (
+    err: unknown,
+    _req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) => {
 
-if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
-  const port = Number(process.env.PORT) || 3000;
-  app.listen(port, '0.0.0.0', () => {
-    console.log(`Server rodando localmente na porta ${port}`);
-  });
+    console.error(
+      "[GLOBAL_ERROR]",
+      err
+    );
+
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+
+  }
+);
+
+
+// =============================
+// LOCAL START
+// =============================
+
+if (
+  process.env.NODE_ENV !== "production" &&
+  !process.env.VERCEL
+) {
+
+  const port =
+    Number(process.env.PORT) || 3000;
+
+
+  app.listen(
+    port,
+    "0.0.0.0",
+    () => {
+
+      console.log(
+        `MFRGS API running on port ${port}`
+      );
+
+    }
+  );
+
 }
 
-export { app };
+
+export {
+  app
+};
+
 export default app;
