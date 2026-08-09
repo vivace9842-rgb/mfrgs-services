@@ -8,9 +8,8 @@ api/package-lock.json
 .env.production
 .vercel
 
-# Vercel deployment boundary
-# The current backend is exposed through one Express entrypoint.
-# Legacy standalone modules under /api remain versioned in GitHub,
-# but must not be deployed as separate Serverless Functions.
-api/*
-!api/index.ts
+# Legacy Vercel Functions
+# The production backend is the Express application in src/server.ts.
+# Exclude the entire legacy api tree so Vercel deploys one Express Function
+# instead of stale/duplicate Serverless Functions.
+api/
