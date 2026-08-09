@@ -1,4 +1,4 @@
-# Ignore local dependencies and environment files
+# Local-only files
 node_modules
 api/node_modules
 package-lock.json
@@ -7,3 +7,10 @@ api/package-lock.json
 .env.local
 .env.production
 .vercel
+
+# Vercel deployment boundary
+# The current backend is exposed through one Express entrypoint.
+# Legacy standalone modules under /api remain versioned in GitHub,
+# but must not be deployed as separate Serverless Functions.
+api/*
+!api/index.ts
