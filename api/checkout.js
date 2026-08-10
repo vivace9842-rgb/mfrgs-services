@@ -23,16 +23,13 @@ function getSafeOrigin(req: Request): string {
   const requestOrigin = req.headers.origin as string | undefined;
   const envOrigin = process.env.MFRGS_LANDING_PAGE || "https://mfrgs-services.vercel.app";
 
-  // Se ALLOWED_ORIGINS estiver configurado, valida
   if (allowed.length > 0 && allowed[0]!== "*") {
     if (requestOrigin && allowed.includes(requestOrigin)) {
       return requestOrigin;
     }
-    // Se origin não é permitido, não usa ele - usa o env
     return envOrigin;
   }
 
-  // Se não tem allowlist, usa origin se for https, senão env
   if (requestOrigin && requestOrigin.startsWith("https://")) {
     return requestOrigin;
   }
@@ -40,9 +37,6 @@ function getSafeOrigin(req: Request): string {
 }
 
 export default async function handler(req: Request, res: Response) {
-  // FIX: Não setar CORS manualmente se você já usa o middleware cors() no app.ts
-  // Se este arquivo roda como Vercel Function isolada, o bloco abaixo seria ok,
-  // mas com allowlist, não "*"
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
@@ -75,13 +69,13 @@ export default async function handler(req: Request, res: Response) {
     const stripe = getStripe();
     const origin = getSafeOrigin(req);
 
-    // FIX: Preço único - sincronizado com verify.ts
-    const amount = 49; // USD - ESSENTIAL_VERIFICATION.price
+    // TESTE LIVE: serviço real existente temporariamente reduzido para R$ 0,50.
+    // Restaurar o preço comercial após a validação ponta a ponta.
+    const amount = 0.5;
     const serviceName = "ESSENTIAL_VERIFICATION_V1";
 
-    console.log(`[MFRGS] Creating Checkout | email=${email} | company=${company} | origin=${origin}`);
+    console.log(`[MFRGS] Creating Checkout | TESTE LIVE R$0,50 | email=${email} | company=${company} | origin=${origin}`);
 
-    // Idempotency: evita criar 2 sessões se o usuário der duplo clique
     const idempotencyKey = `${email}:${company}:${Date.now()}`.toLowerCase();
 
     const session = await stripe.checkout.sessions.create(
@@ -96,6 +90,7 @@ export default async function handler(req: Request, res: Response) {
           number: number || "",
           country: country || "",
           service: serviceName,
+          test_mode: "live_0.50_delivery_validation",
         },
         line_items: [
           {
@@ -110,10 +105,9 @@ export default async function handler(req: Request, res: Response) {
             },
           },
         ],
-        // FIX: success_url com origin validado, não com header cru
         success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/index.html?payment=cancelled`,
-        expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // 30 min pra pagar
+        expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       },
       {
         idempotencyKey,
