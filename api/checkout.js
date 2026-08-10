@@ -96,11 +96,11 @@ export default async function handler(req: Request, res: Response) {
           {
             quantity: 1,
             price_data: {
-              currency: "usd",
-              unit_amount: amount * 100,
+              currency: "brl",
+              unit_amount: 50,
               product_data: {
                 name: `MFRGS Corporate Intelligence - ${company}`,
-                description: `Official Legal Verification Report (${country || "International"}) - ${serviceName}`,
+                description: `Official Legal Verification Report (${country || "International"}) - ${serviceName} | TESTE LIVE R$0,50`,
               },
             },
           },
