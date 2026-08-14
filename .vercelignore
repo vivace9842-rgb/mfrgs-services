@@ -22,7 +22,11 @@ charge.updated
 checkout.session.completed
 EnterpriseForm.jsx
 
-# The current Vercel entrypoint is api/index.ts, which exports the Express app.
-# All legacy API modules remain excluded from deployment.
+# Keep only the active Express entrypoints under api/.
+# Legacy standalone API modules remain excluded from deployment.
 api/*
 !api/index.ts
+!api/webhook.ts
+!api/checkout.ts
+!api/v1/
+!api/v1/[...path].ts
