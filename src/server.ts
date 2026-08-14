@@ -39,6 +39,7 @@ app.use(
       "Content-Type",
       "Accept",
       "Authorization",
+      "Idempotency-Key",
     ],
   })
 );
@@ -87,22 +88,27 @@ function sanitize(value: unknown, max = 200): string {
 }
 
 function getSafeOrigin(req: express.Request): string {
-  const allowed = (process.env.ALLOWED_ORIGINS || "")
-    .split(",")
-    .map((value) => value.trim())
+  const configuredOrigins = [
+    process.env.ALLOWED_ORIGINS,
+    process.env.FRONTEND_URL,
+    process.env.MFRGS_LANDING_PAGE,
+    "https://mfrgs-services.vercel.app",
+  ]
+    .filter(Boolean)
+    .flatMap((value) => String(value).split(","))
+    .map((value) => value.trim().replace(/\/$/, ""))
     .filter(Boolean);
 
-  const requestOrigin = req.headers.origin;
   const fallback =
-    process.env.MFRGS_LANDING_PAGE || "https://mfrgs-services.vercel.app";
+    process.env.MFRGS_LANDING_PAGE?.trim().replace(/\/$/, "") ||
+    "https://mfrgs-services.vercel.app";
 
-  if (allowed.length > 0 && allowed[0] !== "*") {
-    return requestOrigin && allowed.includes(requestOrigin)
-      ? requestOrigin
-      : fallback;
-  }
+  const requestOrigin =
+    typeof req.headers.origin === "string"
+      ? req.headers.origin.trim().replace(/\/$/, "")
+      : "";
 
-  return requestOrigin && requestOrigin.startsWith("https://")
+  return requestOrigin && configuredOrigins.includes(requestOrigin)
     ? requestOrigin
     : fallback;
 }
@@ -145,8 +151,12 @@ app.post("/api/checkout", async (req, res) => {
     const amountCents = 50;
     const serviceName = "ESSENTIAL_VERIFICATION_V1";
 
-    const idempotencyKey =
-      `${email}:${company}:${planType}:${Date.now()}`.toLowerCase();
+    // Stripe recommends a client-generated idempotency key for safe retries.
+    // If the client does not provide one, generate a unique key for this request.
+    const requestedIdempotencyKey = req.get("Idempotency-Key")?.trim();
+    const idempotencyKey = requestedIdempotencyKey
+      ? requestedIdempotencyKey.slice(0, 255)
+      : crypto.randomUUID();
 
     console.log(
       `[MFRGS] Creating Checkout | LIVE R$0,50 | email=${email} | company=${company}`
