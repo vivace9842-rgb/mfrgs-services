@@ -12,19 +12,11 @@ const app = express();
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
 
-// =============================
-// SECURITY
-// =============================
-
 app.use(
   helmet({
     contentSecurityPolicy: false,
   })
 );
-
-// =============================
-// CORS
-// =============================
 
 const allowedOrigin =
   process.env.FRONTEND_URL || "http://localhost:5173";
@@ -44,11 +36,7 @@ app.use(
   })
 );
 
-// =============================
-// STRIPE WEBHOOK
-// MUST BE BEFORE JSON
-// =============================
-
+// Stripe requires the exact raw request body for signature verification.
 app.post(
   "/api/webhook",
   express.raw({
@@ -57,20 +45,11 @@ app.post(
   handleStripeWebhook
 );
 
-// =============================
-// JSON BODY
-// =============================
-
 app.use(
   express.json({
     limit: "5mb",
   })
 );
-
-// =============================
-// STRIPE CHECKOUT
-// SINGLE ACTIVE IMPLEMENTATION
-// =============================
 
 function requiredEnv(name: string): string {
   const value = process.env[name];
@@ -113,6 +92,28 @@ function getSafeOrigin(req: express.Request): string {
     : fallback;
 }
 
+const PLAN_PRICES_USD_CENTS: Record<string, number> = {
+  essential_verification: 9900,
+  individual_verification: 14900,
+  website_trust_audit: 17900,
+  professional_due_diligence: 29900,
+  supplier_verification: 34900,
+  enterprise_portfolio_review: 69900,
+  corporate_monitoring: 99900,
+  international_due_diligence: 149900,
+};
+
+const PLAN_NAMES: Record<string, string> = {
+  essential_verification: "Essential Verification",
+  individual_verification: "Individual Verification",
+  website_trust_audit: "Website Trust Audit",
+  professional_due_diligence: "Professional Due Diligence",
+  supplier_verification: "Supplier Verification",
+  enterprise_portfolio_review: "Enterprise Portfolio Review",
+  corporate_monitoring: "Corporate Monitoring",
+  international_due_diligence: "International Due Diligence",
+};
+
 app.post("/api/checkout", async (req, res) => {
   try {
     const body =
@@ -128,7 +129,8 @@ app.post("/api/checkout", async (req, res) => {
     const cnpj = sanitize(body.cnpj || body.number, 30);
     const country = sanitize(body.country, 100) || "Brazil";
     const planType =
-      sanitize(body.planType || body.service, 80) || "enterprise";
+      sanitize(body.planType || body.service, 80) ||
+      "essential_verification";
 
     if (!email || !company) {
       return res
@@ -144,22 +146,28 @@ app.post("/api/checkout", async (req, res) => {
       return res.status(400).json({ error: "companyName muito curto" });
     }
 
+    const amountCents = PLAN_PRICES_USD_CENTS[planType];
+    const planName = PLAN_NAMES[planType];
+
+    if (!amountCents || !planName) {
+      return res.status(400).json({
+        error: "Plano de checkout inválido",
+      });
+    }
+
     const stripe = new Stripe(requiredEnv("STRIPE_SECRET_KEY"));
     const origin = getSafeOrigin(req);
 
-    // Valor de validação ponta a ponta atualmente configurado: R$ 0,50.
-    const amountCents = 50;
-    const serviceName = "ESSENTIAL_VERIFICATION_V1";
-
-    // Stripe recommends a client-generated idempotency key for safe retries.
-    // If the client does not provide one, generate a unique key for this request.
+    // Client-generated idempotency key is preferred for safe retries.
     const requestedIdempotencyKey = req.get("Idempotency-Key")?.trim();
     const idempotencyKey = requestedIdempotencyKey
       ? requestedIdempotencyKey.slice(0, 255)
       : crypto.randomUUID();
 
     console.log(
-      `[MFRGS] Creating Checkout | LIVE R$0,50 | email=${email} | company=${company}`
+      `[MFRGS] Creating LIVE Checkout | plan=${planType} | amount=USD ${(
+        amountCents / 100
+      ).toFixed(2)} | email=${email}`
     );
 
     const session = await stripe.checkout.sessions.create(
@@ -175,19 +183,19 @@ app.post("/api/checkout", async (req, res) => {
           number: cnpj,
           country,
           planType,
-          service: serviceName,
-          test_mode: "live_0.50_delivery_validation",
+          service: `MFRGS_${planType.toUpperCase()}`,
+          planName,
+          environment: "production",
         },
         line_items: [
           {
             quantity: 1,
             price_data: {
-              currency: "brl",
+              currency: "usd",
               unit_amount: amountCents,
               product_data: {
-                name: `MFRGS Corporate Intelligence - ${company}`,
-                description:
-                  `Official Legal Verification Report (${country}) - ${serviceName} | TESTE LIVE R$0,50`,
+                name: `MFRGS — ${planName}`,
+                description: `Professional digital verification service for ${company}.`,
               },
             },
           },
@@ -203,6 +211,9 @@ app.post("/api/checkout", async (req, res) => {
       success: true,
       sessionId: session.id,
       url: session.url,
+      plan: planName,
+      amount: amountCents / 100,
+      currency: "usd",
     });
   } catch (error: unknown) {
     console.error("[MFRGS CHECKOUT ERROR]", error);
@@ -215,15 +226,7 @@ app.post("/api/checkout", async (req, res) => {
   }
 });
 
-// =============================
-// ROUTES
-// =============================
-
 app.use("/api/v1", osintRoutes);
-
-// =============================
-// HEALTH CHECK
-// =============================
 
 app.get("/health", (_req, res) => {
   res.status(200).json({
@@ -234,10 +237,6 @@ app.get("/health", (_req, res) => {
     environment: process.env.NODE_ENV || "development",
   });
 });
-
-// =============================
-// GLOBAL ERROR HANDLER
-// =============================
 
 app.use(
   (
@@ -254,10 +253,6 @@ app.use(
     });
   }
 );
-
-// =============================
-// LOCAL START
-// =============================
 
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   const port = Number(process.env.PORT) || 3000;
