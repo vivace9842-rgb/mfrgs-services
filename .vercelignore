@@ -8,9 +8,8 @@ api/package-lock.json
 .env.production
 .vercel
 
-# Legacy API modules remain excluded.
-# The active Vercel functions are explicitly allowed below.
+# The Express application is the single runtime source of truth.
+# Vercel exposes only api/index.ts as the entrypoint.
+# All legacy API modules are intentionally excluded from deployment.
 api/*
-!api/checkout.js
-!api/webhook.js
 !api/index.ts
