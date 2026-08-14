@@ -10,7 +10,6 @@ api/package-lock.json
 .vercel
 
 # Legacy code and repository artifacts that are not part of the production surface.
-# They remain in Git for history/reference but must not be uploaded or served by Vercel.
 agents/
 backup/
 components/
@@ -30,10 +29,7 @@ requirements.txt
 server.js
 salvar-evidencia.cjs
 test-companies-house.cjs
-ort
-main
-mfrgs-services@1.0.0
-node
+success_recuperado.html
 charge.succeeded
 charge.updated
 checkout.session.completed
@@ -41,7 +37,6 @@ payment_intent.created
 payment_intent.succeeded
 price.created
 product.created
-success_recuperado.html
 
 # Legacy Vercel API modules. Keep only the active Express adapter.
 api/*
