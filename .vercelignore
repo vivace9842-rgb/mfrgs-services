@@ -1,6 +1,7 @@
-# Local-only files
+# Local/build-only files
 node_modules
 api/node_modules
+dist
 package-lock.json
 api/package-lock.json
 .env
@@ -8,8 +9,20 @@ api/package-lock.json
 .env.production
 .vercel
 
-# The Express application is the single runtime source of truth.
-# Vercel exposes only api/index.ts as the entrypoint.
-# All legacy API modules are intentionally excluded from deployment.
+# Legacy code and repository artifacts that are not part of the production surface.
+# They remain in Git for history/reference but must not be uploaded or served by Vercel.
+agents/
+backup/
+components/
+core/
+docs/
+ADM
+charge.succeeded
+charge.updated
+checkout.session.completed
+EnterpriseForm.jsx
+
+# The current Vercel entrypoint is api/index.ts, which exports the Express app.
+# All legacy API modules remain excluded from deployment.
 api/*
 !api/index.ts
