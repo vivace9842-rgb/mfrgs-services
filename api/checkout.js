@@ -1,82 +1,80 @@
-import { Request, Response } from "express";
 import Stripe from "stripe";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-function getStripe(): Stripe {
-  const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) throw new Error("STRIPE_SECRET_KEY não configurada");
-  return new Stripe(key, { apiVersion: "2024-11-20.acacia" as any });
+function requiredEnv(name) {
+  const value = process.env[name];
+  if (!value) throw new Error(`${name} não configurada`);
+  return value;
 }
 
-function sanitize(input: unknown, max = 200): string {
-  if (typeof input!== "string") return "";
-  return input.replace(/[<>]/g, "").trim().slice(0, max);
+function sanitize(value, max = 200) {
+  if (typeof value !== "string") return "";
+  return value.replace(/[<>]/g, "").trim().slice(0, max);
 }
 
-function getSafeOrigin(req: Request): string {
+function getSafeOrigin(req) {
   const allowed = (process.env.ALLOWED_ORIGINS || "")
-   .split(",")
-   .map(s => s.trim())
-   .filter(Boolean);
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
 
-  const requestOrigin = req.headers.origin as string | undefined;
-  const envOrigin = process.env.MFRGS_LANDING_PAGE || "https://mfrgs-services.vercel.app";
+  const requestOrigin = req.headers.origin;
+  const fallback = process.env.MFRGS_LANDING_PAGE || "https://mfrgs-services.vercel.app";
 
-  if (allowed.length > 0 && allowed[0]!== "*") {
-    if (requestOrigin && allowed.includes(requestOrigin)) {
-      return requestOrigin;
-    }
-    return envOrigin;
+  if (allowed.length > 0 && allowed[0] !== "*") {
+    return requestOrigin && allowed.includes(requestOrigin) ? requestOrigin : fallback;
   }
 
-  if (requestOrigin && requestOrigin.startsWith("https://")) {
-    return requestOrigin;
-  }
-  return envOrigin;
+  return requestOrigin && requestOrigin.startsWith("https://") ? requestOrigin : fallback;
 }
 
-export default async function handler(req: Request, res: Response) {
+export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
 
-  if (req.method!== "POST") {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST, OPTIONS");
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const rawEmail = req.body?.email;
-    const rawCompany = req.body?.company;
-    const rawNumber = req.body?.number;
-    const rawCountry = req.body?.country;
+    const body = req.body && typeof req.body === "object" ? req.body : {};
 
-    const email = sanitize(rawEmail, 254);
-    const company = sanitize(rawCompany, 100);
-    const number = sanitize(rawNumber, 50);
-    const country = sanitize(rawCountry, 100);
+    // Aceita o contrato atual do EnterpriseForm e mantém compatibilidade
+    // com o contrato anterior usado pelo checkout legado.
+    const email = sanitize(body.email, 254);
+    const company = sanitize(body.companyName || body.company, 150);
+    const cnpj = sanitize(body.cnpj || body.number, 30);
+    const country = sanitize(body.country, 100) || "Brazil";
+    const planType = sanitize(body.planType || body.service, 80) || "enterprise";
 
-    if (!email ||!company) {
-      return res.status(400).json({ error: "email e company são obrigatórios" });
+    if (!email || !company) {
+      return res.status(400).json({ error: "email e companyName são obrigatórios" });
     }
+
     if (!EMAIL_REGEX.test(email)) {
       return res.status(400).json({ error: "e-mail inválido" });
     }
+
     if (company.length < 2) {
-      return res.status(400).json({ error: "company muito curto" });
+      return res.status(400).json({ error: "companyName muito curto" });
     }
 
-    const stripe = getStripe();
+    const stripe = new Stripe(requiredEnv("STRIPE_SECRET_KEY"));
     const origin = getSafeOrigin(req);
 
-    // TESTE LIVE: serviço real existente temporariamente reduzido para R$ 0,50.
-    // Restaurar o preço comercial após a validação ponta a ponta.
-    const amount = 0.5;
+    // Validação ponta a ponta em produção: R$ 0,50.
+    // O valor comercial deve ser restaurado somente após a validação final.
+    const amountCents = 50;
     const serviceName = "ESSENTIAL_VERIFICATION_V1";
 
-    console.log(`[MFRGS] Creating Checkout | TESTE LIVE R$0,50 | email=${email} | company=${company} | origin=${origin}`);
+    const idempotencyKey = `${email}:${company}:${planType}:${Date.now()}`.toLowerCase();
 
-    const idempotencyKey = `${email}:${company}:${Date.now()}`.toLowerCase();
+    console.log(
+      `[MFRGS] Creating Checkout | LIVE R$0,50 | email=${email} | company=${company}`
+    );
 
     const session = await stripe.checkout.sessions.create(
       {
@@ -87,8 +85,10 @@ export default async function handler(req: Request, res: Response) {
           email,
           company,
           companyName: company,
-          number: number || "",
-          country: country || "",
+          cnpj,
+          number: cnpj,
+          country,
+          planType,
           service: serviceName,
           test_mode: "live_0.50_delivery_validation",
         },
@@ -97,21 +97,19 @@ export default async function handler(req: Request, res: Response) {
             quantity: 1,
             price_data: {
               currency: "brl",
-              unit_amount: 50,
+              unit_amount: amountCents,
               product_data: {
                 name: `MFRGS Corporate Intelligence - ${company}`,
-                description: `Official Legal Verification Report (${country || "International"}) - ${serviceName} | TESTE LIVE R$0,50`,
+                description: `Official Legal Verification Report (${country}) - ${serviceName} | TESTE LIVE R$0,50`,
               },
             },
           },
         ],
         success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/index.html?payment=cancelled`,
+        cancel_url: `${origin}/?payment=cancelled`,
         expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       },
-      {
-        idempotencyKey,
-      }
+      { idempotencyKey }
     );
 
     return res.status(200).json({
@@ -119,13 +117,13 @@ export default async function handler(req: Request, res: Response) {
       sessionId: session.id,
       url: session.url,
     });
-  } catch (error: any) {
-    console.error("[MFRGS CHECKOUT ERROR]", error?.message || error);
-    const isProd = process.env.NODE_ENV === "production";
+  } catch (error) {
+    console.error("[MFRGS CHECKOUT ERROR]", error);
+
     return res.status(500).json({
       success: false,
       error: "Failed to create Stripe Checkout session.",
-     ...(!isProd? { details: error?.message } : {}),
+      requestId: crypto.randomUUID(),
     });
   }
 }
