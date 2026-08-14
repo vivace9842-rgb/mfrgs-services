@@ -9,7 +9,8 @@ api/package-lock.json
 .vercel
 
 # Legacy API modules remain excluded.
-# The Stripe webhook is intentionally deployed as a native Vercel Function.
+# The active Vercel functions are explicitly allowed below.
 api/*
+!api/checkout.js
 !api/webhook.js
 !api/index.ts
