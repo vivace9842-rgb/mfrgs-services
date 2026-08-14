@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento confirmado — MFRGS</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #04070a;
+      color: #eef2f0;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+    }
+    .card {
+      width: min(680px, 100%);
+      padding: 42px;
+      border: 1px solid rgba(0,230,160,.2);
+      border-radius: 20px;
+      background: rgba(255,255,255,.045);
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+      text-align: center;
+    }
+    .mark {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(0,230,160,.12);
+      color: #00e6a0;
+      font-size: 30px;
+      border: 1px solid rgba(0,230,160,.3);
+    }
+    h1 { margin: 0 0 14px; font-size: clamp(28px, 5vw, 42px); }
+    p { color: #98a6a0; line-height: 1.7; }
+    .session { margin-top: 24px; padding: 14px; border-radius: 10px; background: rgba(255,255,255,.04); color: #98a6a0; font: 12px/1.5 ui-monospace, monospace; word-break: break-all; }
+    a { display: inline-block; margin-top: 26px; padding: 13px 22px; border-radius: 10px; background: #00e6a0; color: #04120c; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="mark">✓</div>
+    <h1>Pagamento confirmado</h1>
+    <p>Recebemos seu pagamento. Seu pedido foi registrado e o processamento da verificação foi iniciado.</p>
+    <div class="session" id="session">Identificando pedido…</div>
+    <a href="/">Voltar para a MFRGS</a>
+  </main>
+  <script>
+    const sessionId = new URLSearchParams(window.location.search).get('session_id');
+    document.getElementById('session').textContent = sessionId
+      ? `Pedido Stripe: ${sessionId}`
+      : 'Pedido recebido. O identificador Stripe não foi informado nesta URL.';
+  </script>
+</body>
+</html>
