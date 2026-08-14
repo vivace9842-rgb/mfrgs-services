@@ -34,16 +34,15 @@ async function readRawBody(req) {
 }
 
 function getSupabase() {
-  return createClient(
-    requiredEnv("SUPABASE_URL"),
-    requiredEnv("SUPABASE_SERVICE_ROLE_KEY"),
-    {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-      },
-    }
-  );
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  if (!key) throw new Error("SUPABASE_SERVICE_ROLE_KEY ou SUPABASE_ANON_KEY não configurada");
+
+  return createClient(requiredEnv("SUPABASE_URL"), key, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
 }
 
 export default async function handler(req, res) {
@@ -89,7 +88,7 @@ export default async function handler(req, res) {
     const supabase = getSupabase();
     const customerEmail = session.customer_details?.email || session.customer_email || null;
     const customerName = session.customer_details?.name || "Cliente";
-    const company = session.metadata?.company || "Empresa Consultada";
+    const company = session.metadata?.company || session.metadata?.companyName || "Empresa Consultada";
     const service = session.metadata?.service || "ESSENTIAL_VERIFICATION_V1";
     const amount = Number(session.amount_total || 0) / 100;
     const currency = session.currency || "brl";
@@ -125,6 +124,9 @@ export default async function handler(req, res) {
 
     const metadata = {
       ...(session.metadata || {}),
+      company,
+      customer_name: customerName,
+      stripe_session: session.id,
       stripe_event_id: event.id,
       stripe_event_type: event.type,
       stripe_session_id: session.id,
@@ -140,10 +142,9 @@ export default async function handler(req, res) {
       .insert({
         email: customerEmail,
         amount,
-        status: "payment_received",
+        status: "approved",
         session_id: session.id,
-        stripe_id:
-          typeof session.payment_intent === "string" ? session.payment_intent : session.id,
+        stripe_id: session.id,
         gateway: "stripe",
         currency,
         metadata,
