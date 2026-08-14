@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MFRGS — Secure Checkout</title>
+  <style>
+    :root{color-scheme:dark;--bg:#04070a;--panel:#0b1110;--line:#20302b;--text:#eef2f0;--muted:#98a6a0;--green:#00e6a0;--gold:#d4af6a;--danger:#ff6462}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(0,230,160,.12),transparent 35%),radial-gradient(circle at 90% 90%,rgba(212,175,106,.1),transparent 35%),var(--bg);font:15px/1.5 Inter,system-ui,sans-serif;color:var(--text);display:grid;place-items:center;padding:24px}
+    .card{width:min(680px,100%);background:rgba(11,17,16,.92);border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+    h1{margin:0 0 8px;font-size:32px}.sub{color:var(--muted);margin:0 0 28px}.grid{display:grid;gap:16px}.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:620px){.row{grid-template-columns:1fr}}
+    label{display:grid;gap:7px;color:var(--muted);font-size:13px}.full{grid-column:1/-1}input,select{width:100%;padding:13px 14px;border-radius:10px;border:1px solid var(--line);background:#060b0a;color:var(--text);font:inherit;outline:none}input:focus,select:focus{border-color:var(--green)}
+    .summary{display:flex;justify-content:space-between;gap:16px;align-items:center;margin:8px 0 4px;padding:16px;border:1px solid rgba(0,230,160,.2);border-radius:12px;background:rgba(0,230,160,.04)}.summary b{color:var(--green);font-size:20px}
+    button{width:100%;padding:15px 18px;border:0;border-radius:10px;background:linear-gradient(135deg,var(--green),#00b884);color:#04120c;font-weight:800;cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}.error{display:none;padding:12px;border-radius:10px;background:rgba(255,100,98,.1);border:1px solid rgba(255,100,98,.25);color:#ffb2b0}.fine{color:var(--muted);font-size:12px;text-align:center;margin:14px 0 0}.brand{font-family:ui-monospace,monospace;color:var(--green);letter-spacing:.08em;text-transform:uppercase;font-size:11px;margin-bottom:10px}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">MFRGS Digital Intelligence</div>
+    <h1>Secure checkout</h1>
+    <p class="sub">Select the verification tier, provide the customer details, and continue to Stripe's hosted checkout.</p>
+    <form id="checkout" class="grid">
+      <div class="row">
+        <label>Verification tier
+          <select id="plan" required>
+            <option value="essential_verification">Essential Verification — $99</option>
+            <option value="individual_verification">Individual Verification — $149</option>
+            <option value="website_trust_audit">Website Trust Audit — $179</option>
+            <option value="professional_due_diligence">Professional Due Diligence — $299</option>
+            <option value="supplier_verification">Supplier Verification — $349</option>
+            <option value="enterprise_portfolio_review">Enterprise Portfolio Review — $699</option>
+            <option value="corporate_monitoring">Corporate Monitoring — $999</option>
+            <option value="international_due_diligence">International Due Diligence — $1,499</option>
+          </select>
+        </label>
+        <label>Country
+          <input id="country" value="Brazil" maxlength="100" required>
+        </label>
+      </div>
+      <div class="row">
+        <label>Company / subject
+          <input id="company" maxlength="150" placeholder="Company legal name" required>
+        </label>
+        <label>CNPJ / registration number
+          <input id="cnpj" maxlength="30" placeholder="Optional">
+        </label>
+      </div>
+      <label class="full">Customer email
+        <input id="email" type="email" maxlength="254" autocomplete="email" placeholder="billing@company.com" required>
+      </label>
+      <div class="summary"><span id="planLabel">Essential Verification</span><b id="price">$99.00 USD</b></div>
+      <div id="error" class="error"></div>
+      <button id="submit" type="submit">Continue to Stripe</button>
+    </form>
+    <p class="fine">Payment is processed by Stripe. MFRGS does not store card details.</p>
+  </main>
+<script>
+const plans={essential_verification:['Essential Verification',99],individual_verification:['Individual Verification',149],website_trust_audit:['Website Trust Audit',179],professional_due_diligence:['Professional Due Diligence',299],supplier_verification:['Supplier Verification',349],enterprise_portfolio_review:['Enterprise Portfolio Review',699],corporate_monitoring:['Corporate Monitoring',999],international_due_diligence:['International Due Diligence',1499]};
+const plan=document.getElementById('plan'),label=document.getElementById('planLabel'),price=document.getElementById('price'),form=document.getElementById('checkout'),error=document.getElementById('error'),submit=document.getElementById('submit');
+function refresh(){const [name,amount]=plans[plan.value];label.textContent=name;price.textContent=`$${amount.toLocaleString('en-US',{minimumFractionDigits:2})} USD`}
+plan.addEventListener('change',refresh);refresh();
+form.addEventListener('submit',async e=>{e.preventDefault();error.style.display='none';submit.disabled=true;submit.textContent='Creating secure checkout…';const key=crypto.randomUUID();try{const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':key},body:JSON.stringify({planType:plan.value,country:document.getElementById('country').value,companyName:document.getElementById('company').value,cnpj:document.getElementById('cnpj').value,email:document.getElementById('email').value})});const data=await r.json();if(!r.ok||!data.url)throw new Error(data.error||'Checkout URL was not returned.');window.location.assign(data.url)}catch(err){error.textContent=err.message||'Unable to start checkout.';error.style.display='block';submit.disabled=false;submit.textContent='Continue to Stripe'}});
+</script>
+</body>
+</html>
