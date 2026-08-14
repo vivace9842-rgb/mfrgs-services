@@ -8,9 +8,8 @@ api/package-lock.json
 .env.production
 .vercel
 
-# Vercel deployment boundary
-# The current backend is exposed through one Express entrypoint.
-# Legacy standalone modules under /api remain versioned in GitHub,
-# but must not be deployed as separate Serverless Functions.
+# Legacy API modules remain excluded.
+# The Stripe webhook is intentionally deployed as a native Vercel Function.
 api/*
+!api/webhook.js
 !api/index.ts
