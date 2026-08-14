@@ -10,34 +10,19 @@ api/package-lock.json
 .vercel
 
 # Legacy code and repository artifacts that are not part of the production surface.
+# They remain in Git for history/reference but must not be uploaded or served by Vercel.
 agents/
 backup/
 components/
 core/
 docs/
-engines/
-landing/
-reports/
-services/
-tools/
 ADM
-EnterpriseForm.jsx
-guardian.patch
-guardian_antigo.py
-installed.txt
-requirements.txt
-server.js
-salvar-evidencia.cjs
-test-companies-house.cjs
-success_recuperado.html
 charge.succeeded
 charge.updated
 checkout.session.completed
-payment_intent.created
-payment_intent.succeeded
-price.created
-product.created
+EnterpriseForm.jsx
 
-# Legacy Vercel API modules. Keep only the active Express adapter.
+# The current Vercel entrypoint is api/index.ts, which exports the Express app.
+# All legacy API modules remain excluded from deployment.
 api/*
 !api/index.ts
