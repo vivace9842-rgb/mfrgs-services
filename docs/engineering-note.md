@@ -1,0 +1,1 @@
+Engineering note: production changes must preserve Stripe raw-body signature verification and must not be declared complete without an end-to-end test.
