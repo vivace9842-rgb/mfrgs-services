@@ -7,7 +7,9 @@ export const config = {
   },
 };
 
-async function readRawBody(req: AsyncIterable<Uint8Array>): Promise<Buffer> {
+export async function readRawBody(
+  req: AsyncIterable<Uint8Array>
+): Promise<Buffer> {
   const chunks: Buffer[] = [];
 
   for await (const chunk of req) {
