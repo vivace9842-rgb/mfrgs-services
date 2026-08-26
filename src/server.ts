@@ -175,6 +175,7 @@ app.post("/api/checkout", async (req, res) => {
         mode: "payment",
         customer_email: email,
         payment_method_types: ["card"],
+        allow_promotion_codes: true,
         metadata: {
           email,
           company,
