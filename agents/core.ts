@@ -4,17 +4,10 @@ export interface Agent {
   initialize(): Promise<void>;
   health(): Promise<boolean>;
 
-  /**
-   * Optional preventive check. It must be safe to run repeatedly and must not
-   * mutate business data. Agents should return true when their responsibility
-   * is healthy and false when attention/contingency is required.
-   */
+  /** Safe, repeatable preventive check. Must not mutate business data. */
   monitor?(): Promise<boolean>;
 
-  /**
-   * Optional bounded contingency hook. Implementations must only take over a
-   * function when a safe, already-supported fallback exists.
-   */
+  /** Bounded contingency hook; returns false when no safe fallback exists. */
   contingency?(reason: string): Promise<boolean>;
 }
 
