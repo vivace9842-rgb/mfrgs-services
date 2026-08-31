@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",
     "clean:win": "rmdir /s /q dist",
-    "test": "tsx --test test/webhookRawBody.test.ts"
+    "test": "tsx --test test/webhookRawBody.test.ts test/productionSmoke.test.js"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.5",
