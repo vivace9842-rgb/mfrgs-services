@@ -42,7 +42,7 @@
           <input id="company" maxlength="150" placeholder="Company legal name" required>
         </label>
         <label>CNPJ / registration number
-          <input id="cnpj" maxlength="30" placeholder="Optional">
+          <input id="cnpj" maxlength="30" placeholder="Required for Brazil">
         </label>
       </div>
       <label class="full">Customer email
@@ -56,12 +56,15 @@
   </main>
 <script>
 const plans={essential_verification:['Essential Verification',99],individual_verification:['Individual Verification',149],website_trust_audit:['Website Trust Audit',179],professional_due_diligence:['Professional Due Diligence',299],supplier_verification:['Supplier Verification',349],enterprise_portfolio_review:['Enterprise Portfolio Review',699],corporate_monitoring:['Corporate Monitoring',999],international_due_diligence:['International Due Diligence',1499]};
-const plan=document.getElementById('plan'),label=document.getElementById('planLabel'),price=document.getElementById('price'),form=document.getElementById('checkout'),error=document.getElementById('error'),submit=document.getElementById('submit');
+const plan=document.getElementById('plan'),label=document.getElementById('planLabel'),price=document.getElementById('price'),form=document.getElementById('checkout'),error=document.getElementById('error'),submit=document.getElementById('submit'),country=document.getElementById('country'),cnpj=document.getElementById('cnpj');
 const requestedPlan=new URLSearchParams(window.location.search).get('planType');
 if(requestedPlan && Object.prototype.hasOwnProperty.call(plans,requestedPlan)) plan.value=requestedPlan;
 function refresh(){const [name,amount]=plans[plan.value];label.textContent=name;price.textContent=`$${amount.toLocaleString('en-US',{minimumFractionDigits:2})} USD`}
 plan.addEventListener('change',refresh);refresh();
-form.addEventListener('submit',async e=>{e.preventDefault();error.style.display='none';submit.disabled=true;submit.textContent='Creating secure checkout…';const key=crypto.randomUUID();try{const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':key},body:JSON.stringify({planType:plan.value,country:document.getElementById('country').value,companyName:document.getElementById('company').value,cnpj:document.getElementById('cnpj').value,email:document.getElementById('email').value})});const data=await r.json();if(!r.ok||!data.url)throw new Error(data.error||'Checkout URL was not returned.');window.location.assign(data.url)}catch(err){error.textContent=err.message||'Unable to start checkout.';error.style.display='block';submit.disabled=false;submit.textContent='Continue to Stripe'}});
+form.addEventListener('submit',async e=>{e.preventDefault();error.style.display='none';
+const isBrazil=/^(br|bra|brazil|brasil)$/i.test(country.value.trim());
+if(isBrazil && cnpj.value.replace(/\D/g,'').length!==14){error.textContent='Para empresas brasileiras, informe um CNPJ válido com 14 dígitos.';error.style.display='block';cnpj.focus();return;}
+submit.disabled=true;submit.textContent='Creating secure checkout…';const key=crypto.randomUUID();try{const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':key},body:JSON.stringify({planType:plan.value,country:country.value,companyName:document.getElementById('company').value,cnpj:cnpj.value,email:document.getElementById('email').value})});const data=await r.json();if(!r.ok||!data.url)throw new Error(data.error||'Checkout URL was not returned.');window.location.assign(data.url)}catch(err){error.textContent=err.message||'Unable to start checkout.';error.style.display='block';submit.disabled=false;submit.textContent='Continue to Stripe'}});
 </script>
 </body>
 </html>
